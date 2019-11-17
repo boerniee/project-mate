@@ -1,0 +1,355 @@
+# English translations for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-11-17 16:33+0100\n"
+"PO-Revision-Date: 2019-11-17 14:49+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: app/__init__.py:30
+msgid "Bitte logge dich ein."
+msgstr "Please log in."
+
+#: app/email.py:18
+msgid "[MATE] Halloo"
+msgstr "[MATE] Herroo"
+
+#: app/email.py:27
+msgid "[MATE] Du wurdest aktiviert"
+msgstr "[MATE] You are active"
+
+#: app/auth/email.py:7
+msgid "[MATE] Setze dein tolles Passwort zurück"
+msgstr "[MATE] Reset your beautifull password"
+
+#: app/auth/forms.py:8 app/auth/forms.py:24 app/main/forms.py:14
+#: app/templates/admin/manageusers.html:10
+msgid "Benutzername"
+msgstr "Username"
+
+#: app/auth/forms.py:9 app/auth/forms.py:18 app/auth/forms.py:26
+msgid "Passwort"
+msgstr "Password"
+
+#: app/auth/forms.py:10
+msgid "Angemeldet bleiben"
+msgstr "Stay logged in"
+
+#: app/auth/forms.py:11 app/templates/base.html:66
+msgid "Anmelden"
+msgstr "Login"
+
+#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:15
+msgid "Email"
+msgstr "Email"
+
+#: app/auth/forms.py:15
+msgid "Email senden"
+msgstr "Send Email"
+
+#: app/auth/forms.py:20
+msgid "Passwort wiederholen"
+msgstr "Repeat password"
+
+#: app/auth/forms.py:21 app/auth/routes.py:23 app/auth/routes.py:38
+#: app/templates/auth/reset_password_request.html:4
+msgid "Passwort zurücksetzen"
+msgstr "Reset password"
+
+#: app/auth/forms.py:28
+msgid "Passwort Wiederholen"
+msgstr "Repeat password"
+
+#: app/auth/forms.py:29 app/auth/routes.py:67
+#: app/templates/auth/register.html:4
+msgid "Registrieren"
+msgstr "Register"
+
+#: app/auth/forms.py:34
+msgid "Bitte nutze einen anderen Benutzernamen."
+msgstr "Please use another username"
+
+#: app/auth/forms.py:39
+msgid "Bitte nutze eine andere Email Adresse."
+msgstr "Please use another Email address"
+
+#: app/auth/routes.py:20
+msgid "Bitte kontrolliere deine Email für weitere anweisungen"
+msgstr "Please check your emails for further instructions"
+
+#: app/auth/routes.py:36
+msgid "Dein Passwort wurde zurückgesetzt."
+msgstr "Your password has been resetted"
+
+#: app/auth/routes.py:48
+msgid "Falscher benutzername oder passwort"
+msgstr "Wrong username or password"
+
+#: app/auth/routes.py:52 app/templates/auth/login.html:4
+msgid "Einloggen"
+msgstr "Login"
+
+#: app/auth/routes.py:64
+msgid "Erfolgreich registriert, warte bitte auf die Freischaltung!"
+msgstr "Successfully registered, please wait for your activation"
+
+#: app/main/admin.py:14 app/templates/admin/billing.html:4
+#: app/templates/base.html:40
+msgid "Abrechnung"
+msgstr "Billing"
+
+#: app/main/admin.py:20 app/templates/admin/manageusers.html:4
+msgid "Benutzerverwaltung"
+msgstr "User management"
+
+#: app/main/admin.py:44 app/main/admin.py:74
+msgid "Gespeichert"
+msgstr "Saved"
+
+#: app/main/admin.py:56 app/templates/admin/managedrinks.html:4
+msgid "Getränkeverwaltung"
+msgstr "Drink management"
+
+#: app/main/admin.py:80
+msgid "Barbeiten "
+msgstr "Edit"
+
+#: app/main/admin.py:86
+msgid "Rechnungen verwalten"
+msgstr "Manage Invoices"
+
+#: app/main/admin.py:91 app/templates/admin/superadmin.html:4
+#: app/templates/base.html:45
+msgid "Superadmin"
+msgstr "Superadmin"
+
+#: app/main/forms.py:7 app/templates/admin/managedrinks.html:9
+msgid "Beschreibung"
+msgstr "Description"
+
+#: app/main/forms.py:8 app/templates/admin/managedrinks.html:10
+#: app/templates/overview.html:12
+msgid "Preis"
+msgstr "Price"
+
+#: app/main/forms.py:9 app/main/forms.py:16
+#: app/templates/admin/managedrinks.html:21
+#: app/templates/admin/manageusers.html:11
+msgid "Aktiv"
+msgstr "Active"
+
+#: app/main/forms.py:10
+msgid "Hervorheben"
+msgstr "Highlight"
+
+#: app/main/forms.py:11 app/main/forms.py:18
+msgid "Speichern"
+msgstr "Save"
+
+#: app/main/forms.py:17
+msgid "Admin"
+msgstr "Admin"
+
+#: app/main/routes.py:25 app/templates/base.html:22
+msgid "Start"
+msgstr "Start"
+
+#: app/main/routes.py:35 app/templates/base.html:25
+msgid "Übersicht"
+msgstr "Overview"
+
+#: app/main/routes.py:43 app/templates/base.html:29 app/templates/base.html:41
+msgid "Rechnungen"
+msgstr "Invoices"
+
+#: app/templates/base.html:34
+msgid "Verwaltung"
+msgstr "Manage"
+
+#: app/templates/admin/manageinvoices.html:8 app/templates/base.html:37
+msgid "Benutzer"
+msgstr "User"
+
+#: app/templates/base.html:38
+msgid "Getränke"
+msgstr "Drinks"
+
+#: app/templates/base.html:57
+msgid "Abmelden"
+msgstr "Logout"
+
+#: app/templates/index.html:4
+#, python-format
+msgid "Genieße unser leckeres Getränk"
+msgid_plural "Genieße eines unserer %(num)s leckeren Getränke"
+msgstr[0] "Enjoy our delicious drink"
+msgstr[1] "Enjoy one of our %(num)s delicious drinks"
+
+#: app/templates/index.html:20
+msgid "Jetzt probieren!"
+msgstr "Try now!"
+
+#: app/templates/index.html:29
+msgid "SooS"
+msgstr "SaaS"
+
+#: app/templates/index.html:35
+msgid "OK"
+msgstr "OK"
+
+#: app/templates/index.html:52
+msgid "Viel spaß mit deinem Getränk!"
+msgstr "Have fun with your drink!"
+
+#: app/templates/index.html:58
+msgid "Awups, da ist etwas schief gelaufen!"
+msgstr "Awups, something gone wrong!"
+
+#: app/templates/invoice.html:13 app/templates/invoices.html:9
+msgid "Bezahlt"
+msgstr "Paid"
+
+#: app/templates/invoice.html:20 app/templates/overview.html:11
+msgid "Getränk"
+msgstr "Drink"
+
+#: app/templates/invoice.html:21 app/templates/overview.html:13
+msgid "Stück"
+msgstr "Pieces"
+
+#: app/templates/invoice.html:22
+msgid "Summe"
+msgstr "Sum"
+
+#: app/templates/invoice.html:36 app/templates/invoices.html:24
+#: app/templates/overview.html:29
+msgid "Keine Einträge vorhanden"
+msgstr "No entries"
+
+#: app/templates/admin/manageinvoices.html:9 app/templates/invoices.html:8
+msgid "Betrag"
+msgstr "Amount"
+
+#: app/templates/admin/manageinvoices.html:10 app/templates/invoices.html:10
+msgid "Datum"
+msgstr "Date"
+
+#: app/templates/overview.html:5
+msgid "Kontostand"
+msgstr "Balance"
+
+#: app/templates/overview.html:14
+msgid "Zeit"
+msgstr "Time"
+
+#: app/templates/admin/billing.html:5
+msgid "Starte Abrechnung"
+msgstr "Start billing"
+
+#: app/templates/admin/billing.html:17
+msgid "Erfolgreich durchgeführt"
+msgstr "Success"
+
+#: app/templates/admin/billing.html:30
+msgid "das ähh läuft..."
+msgstr "it ruuuns"
+
+#: app/templates/admin/billing.html:42
+msgid "Fehler"
+msgstr "Error"
+
+#: app/templates/admin/editdrink.html:4 app/templates/admin/edituser.html:4
+msgid "Bearbeiten"
+msgstr "Edit"
+
+#: app/templates/admin/managedrinks.html:11
+msgid "Status"
+msgstr "State"
+
+#: app/templates/admin/managedrinks.html:21
+msgid "Inaktiv"
+msgstr "Inactive"
+
+#: app/templates/admin/manageinvoices.html:11
+msgid "Aktionen"
+msgstr "Actions"
+
+#: app/templates/admin/manageinvoices.html:23
+msgid "Als bezahlt markieren"
+msgstr "Mark as paid"
+
+#: app/templates/admin/manageinvoices.html:24
+msgid "Ansehen"
+msgstr "View"
+
+#: app/templates/admin/manageinvoices.html:29
+msgid "Keine unbezahlten Rechnungen"
+msgstr "No unpaid bills"
+
+#: app/templates/admin/manageinvoices.html:45
+msgid "Ein unbekanntes Müsli ist aufgetreten"
+msgstr "A unknown cereal has happened"
+
+#: app/templates/admin/manageusers.html:12
+msgid "EMail"
+msgstr "EMail"
+
+#: app/templates/admin/manageusers.html:20
+msgid "Ja"
+msgstr "Yes"
+
+#: app/templates/admin/manageusers.html:20
+msgid "Nein"
+msgstr "No"
+
+#: app/templates/auth/login.html:25
+msgid "Passwort vergessen?"
+msgstr "Forgot your password?"
+
+#: app/templates/auth/login.html:26
+msgid "Hier klicken zum zurücksetzen"
+msgstr "Click here to reset"
+
+#: app/templates/auth/login.html:28
+msgid "Neu hier?"
+msgstr "New?"
+
+#: app/templates/auth/login.html:28
+msgid "Hier klicken zum registrieren!"
+msgstr "Click here to register!"
+
+#: app/templates/auth/reset_password.html:4
+msgid "Setze dein Passwort zurück"
+msgstr "Reset your password"
+
+#: app/templates/error/400.html:5 app/templates/error/404.html:5
+msgid "Startseite"
+msgstr "Main page"
+
+#: app/templates/error/404.html:4
+msgid "Hier habe ich leider nichts gefunden!"
+msgstr "Not found!"
+
+#: app/templates/error/500.html:4
+msgid "An unexpected error has occurred"
+msgstr ""
+
+#: app/templates/error/500.html:5
+msgid "Please try again later"
+msgstr ""
+
+#: app/templates/error/500.html:6
+msgid "Zurück"
+msgstr "Back"
