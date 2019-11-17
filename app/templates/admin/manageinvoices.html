@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Benutzer</th>
+        <th scope="col">Betrag</th>
+        <th scope="col">Datum</th>
+        <th scope="col">Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if invoices is defined and invoices|length > 0 %}
+      {% for invoice in invoices %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ invoice.user.username }}</td>
+          <td>{{ invoice.getsum() }}</td>
+          <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
+          <td>
+            <button type="button" onclick="markinvoiceaspaid({{ invoice.id }});" class="btn btn-primary">Als bezahlt markieren</button>
+            <button type="button"onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'" class="btn btn-primary">Ansehen</button>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="5">Keine unbezahlten Rechnungen</td></tr>
+    {% endif %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#manageinvoices").addClass('active');
+
+    function markinvoiceaspaid(id) {
+      $.ajax("{{ url_for('main.markinvoiceaspaid', id=0) }}".replace('0', id) )
+      .done(function() {
+        window.location.href = '{{ url_for('main.manageinvoices') }}'
+      })
+      .fail(function() {
+        alert("Ein unbekanntes Müsli ist aufgetreten")
+      });
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+  <h3>Kontostand: {{ summed }}</h3>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Getränk</th>
+        <th scope="col">Preis</th>
+        <th scope="col">Stück</th>
+        <th scope="col">Zeit</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if consumptions.items is defined and consumptions.items|length > 0 %}
+      {% for con in consumptions.items %}
+        <tr>
+          <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
+          <td>{{ con.drink.description }}</td>
+          <td>{{ con.getprice }}</td>
+          <td>{{ con.amount }}</td>
+          <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="4">Keine Einträge vorhanden</td></tr>
+    {% endif %}
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+    {%- for page in consumptions.iter_pages() %}
+        {% if page %}
+          {% if page != consumptions.page %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('overview', page=page) }}">{{ page }}</a></li>
+          {% else %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+          </li>
+          {% endif %}
+        {% else %}
+          <li class="page-item"><a class="page-link" href="#">...</a></li>
+        {% endif %}
+      {%- endfor %}
+    </ul>
+  </nav>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#overview").addClass('active');
+  </script>
+{% endblock %}

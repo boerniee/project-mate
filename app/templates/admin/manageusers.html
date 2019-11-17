@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <h1>Benutzerverwaltung</h1>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Benutzername</th>
+        <th scope="col">Aktiv</th>
+        <th scope="col">E-Mail</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+      <tr onclick="window.location.href = '{{ url_for('main.edituser', id=user.id) }}'">
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ user.username }}</td>
+        <td>{{ 'Ja' if user.is_active else 'Nein' }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#manageusers").addClass('active');
+  </script>
+{% endblock %}

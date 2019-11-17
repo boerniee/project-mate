@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div style="float:left;">
+    <h3># {{ invoice.id }}</h3>
+    <h3>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</h3>
+    <h3>{{ invoice.getsum() }}</h3>
+  </div>
+  <div style="float:right;">
+    {% if not invoice.paid %}
+      <a href="https://www.paypal.me/sooos/{{ invoice.sum | round(2) }}" target="_blank"><img style="width:125px;" src="{{ url_for('static', filename='paypal.png') }}"></a>
+    {% else %}
+      <h3 style="padding-top: 45px;"><span class="badge badge-success">Bezahlt</span></h3>
+    {% endif %}
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Getränk</th>
+        <th scope="col">Stück</th>
+        <th scope="col">Summe</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if invoice.positions is defined and invoice.positions|length > 0 %}
+      {% for position in invoice.positions %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ position.drink.description }}</td>
+          <td>{{ position.amount }}</td>
+          <td>{{ position.getsum() }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="4">Keine Einträge vorhanden</td></tr>
+    {% endif %}
+    </tbody>
+  </table>
+{% endblock %}

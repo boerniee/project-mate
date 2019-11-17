@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <h1>Abrechnung</h1>
+  <button id="billingstart" class="btn btn-primary" type="button">Start</button>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#managebilling").addClass('active');
+
+    function updateButton(id, button) {
+      $.getJSON("{{ url_for('main.get_task_status', id='ID') }}".replace('ID', id), function(data) {
+        console.log(data['state'])
+        if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+          button.addClass('btn-success');
+          button.html('<i class="fa fa-check"></i> Erfolgreich durchgeführt');
+        } else {
+          setTimeout(function() {
+                    updateButton(id, button);
+                }, 2000);
+        }
+      }
+    );
+  }
+
+    $('#billingstart').on('click', function() {
+      var $this = $(this);
+      var taskid;
+      var loadingText = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> das ähh läuft...';
+      if ($this.html() !== loadingText) {
+        $this.data('original-text', $(this).html());
+        $this.html(loadingText);
+        $this.removeClass('btn-success');
+      }
+      $.ajax("{{ url_for('main.billing') }}" )
+      .done(function(data) {
+        taskid = data['id'];
+        updateButton(taskid, $this);
+      })
+      .fail(function() {
+        console.log("Fehler")
+      });
+    });
+  </script>
+{% endblock %}

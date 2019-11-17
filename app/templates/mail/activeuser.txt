@@ -1,0 +1,7 @@
+Hallool {{ user.username }},
+
+Dein Account wurde erfolgreich verifiziert und ist nun aktiv.
+
+SOOS,
+
+Dein ClubMateDude Team

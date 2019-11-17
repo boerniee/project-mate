@@ -1,0 +1,8 @@
+Hallool {{ username }},
+
+Dein Account wurde erfolgreich angelegt.
+Aktuell steht nur noch die verifizierung aus. Sobald diese erfolgt ist, geben wir dir bescheid.
+
+SOOS,
+
+Dein ClubMateDude Team
