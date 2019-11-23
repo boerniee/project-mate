@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from celery import Celery
 from flask_mail import Mail
+from flask_babel import Babel, lazy_gettext as _l
+from babel.core import negotiate_locale
 
 def make_celery(app):
     celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'],
@@ -23,9 +25,10 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+babel = Babel(app)
 login = LoginManager(app)
 login.login_view = 'auth.login'
-login.login_message = u"Bitte logge dich ein."
+login.login_message = _l("Bitte logge dich ein.")
 celery = make_celery(app)
 celery.conf.update(app.config)
 mail = Mail(app)
@@ -39,3 +42,8 @@ from app.main import bp as main_bp
 app.register_blueprint(main_bp)
 
 from app import models, billing
+
+@babel.localeselector
+def get_locale():
+    preferred = [x.replace('-', '_') for x in request.accept_languages.values()]
+    return negotiate_locale(preferred, app.config['LANGUAGES'])

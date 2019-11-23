@@ -2,10 +2,18 @@ from flask import jsonify, abort, Response
 from flask_login import current_user, login_required
 from app import app, db
 from app.utils import right_required
-from app.models import Drink, Consumption
+from app.models import Drink, Consumption, Invoice
 import datetime
 from app.billing import run_billing
 from app.main import bp
+
+@bp.route('/manage/invoice/<int:id>/paid')
+@right_required(role='admin')
+def markinvoiceaspaid(id):
+    invoice = Invoice.query.filter_by(id=id).first()
+    invoice.paid = True
+    db.session.commit()
+    return jsonify({'success': True})
 
 @bp.route('/api/consume/<id>', methods=['POST'])
 @login_required

@@ -5,9 +5,9 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Betrag</th>
-        <th scope="col">Bezahlt</th>
-        <th scope="col">Datum</th>
+        <th scope="col">{{ _('Betrag') }}</th>
+        <th scope="col">{{ _('Bezahlt') }}</th>
+        <th scope="col">{{ _('Datum') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +21,7 @@
         </tr>
       {% endfor %}
     {% else %}
-      <tr><td colspan="4">Keine Einträge vorhanden</td></tr>
+      <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
     {% endif %}
     </tbody>
   </table>

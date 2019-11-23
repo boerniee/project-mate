@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h3>Genieße eines unserer {{drinks|length}} leckeren Getränke!</h3>
+  <h3>{{ ngettext('Genieße unser leckeres Getränk', 'Genieße eines unserer %(num)s leckeren Getränke', drinks|length) }}</h3>
   <div class="card-deck">
 
   {% for drink in drinks %}
@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    {% if drink.highlight %}<div class="card-badge">Jetzt probieren!</div>{% endif %}
+    {% if drink.highlight %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
   </div>
 {% endfor %}
 </div>
@@ -26,13 +26,13 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">SooS</h4>
+        <h4 class="modal-title">{{ _('SooS') }}</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">{{ _('OK') }}</button>
       </div>
 
     </div>
@@ -49,13 +49,13 @@
       $.post("{{ url_for('main.consume', id='id') }}".replace('id', id) )
       .done(function() {
         var modal = $('#myModal');
-        modal.find('.modal-body').text('Viel spaß mit deinem Getränk!');
+        modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Getränk!') }}');
         modal.find('.modal-header h4').html('🍻🎉');
         modal.modal('toggle');
       })
       .fail(function() {
         var modal = $('#myModal');
-        modal.find('.modal-body').text('Awups, da ist etwas schief gelaufen!');
+        modal.find('.modal-body').text('{{ _('Awups, da ist etwas schief gelaufen!') }}');
         modal.find('.modal-header h4').html('😩😩');
         modal.modal('toggle');
       });

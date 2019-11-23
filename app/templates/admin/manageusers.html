@@ -1,28 +1,46 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h1>Benutzerverwaltung</h1>
+  <h1>{{ _('Benutzerverwaltung') }}</h1>
 
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Benutzername</th>
-        <th scope="col">Aktiv</th>
-        <th scope="col">E-Mail</th>
+        <th scope="col">{{ _('Benutzername') }}</th>
+        <th scope="col">{{ _('Aktiv') }}</th>
+        <th scope="col">{{ _('EMail') }}</th>
       </tr>
     </thead>
     <tbody>
-    {% for user in users %}
+    {% for user in users.items %}
       <tr onclick="window.location.href = '{{ url_for('main.edituser', id=user.id) }}'">
-        <th scope="row">{{ loop.index }}</th>
+        <th scope="row">{{ loop.index + ((users.page-1)*users.per_page) }}</th>
         <td>{{ user.username }}</td>
-        <td>{{ 'Ja' if user.is_active else 'Nein' }}</td>
+        <td>{{ _('Ja') if user.is_active else _('Nein') }}</td>
         <td>{{ user.email }}</td>
       </tr>
     {% endfor %}
     </tbody>
   </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {%- for page in users.iter_pages() %}
+          {% if page %}
+            {% if page != users.page %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('main.manageusers', page=page) }}">{{ page }}</a></li>
+            {% else %}
+            <li class="page-item active">
+              <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+          {% else %}
+            <li class="page-item"><a class="page-link" href="#">...</a></li>
+          {% endif %}
+        {%- endfor %}
+      </ul>
+    </nav>
 {% endblock %}
 
 {% block custom_script %}

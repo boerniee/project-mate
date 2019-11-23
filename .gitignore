@@ -1,0 +1,5 @@
+env
+deploy
+app.db
+__pycache__/
+mate/

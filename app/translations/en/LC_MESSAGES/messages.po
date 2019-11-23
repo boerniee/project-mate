@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-17 16:33+0100\n"
+"POT-Creation-Date: 2019-11-23 17:17+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/__init__.py:30
+#: app/__init__.py:31
 msgid "Bitte logge dich ein."
 msgstr "Please log in."
 
@@ -34,103 +34,109 @@ msgstr "[MATE] You are active"
 msgid "[MATE] Setze dein tolles Passwort zurück"
 msgstr "[MATE] Reset your beautifull password"
 
-#: app/auth/forms.py:8 app/auth/forms.py:24 app/main/forms.py:14
+#: app/auth/forms.py:8 app/auth/forms.py:12 app/auth/forms.py:28
+#: app/main/forms.py:14 app/templates/admin/dashboard.html:10
 #: app/templates/admin/manageusers.html:10
 msgid "Benutzername"
 msgstr "Username"
 
-#: app/auth/forms.py:9 app/auth/forms.py:18 app/auth/forms.py:26
-msgid "Passwort"
-msgstr "Password"
-
-#: app/auth/forms.py:10
-msgid "Angemeldet bleiben"
-msgstr "Stay logged in"
-
-#: app/auth/forms.py:11 app/templates/base.html:66
-msgid "Anmelden"
-msgstr "Login"
-
-#: app/auth/forms.py:14 app/auth/forms.py:25 app/main/forms.py:15
+#: app/auth/forms.py:9 app/auth/forms.py:18 app/auth/forms.py:29
+#: app/main/forms.py:15
 msgid "Email"
 msgstr "Email"
 
-#: app/auth/forms.py:15
+#: app/auth/forms.py:13 app/auth/forms.py:22 app/auth/forms.py:30
+msgid "Passwort"
+msgstr "Password"
+
+#: app/auth/forms.py:14
+msgid "Angemeldet bleiben"
+msgstr "Stay logged in"
+
+#: app/auth/forms.py:15 app/templates/base.html:68
+msgid "Anmelden"
+msgstr "Login"
+
+#: app/auth/forms.py:19
 msgid "Email senden"
 msgstr "Send Email"
 
-#: app/auth/forms.py:20
+#: app/auth/forms.py:24
 msgid "Passwort wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:21 app/auth/routes.py:23 app/auth/routes.py:38
+#: app/auth/forms.py:25 app/auth/routes.py:28 app/auth/routes.py:43
 #: app/templates/auth/reset_password_request.html:4
 msgid "Passwort zurücksetzen"
 msgstr "Reset password"
 
-#: app/auth/forms.py:28
+#: app/auth/forms.py:32
 msgid "Passwort Wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:29 app/auth/routes.py:67
+#: app/auth/forms.py:33 app/auth/routes.py:72
 #: app/templates/auth/register.html:4
 msgid "Registrieren"
 msgstr "Register"
 
-#: app/auth/forms.py:34
+#: app/auth/forms.py:38
 msgid "Bitte nutze einen anderen Benutzernamen."
 msgstr "Please use another username"
 
-#: app/auth/forms.py:39
+#: app/auth/forms.py:43
 msgid "Bitte nutze eine andere Email Adresse."
 msgstr "Please use another Email address"
 
-#: app/auth/routes.py:20
+#: app/auth/routes.py:14 app/templates/auth/edit_self.html:4
+msgid "Profil bearbeiten"
+msgstr "Edit profile"
+
+#: app/auth/routes.py:25
 msgid "Bitte kontrolliere deine Email für weitere anweisungen"
 msgstr "Please check your emails for further instructions"
 
-#: app/auth/routes.py:36
+#: app/auth/routes.py:41
 msgid "Dein Passwort wurde zurückgesetzt."
 msgstr "Your password has been resetted"
 
-#: app/auth/routes.py:48
+#: app/auth/routes.py:53
 msgid "Falscher benutzername oder passwort"
 msgstr "Wrong username or password"
 
-#: app/auth/routes.py:52 app/templates/auth/login.html:4
+#: app/auth/routes.py:57 app/templates/auth/login.html:4
 msgid "Einloggen"
 msgstr "Login"
 
-#: app/auth/routes.py:64
+#: app/auth/routes.py:69
 msgid "Erfolgreich registriert, warte bitte auf die Freischaltung!"
 msgstr "Successfully registered, please wait for your activation"
 
-#: app/main/admin.py:14 app/templates/admin/billing.html:4
-#: app/templates/base.html:40
-msgid "Abrechnung"
-msgstr "Billing"
+#: app/main/admin.py:19 app/templates/admin/dashboard.html:4
+#: app/templates/base.html:41
+msgid "Dashboard"
+msgstr ""
 
-#: app/main/admin.py:20 app/templates/admin/manageusers.html:4
+#: app/main/admin.py:27 app/templates/admin/manageusers.html:4
 msgid "Benutzerverwaltung"
 msgstr "User management"
 
-#: app/main/admin.py:44 app/main/admin.py:74
+#: app/main/admin.py:51 app/main/admin.py:83
 msgid "Gespeichert"
 msgstr "Saved"
 
-#: app/main/admin.py:56 app/templates/admin/managedrinks.html:4
+#: app/main/admin.py:65 app/templates/admin/managedrinks.html:4
 msgid "Getränkeverwaltung"
 msgstr "Drink management"
 
-#: app/main/admin.py:80
+#: app/main/admin.py:89
 msgid "Barbeiten "
 msgstr "Edit"
 
-#: app/main/admin.py:86
+#: app/main/admin.py:97
 msgid "Rechnungen verwalten"
 msgstr "Manage Invoices"
 
-#: app/main/admin.py:91 app/templates/admin/superadmin.html:4
+#: app/main/admin.py:102 app/templates/admin/superadmin.html:4
 #: app/templates/base.html:45
 msgid "Superadmin"
 msgstr "Superadmin"
@@ -139,8 +145,8 @@ msgstr "Superadmin"
 msgid "Beschreibung"
 msgstr "Description"
 
-#: app/main/forms.py:8 app/templates/admin/managedrinks.html:10
-#: app/templates/overview.html:12
+#: app/main/forms.py:8 app/templates/admin/dashboard.html:13
+#: app/templates/admin/managedrinks.html:10 app/templates/overview.html:12
 msgid "Preis"
 msgstr "Price"
 
@@ -170,7 +176,7 @@ msgstr "Start"
 msgid "Übersicht"
 msgstr "Overview"
 
-#: app/main/routes.py:43 app/templates/base.html:29 app/templates/base.html:41
+#: app/main/routes.py:43 app/templates/base.html:29 app/templates/base.html:40
 msgid "Rechnungen"
 msgstr "Invoices"
 
@@ -187,6 +193,14 @@ msgid "Getränke"
 msgstr "Drinks"
 
 #: app/templates/base.html:57
+msgid "Passwort ändern"
+msgstr "Change password"
+
+#: app/templates/base.html:58
+msgid "Eigene Daten"
+msgstr "Own Data"
+
+#: app/templates/base.html:59
 msgid "Abmelden"
 msgstr "Logout"
 
@@ -221,7 +235,8 @@ msgstr "Awups, something gone wrong!"
 msgid "Bezahlt"
 msgstr "Paid"
 
-#: app/templates/invoice.html:20 app/templates/overview.html:11
+#: app/templates/admin/dashboard.html:11 app/templates/invoice.html:20
+#: app/templates/overview.html:11
 msgid "Getränk"
 msgstr "Drink"
 
@@ -242,6 +257,7 @@ msgstr "No entries"
 msgid "Betrag"
 msgstr "Amount"
 
+#: app/templates/admin/dashboard.html:14
 #: app/templates/admin/manageinvoices.html:10 app/templates/invoices.html:10
 msgid "Datum"
 msgstr "Date"
@@ -254,19 +270,27 @@ msgstr "Balance"
 msgid "Zeit"
 msgstr "Time"
 
-#: app/templates/admin/billing.html:5
+#: app/templates/admin/dashboard.html:4
 msgid "Starte Abrechnung"
 msgstr "Start billing"
 
-#: app/templates/admin/billing.html:17
+#: app/templates/admin/dashboard.html:4
+msgid "Offen:"
+msgstr "Open"
+
+#: app/templates/admin/dashboard.html:12
+msgid "Anzahl"
+msgstr "Amount"
+
+#: app/templates/admin/dashboard.html:59
 msgid "Erfolgreich durchgeführt"
 msgstr "Success"
 
-#: app/templates/admin/billing.html:30
+#: app/templates/admin/dashboard.html:72
 msgid "das ähh läuft..."
 msgstr "it ruuuns"
 
-#: app/templates/admin/billing.html:42
+#: app/templates/admin/dashboard.html:84
 msgid "Fehler"
 msgstr "Error"
 
@@ -298,7 +322,7 @@ msgstr "View"
 msgid "Keine unbezahlten Rechnungen"
 msgstr "No unpaid bills"
 
-#: app/templates/admin/manageinvoices.html:45
+#: app/templates/admin/manageinvoices.html:63
 msgid "Ein unbekanntes Müsli ist aufgetreten"
 msgstr "A unknown cereal has happened"
 
@@ -353,3 +377,6 @@ msgstr ""
 #: app/templates/error/500.html:6
 msgid "Zurück"
 msgstr "Back"
+
+#~ msgid "Abrechnung"
+#~ msgstr "Billing"

@@ -5,31 +5,49 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Benutzer</th>
-        <th scope="col">Betrag</th>
-        <th scope="col">Datum</th>
-        <th scope="col">Aktionen</th>
+        <th scope="col">{{ _('Benutzer') }}</th>
+        <th scope="col">{{ _('Betrag') }}</th>
+        <th scope="col">{{ _('Datum') }}</th>
+        <th scope="col">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
-    {% if invoices is defined and invoices|length > 0 %}
-      {% for invoice in invoices %}
+    {% if invoices is defined and invoices.items|length > 0 %}
+      {% for invoice in invoices.items %}
         <tr>
-          <th scope="row">{{ loop.index }}</th>
+          <th scope="row">{{ loop.index + ((invoices.page-1)*invoices.per_page) }}</th>
           <td>{{ invoice.user.username }}</td>
           <td>{{ invoice.getsum() }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
-            <button type="button" onclick="markinvoiceaspaid({{ invoice.id }});" class="btn btn-primary">Als bezahlt markieren</button>
-            <button type="button"onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'" class="btn btn-primary">Ansehen</button>
+            <button type="button" onclick="markinvoiceaspaid({{ invoice.id }});" class="btn btn-primary">{{ _('Als bezahlt markieren') }}</button>
+            <button type="button"onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'" class="btn btn-primary">{{ _('Ansehen') }}</button>
           </td>
         </tr>
       {% endfor %}
     {% else %}
-      <tr><td colspan="5">Keine unbezahlten Rechnungen</td></tr>
+      <tr><td colspan="5">{{ _('Keine unbezahlten Rechnungen') }}</td></tr>
     {% endif %}
     </tbody>
   </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {%- for page in invoices.iter_pages() %}
+          {% if page %}
+            {% if page != invoices.page %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('main.manageinvoices', page=page) }}">{{ page }}</a></li>
+            {% else %}
+            <li class="page-item active">
+              <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+          {% else %}
+            <li class="page-item"><a class="page-link" href="#">...</a></li>
+          {% endif %}
+        {%- endfor %}
+      </ul>
+    </nav>
 {% endblock %}
 
 {% block custom_script %}
@@ -42,7 +60,7 @@
         window.location.href = '{{ url_for('main.manageinvoices') }}'
       })
       .fail(function() {
-        alert("Ein unbekanntes Müsli ist aufgetreten")
+        alert("{{ _('Ein unbekanntes Müsli ist aufgetreten') }}")
       });
     }
   </script>

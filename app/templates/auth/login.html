@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>Einloggen</h1>
+    <h1>{{ _('Einloggen') }}</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
@@ -22,10 +22,10 @@
         <p>{{ form.submit() }}</p>
     </form>
     <p>
-        Passwort vergessen?
-        <a href="{{ url_for('auth.reset_password_request') }}">Hier klicken zum zurücksetzen</a>
+        {{ _('Passwort vergessen?') }}
+        <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Hier klicken zum zurücksetzen') }}</a>
     </p>
-    <p>Neu hier? <a href="{{ url_for('auth.register') }}">Hier klicken zum registrieren!</a></p>
+    <p>{{ _('Neu hier?') }} <a href="{{ url_for('auth.register') }}">{{ _('Hier klicken zum registrieren!') }}</a></p>
 {% endblock %}
 
 {% block custom_script %}

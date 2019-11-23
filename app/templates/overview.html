@@ -2,16 +2,16 @@
 
 {% block app_content %}
 
-  <h3>Kontostand: {{ summed }}</h3>
+  <h3>{{ _('Kontostand') }}: {{ summed }}</h3>
 
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Getränk</th>
-        <th scope="col">Preis</th>
-        <th scope="col">Stück</th>
-        <th scope="col">Zeit</th>
+        <th scope="col">{{  _('Getränk') }}</th>
+        <th scope="col">{{ _('Preis') }}</th>
+        <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Zeit') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
         </tr>
       {% endfor %}
     {% else %}
-      <tr><td colspan="4">Keine Einträge vorhanden</td></tr>
+      <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
     {% endif %}
     </tbody>
   </table>
@@ -36,7 +36,7 @@
     {%- for page in consumptions.iter_pages() %}
         {% if page %}
           {% if page != consumptions.page %}
-            <li class="page-item"><a class="page-link" href="{{ url_for('overview', page=page) }}">{{ page }}</a></li>
+            <li class="page-item"><a class="page-link" href="{{ url_for('main.overview', page=page) }}">{{ page }}</a></li>
           {% else %}
           <li class="page-item active">
             <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>

@@ -14,13 +14,9 @@ def getIntQueryParam(request, default):
         except TypeError:
             return default
 
-def getCookieValue(request, cookie):
-    value = request.cookies.get(cookie)
-    if not value:
-        abort(Response("please set cookie '" + cookie + "'", 400))
-    return value
-
 def format_curr(amount):
+    if not amount:
+        amount = 0
     return format_currency(amount, 'EUR')
 
 def right_required(role="ANY"):

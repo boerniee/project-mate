@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  <div><h1><div style="float:left;">{{ _('Dashboard') }}</div><button id="billingstart" class="btn btn-primary" style="margin-left: 25px;display:inline;" type="button">{{ _('Starte Abrechnung') }}</button><div style="float:right;">{{ _('Offen:') + ' ' + open }}</div></h1></div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ _('Benutzername') }}</th>
+        <th scope="col">{{ _('Getränk') }}</th>
+        <th scope="col">{{ _('Anzahl') }}</th>
+        <th scope="col">{{ _('Preis') }}</th>
+        <th scope="col">{{ _('Datum') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for con in consumptions.items %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ con.user.username }}</td>
+        <td>{{ con.drink.description }}</td>
+        <td>{{ con.amount }}</td>
+        <td>{{ con.getprice }}</td>
+        <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      {%- for page in consumptions.iter_pages() %}
+          {% if page %}
+            {% if page != consumptions.page %}
+              <li class="page-item"><a class="page-link" href="{{ url_for('main.admindashboard', page=page) }}">{{ page }}</a></li>
+            {% else %}
+            <li class="page-item active">
+              <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+            </li>
+            {% endif %}
+          {% else %}
+            <li class="page-item"><a class="page-link" href="#">...</a></li>
+          {% endif %}
+        {%- endfor %}
+      </ul>
+    </nav>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#admindashboard").addClass('active');
+
+    function updateButton(id, button) {
+      $.getJSON("{{ url_for('main.get_task_status', id='ID') }}".replace('ID', id), function(data) {
+        console.log(data['state'])
+        if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
+          button.addClass('btn-success');
+          button.html('<i class="fa fa-check"></i> {{ _('Erfolgreich durchgeführt') }}');
+        } else {
+          setTimeout(function() {
+                    updateButton(id, button);
+                }, 2000);
+        }
+      }
+    );
+  }
+
+    $('#billingstart').on('click', function() {
+      var $this = $(this);
+      var taskid;
+      var loadingText = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{ _('das ähh läuft...') }}';
+      if ($this.html() !== loadingText) {
+        $this.data('original-text', $(this).html());
+        $this.html(loadingText);
+        $this.removeClass('btn-success');
+      }
+      $.ajax("{{ url_for('main.billing') }}" )
+      .done(function(data) {
+        taskid = data['id'];
+        updateButton(taskid, $this);
+      })
+      .fail(function() {
+        console.log("{{ _('Fehler') }}")
+      });
+    });
+  </script>
+{% endblock %}

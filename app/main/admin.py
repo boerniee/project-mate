@@ -1,22 +1,30 @@
 from app import app, db
 from app.main.forms import DrinkForm, UserForm
-from flask import render_template, redirect, url_for, flash, jsonify
+from flask import render_template, redirect, url_for, flash, jsonify, request
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Drink, Invoice, Role
-from app.utils import right_required
+from app.models import User, Drink, Invoice, Role, Consumption
+from app.utils import right_required, getIntQueryParam, format_curr
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
+from sqlalchemy import desc
+from flask_babel import _
 
-@bp.route('/manage/billing')
+@bp.route('/manage/dashboard')
 @right_required(role='admin')
-def managebilling():
-    return render_template('admin/billing.html', title="Abrechnung")
+def admindashboard():
+    page = getIntQueryParam(request, 1)
+    per_page = app.config['PER_PAGE']
+    open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
+    cons = Consumption.query.filter(Consumption.billed == False).order_by(desc(Consumption.time)).paginate(page,per_page,error_out=False)
+    return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
 
 @bp.route('/manage/user')
 @right_required(role='admin')
 def manageusers():
-    users = User.query.all()
-    return render_template('admin/manageusers.html', title='Benutzerverwaltung', users=users)
+    page = getIntQueryParam(request, 1)
+    per_page = app.config['PER_PAGE']
+    users = User.query.paginate(page,per_page,error_out=False)
+    return render_template('admin/manageusers.html', title=_('Benutzerverwaltung'), users=users)
 
 @bp.route('/manage/user/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
@@ -40,19 +48,21 @@ def edituser(id):
         if id == 0:
             db.session.add(user)
         db.session.commit()
-        flash("Gespeichert")
+        flash(_('Gespeichert'))
         return redirect(url_for('main.manageusers'))
     form.username.data = user.username
     form.email.data = user.email
     form.active.data = user.active
-    form.admin.data = user.has_role('main.admin')
+    form.admin.data = user.has_role('admin')
     return render_template('admin/edituser.html', title='Barbeiten ', form=form)
 
 @bp.route('/manage/drink')
 @right_required(role='admin')
 def managedrinks():
-    drinks = Drink.query.order_by(Drink.active.desc()).all()
-    return render_template('admin/managedrinks.html', title='Getränkeverwaltung', drinks=drinks)
+    page = getIntQueryParam(request, 1)
+    per_page = app.config['PER_PAGE']
+    drinks = Drink.query.order_by(Drink.active.desc()).paginate(page,per_page,error_out=False)
+    return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks)
 
 @bp.route('/manage/drink/edit/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
@@ -70,29 +80,23 @@ def editdrink(id):
         if id == 0:
             db.session.add(drink)
         db.session.commit()
-        flash("Gespeichert")
+        flash(_('Gespeichert'))
         return redirect(url_for('main.managedrinks'))
     form.description.data = drink.description
     form.price.data = drink.price
     form.active.data = drink.active
     form.highlight.data = drink.highlight
-    return render_template('admin/editdrink.html', title='Barbeiten ', form=form)
+    return render_template('admin/editdrink.html', title=_('Barbeiten '), form=form)
 
 @bp.route('/manage/invoice')
 @right_required(role='admin')
 def manageinvoices():
-    invoices = Invoice.query.filter_by(paid=False).all()
-    return render_template('admin/manageinvoices.html', title="Rechnungen verwalten", invoices=invoices)
-
-@bp.route('/manage/invoice/<int:id>/paid')
-@right_required(role='admin')
-def markinvoiceaspaid(id):
-    invoice = Invoice.query.filter_by(id=id).first()
-    invoice.paid = True
-    db.session.commit()
-    return jsonify({'success': True})
+    page = getIntQueryParam(request, 1)
+    per_page = app.config['PER_PAGE']
+    invoices = Invoice.query.filter_by(paid=False).paginate(page,per_page,error_out=False)
+    return render_template('admin/manageinvoices.html', title=_('Rechnungen verwalten'), invoices=invoices)
 
 @bp.route('/manage/admin')
 @right_required(role='superadmin')
 def superadmin():
-    return render_template('admin/superadmin.html', title='Superadmin')
+    return render_template('admin/superadmin.html', title=_('Superadmin'))
