@@ -17,7 +17,7 @@
     <tbody>
     {% for con in consumptions.items %}
       <tr>
-        <th scope="row">{{ loop.index }}</th>
+        <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
         <td>{{ con.user.username }}</td>
         <td>{{ con.drink.description }}</td>
         <td>{{ con.amount }}</td>

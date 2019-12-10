@@ -15,18 +15,33 @@ def markinvoiceaspaid(id):
     db.session.commit()
     return jsonify({'success': True})
 
+@bp.route('/api/drink/<id>/stock')
+@login_required
+def get_stock(id):
+    drink = Drink.query.get(id)
+    if not drink:
+        pass
+
+    return jsonify({'stock': drink.stock})
+
 @bp.route('/api/consume/<id>', methods=['POST'])
 @login_required
 def consume(id):
-    drink = Drink.query.get(id)
+    drink = Drink.query.with_for_update().get(id)
     if not drink:
         abort(Response("Not a valid drinkid", 400))
 
+    if drink.stock_active and drink.stock <= 0:
+        abort("Out of stock", 400)
+    elif drink.stock_active and drink.stock > 0:
+        drink.stock -= 1
+
     c = Consumption(amount=1, user_id=current_user.id, price=drink.price, drink_id=drink.id, billed=False, time=datetime.datetime.utcnow())
+
     db.session.add(c)
     db.session.commit()
 
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'stock': drink.stock})
 
 @bp.route('/manage/billing/start')
 @right_required(role='admin')

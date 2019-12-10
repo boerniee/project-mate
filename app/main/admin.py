@@ -6,7 +6,6 @@ from app.models import User, Drink, Invoice, Role, Consumption
 from app.utils import right_required, getIntQueryParam, format_curr
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
-from sqlalchemy import desc
 from flask_babel import _
 
 @bp.route('/manage/dashboard')
@@ -15,7 +14,7 @@ def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
     open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
-    cons = Consumption.query.filter(Consumption.billed == False).order_by(desc(Consumption.time)).paginate(page,per_page,error_out=False)
+    cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
 
 @bp.route('/manage/user')
@@ -64,7 +63,7 @@ def managedrinks():
     drinks = Drink.query.order_by(Drink.active.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks)
 
-@bp.route('/manage/drink/edit/<int:id>', methods=['GET', 'POST'])
+@bp.route('/manage/drink/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
 def editdrink(id):
     form = DrinkForm()
@@ -76,6 +75,7 @@ def editdrink(id):
         drink.description = form.description.data
         drink.price = form.price.data
         drink.active = form.active.data
+        drink.stock_active = form.stock.data
         drink.highlight = form.highlight.data
         if id == 0:
             db.session.add(drink)
@@ -85,6 +85,7 @@ def editdrink(id):
     form.description.data = drink.description
     form.price.data = drink.price
     form.active.data = drink.active
+    form.stock.data = drink.stock_active
     form.highlight.data = drink.highlight
     return render_template('admin/editdrink.html', title=_('Barbeiten '), form=form)
 

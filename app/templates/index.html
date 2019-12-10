@@ -5,7 +5,7 @@
   <div class="card-deck">
 
   {% for drink in drinks %}
-  <div class="card mb-3" style="max-width: 350px;" onClick="consume({{ drink.id }})">
+  <div class="card mb-3" style="max-width: 350px;" onClick="consume(this, {{ drink.id }})">
     <div class="row no-gutters">
       <div class="col-md-4">
         <img src="{{ url_for('static', filename=drink.imageUrl) }}" class="card-img" alt="...">
@@ -13,7 +13,10 @@
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title">{{ drink.description }}</h5>
-          <p class="card-text">{{ drink.getprice() }}</p>
+          <p class="card-text">
+            {% if drink.stock_active %}<span class="badge badge-secondary" id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
+            {{ drink.getprice() }}
+          </p>
         </div>
       </div>
     </div>
@@ -45,13 +48,16 @@
     $("#start").addClass('active');
   </script>
   <script>
-    function consume(id) {
+    function consume(sender, id) {
+      console.log(sender);
       $.post("{{ url_for('main.consume', id='id') }}".replace('id', id) )
-      .done(function() {
+      .done(function(data) {
         var modal = $('#myModal');
         modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Getränk!') }}');
         modal.find('.modal-header h4').html('🍻🎉');
         modal.modal('toggle');
+        $('#stock-'+id).text(data['stock']);
+        console.log(data['stock']);
       })
       .fail(function() {
         var modal = $('#myModal');
@@ -59,6 +65,7 @@
         modal.find('.modal-header h4').html('😩😩');
         modal.modal('toggle');
       });
+
     }
   </script>
 {% endblock %}

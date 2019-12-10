@@ -4,7 +4,7 @@ from app import db, app
 from app.models import Drink, Consumption, Invoice, User
 import datetime
 from babel.numbers import format_currency
-from sqlalchemy import and_, desc
+from sqlalchemy import and_, desc, or_
 from sqlalchemy.sql import text
 from app.utils import getIntQueryParam
 from app.email import send_email
@@ -21,7 +21,7 @@ def get_version():
 @bp.route('/index')
 @login_required
 def index():
-    drinks = Drink.query.filter_by(active=True).order_by(desc(Drink.highlight)).all()
+    drinks = Drink.query.filter(and_(Drink.active==True, or_(and_(Drink.stock > 0, Drink.stock_active == True), Drink.stock_active == False))).order_by(desc(Drink.highlight)).all()
     return render_template('index.html', title=_('Start'), drinks=drinks)
 
 @bp.route('/overview',methods=['GET'])
@@ -46,4 +46,8 @@ def invoice():
 @login_required
 def show_invoice(id):
     invoice = Invoice.query.get(id)
-    return render_template('invoice.html', title='# '+str(id), invoice=invoice, paypal=app.config['PAYPAL'])
+    if not invoice:
+        abort(404, _('Rechnung nicht gefunden'))
+    if invoice.user_id != current_user.id and not current_user.has_role('admin'):
+        abort(403, _('Das darfst du leider nicht'))
+    return render_template('invoice.html', title='# ' + str(id), invoice=invoice, paypal=app.config['PAYPAL'])

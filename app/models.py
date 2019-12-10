@@ -77,6 +77,8 @@ class Drink(db.Model):
     description = db.Column(db.String(64), index=True, unique=True)
     price = db.Column(db.Float, index=True)
     imageUrl = db.Column(db.String(2048))
+    stock = db.Column(db.Integer)
+    stock_active = db.Column(db.Boolean)
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
 

@@ -8,6 +8,7 @@ class DrinkForm(FlaskForm):
     price = FloatField(_l('Preis'))
     active = BooleanField(_l('Aktiv'))
     highlight = BooleanField(_l('Hervorheben'))
+    stock = BooleanField(_l('Bestand führen'))
     submit = SubmitField(_l('Speichern'))
 
 class UserForm(FlaskForm):

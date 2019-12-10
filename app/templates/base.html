@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mate.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <title>{% block title %}{% if title %}{{ title }} - Projekt Mate{% else %}Welcome to Projekt Mate{% endif %}{% endblock %}</title>
   </head>
   <body>
@@ -55,7 +55,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item disabled" id="changepassword" href="#">{{ _('Passwort ändern') }}</a>
-                <a class="dropdown-item" id="edituser" href="{{ url_for('auth.editself') }}">{{ _('Eigene Daten') }}</a>
+                <a class="dropdown-item" id="edituser" href="{{ url_for('auth.editself') }}">{{ _('Eigene Daten') }} <i class="fas fa-cat"></i></a>
                 <a class="dropdown-item" id="manageusers" href="{{ url_for('auth.logout') }}">{{ _('Abmelden') }}</a>
               </div>
             </li>

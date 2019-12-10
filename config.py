@@ -17,4 +17,4 @@ class Config(object):
     ADMINS = ['saas@mate.brnhaed.de']
     LANGUAGES = ['de', 'en']
     BABEL_DEFAULT_LOCALE = 'de'
-    PAYPAL = 'sooos'
+    PAYPAL = os.environ.get('PAYPAL') or 'sooos'

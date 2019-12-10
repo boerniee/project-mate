@@ -8,21 +8,49 @@
         <th scope="col">#</th>
         <th scope="col">{{ _('Beschreibung') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
+        <th scope="col">{{  _('Bestand') }}</th>
         <th scope="col">{{ _('Status') }}</th>
+        <th data-formatter="TableActions">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
   {% for drink in drinks.items %}
 
-    <tr onclick="window.location.href = '{{ url_for('main.editdrink', id=drink.id) }}'">
+    <tr> <!-- onclick="window.location.href = ''"> -->
       <th scope="row">{{ loop.index + ((drinks.page-1)*drinks.per_page) }}</th>
       <td>{{ drink.description }}</td>
       <td>{{ drink.getprice() }}</td>
+      <td>{{ drink.stock if drink.stock_active else '-' }}</td>
+      <!-- <td><button type="button" class="btn btn-info">{{ _('Buchung tätigen' ) }}</button></td> -->
       <td>{{ _('Aktiv') if drink.active else _('Inaktiv') }}</td>
+      <td>
+        <a class="edit" href="{{ url_for('main.editdrink', id=drink.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit"></i></a>
+        <a class="book" href="javascript:showModal({{ drink.id }})" title="{{ _('Buchung tätigen') }}"><i class="fas fa-cart-plus"></i></a>
+      </td>
     </tr>
   {% endfor %}
   </tbody>
 </table>
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ _('SooS') }}</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="text">20</div>
+        <input id="booking-amount" type="range" min="1" max="100" value="20" class="slider" id="myRange">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">{{ _('Buchen') }}</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Abbrechen') }}</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <nav aria-label="Page navigation">
   <ul class="pagination justify-content-center">
@@ -46,5 +74,13 @@
 {% block custom_script %}
   <script>
     $("#managedrinks").addClass('active');
+    $("#booking-amount").mousemove(function () {
+      $("#text").text($("#booking-amount").val())
+    })
+    function showModal(id) {
+      var modal = $('#myModal');
+      modal.find('.modal-header h4').html('gut guut guuut');
+      modal.modal('toggle');
+    }
   </script>
 {% endblock %}

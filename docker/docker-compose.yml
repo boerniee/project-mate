@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+  clubmate:
+    image: clubmate:latest
+    links:
+      - redis:brnhaed
+      - mysql:db
+    #build:
+    #  dockerfile: Dockerfile 
+    #  context: .
+    container_name: clubmatedude
+    environment:
+      - VIRTUAL_HOST=mate.brnhaed.de
+      - LETSENCRYPT_HOST=mate.brnhaed.de
+      - DATABASE_URL=mysql+mysqlconnector://mate:club@db/mate
+      - MAIL_SERVER=smtp.strato.de
+      - MAIL_PORT=587
+      - MAIL_USE_TLS=1
+      - MAIL_USERNAME=saas@mate.brnhaed.de
+      - MAIL_PASSWORD=noTmoj-3gyfve-vuwher
+  mate-worker:
+    links:
+      - redis:brnhaed
+      - mysql:db
+    image: clubmate:latest
+    entrypoint: celery worker -A app.celery --loglevel=info
+    environment:
+      - DATABASE_URL=mysql+mysqlconnector://mate:club@db/mate
+  redis:
+    image: redis:latest
+  mysql:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=mate
+      - MYSQL_USER=mate
+      - MYSQL_PASSWORD=club
+      - MYSQL_ROOT_PASSWORD=xxxxx
+  mymateadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 89:80
+    links:
+      - mysql:db
+
+networks:
+  default:
+    external:
+      name: proxy_webproxy
