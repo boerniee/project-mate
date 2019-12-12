@@ -1,4 +1,4 @@
-from flask import jsonify, abort, Response
+from flask import jsonify, abort, Response, request
 from flask_login import current_user, login_required
 from app import app, db
 from app.utils import right_required
@@ -15,14 +15,23 @@ def markinvoiceaspaid(id):
     db.session.commit()
     return jsonify({'success': True})
 
-@bp.route('/api/drink/<id>/stock')
-@login_required
-def get_stock(id):
-    drink = Drink.query.get(id)
-    if not drink:
-        pass
+@bp.route('/api/stock', methods=['POST'])
+@right_required(role='admin')
+def add_stock():
+    print(request.data)
+    request.json
+    id = request.json['drink_id']
+    drink = Drink.query.with_for_update().get(id)
 
-    return jsonify({'stock': drink.stock})
+    if not drink:
+        abort(Response("Not a valid drinkid", 400))
+    try:
+        amount = int(request.json['stock'])
+    except Exception:
+        abort(Response('Invalid stock value', 400))
+    drink.stock += amount
+    db.session.commit()
+    return jsonify({'success': True, 'id': drink.id,  'stock': drink.stock if drink.stock_active else '-'})
 
 @bp.route('/api/consume/<id>', methods=['POST'])
 @login_required

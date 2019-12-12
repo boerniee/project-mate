@@ -20,7 +20,7 @@
       <th scope="row">{{ loop.index + ((drinks.page-1)*drinks.per_page) }}</th>
       <td>{{ drink.description }}</td>
       <td>{{ drink.getprice() }}</td>
-      <td>{{ drink.stock if drink.stock_active else '-' }}</td>
+      <td id="stock-{{ drink.id }}">{{ drink.stock if drink.stock_active else '-' }}</td>
       <!-- <td><button type="button" class="btn btn-info">{{ _('Buchung tätigen' ) }}</button></td> -->
       <td>{{ _('Aktiv') if drink.active else _('Inaktiv') }}</td>
       <td>
@@ -41,10 +41,13 @@
       </div>
       <div class="modal-body">
         <div id="text">20</div>
-        <input id="booking-amount" type="range" min="1" max="100" value="20" class="slider" id="myRange">
+        <form name="stock">
+          <input type="hidden" id="drink_id" name="drink_id"/>
+          <input id="stock_amount" name="stock" type="range" min="1" max="100" value="20" class="slider">
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">{{ _('Buchen') }}</button>
+        <button type="button" class="btn btn-primary" id="book_stock">{{ _('Buchen') }}</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Abbrechen') }}</button>
       </div>
 
@@ -74,11 +77,41 @@
 {% block custom_script %}
   <script>
     $("#managedrinks").addClass('active');
-    $("#booking-amount").mousemove(function () {
-      $("#text").text($("#booking-amount").val())
-    })
+
+    $("#stock_amount").mousemove(function () {
+      $("#text").text($("#stock_amount").val())
+    });
+
+    function getFormData(form) {
+      var unindexed_array = form.serializeArray();
+      var indexed_array = {};
+
+      $.map(unindexed_array, function(n, i){
+          indexed_array[n['name']] = n['value'];
+      });
+
+      return indexed_array;
+    }
+
+    $("#book_stock").on("click", function(e){
+      $.ajax({
+                url: '{{ url_for('main.add_stock') }}',
+                type : 'POST',
+                contentType : 'application/json',
+                data : JSON.stringify(getFormData($('form[name="stock"]'))),
+                success : function(result) {
+                    $('#myModal').modal('toggle');
+                    $('#stock-'+result['id']).text(result['stock']);
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            });
+    });
+
     function showModal(id) {
       var modal = $('#myModal');
+      $('#drink_id').val(id);
       modal.find('.modal-header h4').html('gut guut guuut');
       modal.modal('toggle');
     }
