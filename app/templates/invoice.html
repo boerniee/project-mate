@@ -4,11 +4,11 @@
   <div style="float:left;">
     <h3># {{ invoice.id }}</h3>
     <h3>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</h3>
-    <h3>{{ invoice.getsum() }}</h3>
+    <h3>{{ invoice.formatsum() }}</h3>
   </div>
   <div style="float:right;">
     {% if not invoice.paid %}
-      <a href="https://www.paypal.me/{{ paypal }}/{{ invoice.sum | round(2) }}" target="_blank"><img style="width:125px;" src="{{ url_for('static', filename='paypal.png') }}"></a>
+      <a href="{{ invoice.get_paypal_link() }}" target="_blank"><img style="width:125px;" src="{{ url_for('static', filename='paypal.png') }}"></a>
     {% else %}
       <h3 style="padding-top: 45px;"><span class="badge badge-success">{{ _('Bezahlt') }}</span></h3>
     {% endif %}

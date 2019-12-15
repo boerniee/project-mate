@@ -2,7 +2,7 @@ from flask import Flask, request
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from celery import Celery
 from flask_mail import Mail
 from flask_babel import Babel, lazy_gettext as _l
@@ -49,5 +49,7 @@ from app import models, billing
 
 @babel.localeselector
 def get_locale():
+    if current_user is not None and not current_user.is_anonymous:
+        return current_user.lang
     preferred = [x.replace('-', '_') for x in request.accept_languages.values()]
-    return negotiate_locale(preferred, app.config['LANGUAGES'])
+    return negotiate_locale(preferred, Config.LANGUAGES.keys())

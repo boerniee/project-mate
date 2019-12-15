@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block links %}
+  <script src="{{ url_for('static', filename='password.js') }}" ></script>
+{% endblock %}
+
 {% block app_content %}
     <h1>{{ _('Registrieren') }}</h1>
     <form action="" method="post">
@@ -20,7 +24,9 @@
         </p>
         <p>
             {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
+            {{ form.password(size=32) }}
+            <span id="msg"></span><br>
+            <p><input type="button" id="showpassword" value="Passwort anzeigen"/></p>
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -34,4 +40,39 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $('#showpassword').mousedown(function() {
+      $('#password').attr('type', 'text');
+    });
+    $('#showpassword').mouseup(function() {
+      $('#password').attr('type', 'password');
+    });
+    $("#password").keyup(function(event) {
+      ctr = validatePassword(event.target.value);
+      switch (ctr) {
+          case -1:
+              streangth = "";
+              break;
+          case 0:
+          case 1:
+          case 2:
+              strength = "{{ _('Schwach') }}";
+              color = "red";
+              break;
+          case 3:
+              strength = "{{ _('Mittel') }}";
+              color = "orange";
+              break;
+          case 4:
+              strength = "{{ _('Stark') }}";
+              color = "green";
+              break;
+      }
+      document.getElementById("msg").innerHTML = strength;
+      document.getElementById("msg").style.color = color;
+    });
+  </script>
 {% endblock %}

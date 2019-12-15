@@ -14,6 +14,15 @@ def send_email(subject, sender, recipients, text_body, html_body):
     msg.html = html_body
     Thread(target=send_async_email, args=(app, msg)).start()
 
+def send_invoice(inv):
+    send_email(_('[MATE] Du hast eine neue Rechnung'),
+               sender=app.config['ADMINS'][0],
+               recipients=[user.email],
+               text_body=render_template('mail/invoice.txt',
+                                         invoice=inv),
+                html_body=render_template('mail/invoice.html',
+                                          invoice=inv))
+
 def send_welcome_mail(user):
     send_email(_('[MATE] Halloo'),
                sender=app.config['ADMINS'][0],

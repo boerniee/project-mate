@@ -50,4 +50,4 @@ def show_invoice(id):
         abort(404, _('Rechnung nicht gefunden'))
     if invoice.user_id != current_user.id and not current_user.has_role('admin'):
         abort(403, _('Das darfst du leider nicht'))
-    return render_template('invoice.html', title='# ' + str(id), invoice=invoice, paypal=app.config['PAYPAL'])
+    return render_template('invoice.html', title='# ' + str(id), invoice=invoice)

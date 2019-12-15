@@ -5,6 +5,7 @@ from hashlib import md5
 from app.utils import format_curr
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from decimal import Decimal, ROUND_HALF_UP
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,6 +13,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     active = db.Column(db.Boolean)
+    lang = db.Column(db.String(3))
     roles = db.relationship('Role', secondary='user_roles')
     consumptions = db.relationship("Consumption", back_populates="user")
     invoices = db.relationship("Invoice")
@@ -120,11 +122,18 @@ class Invoice(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     paid = db.Column(db.Boolean)
+    paypalme = db.Column(db.String)
     positions = db.relationship("Position")
     user = db.relationship("User")
 
+    def get_paypal_link(self):
+        return f"https://www.paypal.me/{self.paypalme}/{self.getsum()}"
+
     def getsum(self):
-        return format_curr(self.sum)
+        return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)
+
+    def formatsum(self):
+        return format_curr(self.getsum())
 
     def __repr__(self):
         return '<Invoice {}>'.format(self.id)

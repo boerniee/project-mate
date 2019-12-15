@@ -17,7 +17,7 @@
         <tr>
           <th scope="row">{{ loop.index + ((invoices.page-1)*invoices.per_page) }}</th>
           <td>{{ invoice.user.username }}</td>
-          <td>{{ invoice.getsum() }}</td>
+          <td>{{ invoice.formatsum() }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
             <button type="button" onclick="markinvoiceaspaid({{ invoice.id }});" class="btn btn-primary">{{ _('Als bezahlt markieren') }}</button>

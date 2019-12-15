@@ -1,9 +1,10 @@
 from app import app, db, celery
-from .models import Consumption, Invoice, Position
+from app.models import Consumption, Invoice, Position
 from collections import defaultdict
+from app.email import send_email
 from flask_login import login_required
 import datetime
-from flask import jsonify
+from flask import jsonify, render_template
 import time
 import redis
 
@@ -22,7 +23,7 @@ def createInvoice(user):
     for consumption in consumptions:
         groups[consumption.drink].append(consumption)
 
-    invoice = Invoice(user_id=user, paid=False, date=datetime.datetime.utcnow(), positions=[])
+    invoice = Invoice(user_id=user, paid=False, date=datetime.datetime.utcnow(), positions=[], paypalme=app.config['PAYPAL'])
     for k,v in groups.items():
         summe = sum((c.price * c.amount) for c in v)
         amount = sum(c.amount for c in v)
@@ -36,3 +37,13 @@ def createInvoice(user):
     invoice.sum=invsum
     db.session.add(invoice)
     db.session.commit()
+    sendEmail(invoice)
+
+def sendEmail(invoice):
+    send_email('[MATE] Deine Rechnung',
+               sender=app.config['ADMINS'][0],
+               recipients=[invoice.user.email],
+               text_body=render_template('mail/invoice.txt',
+                                         invoice=invoice),
+               html_body=render_template('mail/invoice.html',
+                                         invoice=invoice))

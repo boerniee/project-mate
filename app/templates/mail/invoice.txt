@@ -1,0 +1,11 @@
+Hallool {{ invoice.user.username }},
+
+Klicke auf den folgenden Link um dein Passwort zurückzusetzen:
+
+{{ url_for('main.show_invoice', id=invoice.id) }}
+
+{{ invoice.get_paypal_link() }}
+
+SOOS,
+
+Dein ClubMateDude Team

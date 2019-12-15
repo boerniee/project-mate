@@ -1,18 +1,29 @@
-from app import db
+from app import db, app
 from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm, ResetPasswordRequestForm
+from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm, ResetPasswordRequestForm, EditProfile
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app.models import User
 from app.email import send_welcome_mail, send_activated_mail
 from app.auth.email import send_password_reset_email
-from flask_babel import _
+from flask_babel import _, get_locale
 
-@bp.route('/profile/edit')
+@bp.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
 def editself():
-    return render_template('auth/edit_self.html', title=_('Profil bearbeiten'))
+    form = EditProfile()
+    if form.validate_on_submit():
+        user = User.query.get(current_user.id)
+        user.lang = form.lang.data
+        if user.username != form.username.data:
+            user.username = form.username.data
+        db.session.commit()
+        flash(_('Gespeichert'))
+    form.username.data = current_user.username
+    form.email.data = current_user.email
+    form.lang.data = current_user.lang or app.config['BABEL_DEFAULT_LOCALE']
+    return render_template('auth/edit_self.html', title=_('Profil bearbeiten'), form=form)
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -23,7 +34,7 @@ def reset_password_request():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             send_password_reset_email(user)
-        flash(_('Bitte kontrolliere deine Email für weitere anweisungen'))
+        flash(_('Bitte kontrolliere deine Emails für weitere anweisungen'))
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_password_request.html',
                            title=_('Passwort zurücksetzen'), form=form)
@@ -66,7 +77,7 @@ def register():
         return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, active=False)
+        user = User(username=form.username.data, email=form.email.data, active=False, lang=get_locale())
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

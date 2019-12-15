@@ -15,7 +15,7 @@
       {% for invoice in invoices.items %}
         <tr onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'">
           <th scope="row">{{ loop.index + ((invoices.page-1)*invoices.per_page) }}</th>
-          <td>{{ invoice.getsum() }}</td>
+          <td>{{ invoice.formatsum() }}</td>
           <td>{{ 'Ja' if invoice.paid else 'Nein' }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
         </tr>

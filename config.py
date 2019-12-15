@@ -15,6 +15,11 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['saas@mate.brnhaed.de']
-    LANGUAGES = ['de', 'en']
+    LANGUAGES = {
+        'de': 'German',
+        'en': 'English'
+    }
     BABEL_DEFAULT_LOCALE = 'de'
     PAYPAL = os.environ.get('PAYPAL') or 'sooos'
+    TEMPLATES_AUTO_RELOAD = True
+    SERVER_NAME = os.environ.get('SERVER_NAME') or 'localhost:5000'
