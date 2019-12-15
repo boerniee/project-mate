@@ -122,7 +122,7 @@ class Invoice(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     paid = db.Column(db.Boolean)
-    paypalme = db.Column(db.String)
+    paypalme = db.Column(db.String(64))
     positions = db.relationship("Position")
     user = db.relationship("User")
 
