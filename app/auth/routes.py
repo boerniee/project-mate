@@ -23,7 +23,7 @@ def editself():
     form.username.data = current_user.username
     form.email.data = current_user.email
     form.lang.data = current_user.lang or app.config['BABEL_DEFAULT_LOCALE']
-    return render_template('auth/edit_self.html', title=_('Profil bearbeiten'), form=form)
+    return render_template('auth/edit_self.html', title=_('Profil bearbeiten'), form=form, avatar=current_user.avatar(175))
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
