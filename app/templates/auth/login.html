@@ -11,13 +11,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}<br>
-            {% for error in form.password.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
+        {% include 'auth/password_field.html' %}
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
@@ -32,4 +26,5 @@
   <script>
     $("#login").addClass('active');
   </script>
+  {% include 'auth/password_js.html' %}
 {% endblock %}

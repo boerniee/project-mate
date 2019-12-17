@@ -15,17 +15,5 @@ function validatePassword(password) {
             ctr++;
         }
     }
-    if (password.length < 5) {ctr = 0;}
-    var color = "";
-    var strength = "";
     return ctr;
-}
-
-function togglePassword() {
-  pwd = $('#password')
-  if (pwd.attr('type') === 'password') {
-    pwd.attr('type', 'text');
-  } else {
-    pwd.attr('type', 'password');
-  }
 }
