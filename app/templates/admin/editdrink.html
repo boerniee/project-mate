@@ -19,8 +19,14 @@
             {% endfor %}
         </p>
         <p>{{ form.active() }} {{ form.active.label }}</p>
-        <p>{{ form.stock() }} {{ form.stock.label }} <i title="{{ _('Wenn der Bestand inaktiv ist werden nur Buchungen berücksichtigt') }}" class="fa fa-question-circle"></i></p>
+        <p>{{ form.stock() }} {{ form.stock.label }} <i id="help_stock" data-trigger="hover" title="Hilfe" data-content="{{ _('Wenn der Bestand inaktiv ist werden nur Buchungen von Getränken berücksichtigt') }}" class="fa fa-question-circle"></i></p>
         <p>{{ form.highlight() }} {{ form.highlight.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $('#help_stock').popover();
+  </script>
 {% endblock %}

@@ -33,7 +33,7 @@ class EditProfile(FlaskForm):
 
 class LoginForm(FlaskForm):
     username = StringField(_l('Benutzername'), validators=[DataRequired()])
-    password = PasswordField(_l('Passwot'), validators=[DataRequired()])
+    password = PasswordField(_l('Passwort'), validators=[DataRequired()])
     remember_me = BooleanField(_l('Angemeldet bleiben'))
     submit = SubmitField(_l('Anmelden'))
 

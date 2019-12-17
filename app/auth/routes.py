@@ -87,6 +87,18 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', title=_('Registrieren'), form=form)
 
+@bp.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        #u = User.query.get(current_user.id)
+        current_user.set_password(form.password.data)
+        db.session.commit()
+        flash(_('Passwort gespeichert'))
+        return redirect(url_for('main.index'))
+    return render_template('auth/reset_password.html', form=form)
+
 @bp.route('/logout')
 def logout():
     logout_user()

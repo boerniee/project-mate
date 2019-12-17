@@ -14,8 +14,8 @@
         <div class="card-body">
           <h5 class="card-title">{{ drink.description }}</h5>
           <p class="card-text">
-            {% if drink.stock_active %}<span class="badge badge-secondary" id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
-            {{ drink.getprice() }}
+            {% if drink.stock_active %}<i class="fas fa-boxes"></i> <span class="badge badge-secondary" id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
+            <i class="fas fa-money-bill-wave"></i> {{ drink.getprice() }}
           </p>
         </div>
       </div>

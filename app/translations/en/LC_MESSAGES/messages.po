@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-12-15 13:28+0100\n"
+"POT-Creation-Date: 2019-12-17 20:49+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -69,9 +69,9 @@ msgstr "Language"
 msgid "Speichern"
 msgstr "Save"
 
-#: app/auth/forms.py:36
-msgid "Passwot"
-msgstr ""
+#: app/auth/forms.py:36 app/auth/forms.py:45 app/auth/forms.py:53
+msgid "Passwort"
+msgstr "Password"
 
 #: app/auth/forms.py:37
 msgid "Angemeldet bleiben"
@@ -85,15 +85,11 @@ msgstr "Login"
 msgid "Email senden"
 msgstr "Send Email"
 
-#: app/auth/forms.py:45 app/auth/forms.py:53
-msgid "Passwort"
-msgstr "Password"
-
 #: app/auth/forms.py:47
 msgid "Passwort wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:48 app/auth/routes.py:40 app/auth/routes.py:55
+#: app/auth/forms.py:48 app/auth/routes.py:40 app/auth/routes.py:56
 #: app/templates/auth/reset_password_request.html:4
 msgid "Passwort zurücksetzen"
 msgstr "Reset password"
@@ -102,16 +98,16 @@ msgstr "Reset password"
 msgid "Passwort Wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:56 app/auth/routes.py:87
+#: app/auth/forms.py:56 app/auth/routes.py:88
 #: app/templates/auth/register.html:8
 msgid "Registrieren"
 msgstr "Register"
 
-#: app/auth/routes.py:22 app/main/admin.py:50 app/main/admin.py:83
+#: app/auth/routes.py:22 app/main/admin.py:50 app/main/admin.py:88
 msgid "Gespeichert"
 msgstr "Saved"
 
-#: app/auth/routes.py:26 app/templates/auth/edit_self.html:4
+#: app/auth/routes.py:26 app/templates/auth/edit_self.html:6
 msgid "Profil bearbeiten"
 msgstr "Edit profile"
 
@@ -119,21 +115,29 @@ msgstr "Edit profile"
 msgid "Bitte kontrolliere deine Emails für weitere anweisungen"
 msgstr "Please check your Email for further instructions"
 
-#: app/auth/routes.py:53
+#: app/auth/routes.py:48
+msgid "Token ungültig"
+msgstr "Token invalid"
+
+#: app/auth/routes.py:54
 msgid "Dein Passwort wurde zurückgesetzt."
 msgstr "Your password has been resetted"
 
-#: app/auth/routes.py:65
+#: app/auth/routes.py:66
 msgid "Falscher benutzername oder passwort"
 msgstr "Wrong username or password"
 
-#: app/auth/routes.py:72 app/templates/auth/login.html:4
+#: app/auth/routes.py:73 app/templates/auth/login.html:4
 msgid "Einloggen"
 msgstr "Login"
 
-#: app/auth/routes.py:84
+#: app/auth/routes.py:85
 msgid "Erfolgreich registriert, warte bitte auf die Freischaltung!"
 msgstr "Successfully registered, please wait for your activation"
+
+#: app/auth/routes.py:98
+msgid "Passwort gespeichert"
+msgstr "Password saved"
 
 #: app/main/admin.py:18 app/templates/admin/dashboard.html:4
 #: app/templates/base.html:42
@@ -144,34 +148,34 @@ msgstr "Dashboard"
 msgid "Benutzerverwaltung"
 msgstr "User management"
 
-#: app/main/admin.py:64 app/templates/admin/managedrinks.html:4
+#: app/main/admin.py:69 app/templates/admin/managedrinks.html:5
 msgid "Getränkeverwaltung"
 msgstr "Drink management"
 
-#: app/main/admin.py:90
+#: app/main/admin.py:95
 msgid "Barbeiten "
 msgstr "Edit"
 
-#: app/main/admin.py:98
+#: app/main/admin.py:103
 msgid "Rechnungen verwalten"
 msgstr "Manage Invoices"
 
-#: app/main/admin.py:103 app/templates/admin/superadmin.html:4
+#: app/main/admin.py:108 app/templates/admin/superadmin.html:4
 #: app/templates/base.html:46
 msgid "Superadmin"
 msgstr "Superadmin"
 
-#: app/main/forms.py:7 app/templates/admin/managedrinks.html:9
+#: app/main/forms.py:7 app/templates/admin/managedrinks.html:17
 msgid "Beschreibung"
 msgstr "Description"
 
 #: app/main/forms.py:8 app/templates/admin/dashboard.html:13
-#: app/templates/admin/managedrinks.html:10 app/templates/overview.html:12
+#: app/templates/admin/managedrinks.html:18 app/templates/overview.html:12
 msgid "Preis"
 msgstr "Price"
 
 #: app/main/forms.py:9 app/main/forms.py:17
-#: app/templates/admin/managedrinks.html:25
+#: app/templates/admin/managedrinks.html:32
 #: app/templates/admin/manageusers.html:11
 msgid "Aktiv"
 msgstr "Active"
@@ -243,7 +247,7 @@ msgstr[1] "Enjoy one of our %(num)s delicious drinks"
 msgid "Jetzt probieren!"
 msgstr "Try now!"
 
-#: app/templates/admin/managedrinks.html:39 app/templates/index.html:32
+#: app/templates/admin/managedrinks.html:49 app/templates/index.html:32
 msgid "SooS"
 msgstr "SaaS"
 
@@ -276,8 +280,8 @@ msgstr "Pieces"
 msgid "Summe"
 msgstr "Sum"
 
-#: app/templates/invoice.html:36 app/templates/invoices.html:24
-#: app/templates/overview.html:29
+#: app/templates/admin/managedrinks.html:40 app/templates/invoice.html:36
+#: app/templates/invoices.html:29 app/templates/overview.html:29
 msgid "Keine Einträge vorhanden"
 msgstr "No entries"
 
@@ -289,6 +293,27 @@ msgstr "Amount"
 #: app/templates/admin/manageinvoices.html:10 app/templates/invoices.html:10
 msgid "Datum"
 msgstr "Date"
+
+#: app/templates/admin/managedrinks.html:21
+#: app/templates/admin/manageinvoices.html:11 app/templates/invoices.html:11
+msgid "Aktionen"
+msgstr "Actions"
+
+#: app/templates/admin/manageusers.html:20 app/templates/invoices.html:20
+msgid "Ja"
+msgstr "Yes"
+
+#: app/templates/admin/manageusers.html:20 app/templates/invoices.html:20
+msgid "Nein"
+msgstr "No"
+
+#: app/templates/admin/manageinvoices.html:23 app/templates/invoices.html:23
+msgid "Anzeigen"
+msgstr "Show"
+
+#: app/templates/invoices.html:24
+msgid "Bezahlen"
+msgstr "Pay"
 
 #: app/templates/overview.html:5
 msgid "Kontostand"
@@ -323,51 +348,48 @@ msgid "Fehler"
 msgstr "Error"
 
 #: app/templates/admin/editdrink.html:4 app/templates/admin/edituser.html:4
-#: app/templates/admin/managedrinks.html:27
+#: app/templates/admin/managedrinks.html:34
 msgid "Bearbeiten"
 msgstr "Edit"
 
 #: app/templates/admin/editdrink.html:22
-msgid "Wenn der Bestand inaktiv ist werden nur Buchungen berücksichtigt"
-msgstr "If the stock is inactive, only postings are taken into account"
+msgid ""
+"Wenn der Bestand inaktiv ist werden nur Buchungen von Getränken "
+"berücksichtigt"
+msgstr ""
 
-#: app/templates/admin/managedrinks.html:11
+#: app/templates/admin/managedrinks.html:8
+#: app/templates/admin/managedrinks.html:9
+msgid "Suchen"
+msgstr "Search"
+
+#: app/templates/admin/managedrinks.html:19
 msgid "Bestand"
 msgstr "Stock"
 
-#: app/templates/admin/managedrinks.html:12
+#: app/templates/admin/managedrinks.html:20
 msgid "Status"
 msgstr "State"
 
-#: app/templates/admin/managedrinks.html:13
-#: app/templates/admin/manageinvoices.html:11
-msgid "Aktionen"
-msgstr "Actions"
-
-#: app/templates/admin/managedrinks.html:24
-#: app/templates/admin/managedrinks.html:28
-msgid "Buchung tätigen"
-msgstr "Make a booking"
-
-#: app/templates/admin/managedrinks.html:25
+#: app/templates/admin/managedrinks.html:32
 msgid "Inaktiv"
 msgstr "Inactive"
 
-#: app/templates/admin/managedrinks.html:50
+#: app/templates/admin/managedrinks.html:35
+msgid "Buchung tätigen"
+msgstr "Make a booking"
+
+#: app/templates/admin/managedrinks.html:60
 msgid "Buchen"
 msgstr "Book"
 
-#: app/templates/admin/managedrinks.html:51
+#: app/templates/admin/managedrinks.html:61
 msgid "Abbrechen"
 msgstr "Cancel"
 
-#: app/templates/admin/manageinvoices.html:23
+#: app/templates/admin/manageinvoices.html:24
 msgid "Als bezahlt markieren"
 msgstr "Mark as paid"
-
-#: app/templates/admin/manageinvoices.html:24
-msgid "Ansehen"
-msgstr "View"
 
 #: app/templates/admin/manageinvoices.html:29
 msgid "Keine unbezahlten Rechnungen"
@@ -381,45 +403,37 @@ msgstr "A unknown cereal has happened"
 msgid "EMail"
 msgstr "EMail"
 
-#: app/templates/admin/manageusers.html:20
-msgid "Ja"
-msgstr "Yes"
-
-#: app/templates/admin/manageusers.html:20
-msgid "Nein"
-msgstr "No"
-
-#: app/templates/auth/login.html:25
+#: app/templates/auth/login.html:19
 msgid "Passwort vergessen?"
 msgstr "Forgot your password?"
 
-#: app/templates/auth/login.html:26
+#: app/templates/auth/login.html:20
 msgid "Hier klicken zum zurücksetzen"
 msgstr "Click here to reset"
 
-#: app/templates/auth/login.html:28
+#: app/templates/auth/login.html:22
 msgid "Neu hier?"
 msgstr "New?"
 
-#: app/templates/auth/login.html:28
+#: app/templates/auth/login.html:22
 msgid "Hier klicken zum registrieren!"
 msgstr "Click here to register!"
 
-#: app/templates/auth/register.html:62
+#: app/templates/auth/password_strength.html:16
 msgid "Schwach"
 msgstr "Weak"
 
-#: app/templates/auth/register.html:66
+#: app/templates/auth/password_strength.html:20
 msgid "Mittel"
 msgstr "Medium"
 
-#: app/templates/auth/register.html:70
+#: app/templates/auth/password_strength.html:24
 msgid "Stark"
 msgstr "Strong"
 
 #: app/templates/auth/reset_password.html:4
-msgid "Setze dein Passwort zurück"
-msgstr "Reset your password"
+msgid "Ändere dein Passwort"
+msgstr "Change your password"
 
 #: app/templates/error/400.html:5 app/templates/error/403.html:5
 #: app/templates/error/404.html:5
@@ -451,3 +465,12 @@ msgstr "Back"
 
 #~ msgid "Bitte kontrolliere deine Email für weitere anweisungen"
 #~ msgstr "Please check your emails for further instructions"
+
+#~ msgid "Ansehen"
+#~ msgstr "View"
+
+#~ msgid "Wenn der Bestand inaktiv ist werden nur Buchungen berücksichtigt"
+#~ msgstr "If the stock is inactive, only postings are taken into account"
+
+#~ msgid "Setze dein Passwort zurück"
+#~ msgstr "Reset your password"
