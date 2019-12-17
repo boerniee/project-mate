@@ -22,8 +22,8 @@
       </tr>
     </thead>
     <tbody>
-  {% for drink in drinks.items %}
-
+  {% if drinks.items|length > 0 %}
+    {% for drink in drinks.items %}
     <tr>
       <th scope="row">{{ loop.index + ((drinks.page-1)*drinks.per_page) }}</th>
       <td>{{ drink.description }}</td>
@@ -36,6 +36,9 @@
       </td>
     </tr>
   {% endfor %}
+  {% else %}
+    <tr><td colspan="6">{{ _('Keine Einträge vorhanden') }}</td></tr>
+  {% endif %}
   </tbody>
 </table>
 

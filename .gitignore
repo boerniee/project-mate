@@ -3,3 +3,4 @@ deploy
 app.db
 __pycache__/
 mate/
+.DS_Store

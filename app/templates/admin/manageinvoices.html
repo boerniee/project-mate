@@ -4,11 +4,11 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">{{ _('Benutzer') }}</th>
-        <th scope="col">{{ _('Betrag') }}</th>
-        <th scope="col">{{ _('Datum') }}</th>
-        <th scope="col">{{ _('Aktionen') }}</th>
+        <th scope="col" style="width: 7%">#</th>
+        <th scope="col" style="width: 23%">{{ _('Benutzer') }}</th>
+        <th scope="col" style="width: 20%">{{ _('Betrag') }}</th>
+        <th scope="col" style="width: 25%">{{ _('Datum') }}</th>
+        <th data-formatter="TableActions" class="col-md-1" style="width: 25%">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -20,8 +20,8 @@
           <td>{{ invoice.formatsum() }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
-            <button type="button" onclick="markinvoiceaspaid({{ invoice.id }});" class="btn btn-primary">{{ _('Als bezahlt markieren') }}</button>
-            <button type="button"onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'" class="btn btn-primary">{{ _('Ansehen') }}</button>
+            <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-file-invoice-dollar"></i></a>
+            <i class="fas fa-check-square" style="color:green;cursor:pointer;" title="{{ _('Als bezahlt markieren') }}" onclick="markinvoiceaspaid({{ invoice.id }});"></i>
           </td>
         </tr>
       {% endfor %}

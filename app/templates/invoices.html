@@ -4,20 +4,25 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">{{ _('Betrag') }}</th>
-        <th scope="col">{{ _('Bezahlt') }}</th>
-        <th scope="col">{{ _('Datum') }}</th>
+        <th scope="col" style="width: 7%">#</th>
+        <th scope="col" style="width: 15%">{{ _('Betrag') }}</th>
+        <th scope="col" style="width: 15%">{{ _('Bezahlt') }}</th>
+        <th scope="col" style="width: 33%">{{ _('Datum') }}</th>
+        <th data-formatter="TableActions" class="col-md-1" style="width: 30%">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
     {% if invoices.items|length > 0 %}
       {% for invoice in invoices.items %}
-        <tr onclick="window.location.href = '{{ url_for('main.show_invoice', id=invoice.id) }}'">
+        <tr>
           <th scope="row">{{ loop.index + ((invoices.page-1)*invoices.per_page) }}</th>
           <td>{{ invoice.formatsum() }}</td>
-          <td>{{ 'Ja' if invoice.paid else 'Nein' }}</td>
+          <td>{{ _('Ja') if invoice.paid else _('Nein') }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
+          <td>
+            <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-file-invoice-dollar"></i></a>
+            {% if not invoice.paid %}<a class="show" target="_new" href="{{ invoice.get_paypal_link() }}" title="{{ _('Bezahlen') }}"><i class="fab fa-paypal" style="color:red;"></i></a>{% endif %}
+          </td>
         </tr>
       {% endfor %}
     {% else %}
