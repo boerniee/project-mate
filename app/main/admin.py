@@ -60,8 +60,13 @@ def edituser(id):
 def managedrinks():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    drinks = Drink.query.order_by(Drink.active.desc()).paginate(page,per_page,error_out=False)
-    return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks)
+    q = Drink.query.order_by(Drink.active.desc())
+    s = request.args.get('search')
+    if s:
+        q = q.filter(Drink.description.like(f'%{s}%'))
+    print(type(q))
+    drinks = q.paginate(page,per_page,error_out=False)
+    return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks, searchterm=s)
 
 @bp.route('/manage/drink/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')

@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h1>{{ _('Getränkeverwaltung') }}</h1>
+  <div class="row">
+    <div class="col-8"><h1>{{ _('Getränkeverwaltung') }}</h1></div>
+    <div class="col-4">
+      <form class="form-inline my-2 my-lg-0" action="{{ url_for('main.managedrinks') }}">
+        <input class="form-control mr-sm-2" type="search" placeholder="{{ _('Suchen') }}" aria-label="search" name="search" value="{{ searchterm or '' }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Suchen') }}</button>
+      </form>
+    </div>
+  </div>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -16,12 +24,11 @@
     <tbody>
   {% for drink in drinks.items %}
 
-    <tr> <!-- onclick="window.location.href = ''"> -->
+    <tr>
       <th scope="row">{{ loop.index + ((drinks.page-1)*drinks.per_page) }}</th>
       <td>{{ drink.description }}</td>
       <td>{{ drink.getprice() }}</td>
       <td id="stock-{{ drink.id }}">{{ drink.stock if drink.stock_active else '-' }}</td>
-      <!-- <td><button type="button" class="btn btn-info">{{ _('Buchung tätigen' ) }}</button></td> -->
       <td>{{ _('Aktiv') if drink.active else _('Inaktiv') }}</td>
       <td>
         <a class="edit" href="{{ url_for('main.editdrink', id=drink.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit"></i></a>
