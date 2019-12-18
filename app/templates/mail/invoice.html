@@ -1,11 +1,11 @@
 <p>Hallool {{ invoice.user.username }},</p>
 <p>
-    <a href="{{ url_for('main.show_invoice', id=invoice.id) }}">
+    <a href="{{ url_for('main.show_invoice', _external=True, _scheme='https', id=invoice.id) }}">
         Klicke hier
     </a> um deine Rechnung anzuzeigen.
 </p>
 <p>Alternativ kannst du auch diesen Link in deinen Browser kopieren:</p>
-<p>{{ url_for('main.show_invoice', id=invoice.id) }}</p>
+<p>{{ url_for('main.show_invoice', _external=True, _scheme='https', id=invoice.id) }}</p>
 <p>Klicke <a href="{{ invoice.get_paypal_link() }}">hier</a> um deine Rechnung via PayPal zu bezahlen.</p>
 <p>SOOS,</p>
 <p>Dein ClubMateDude Team</p>

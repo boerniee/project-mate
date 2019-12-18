@@ -11,11 +11,11 @@
         <img src="{{ url_for('static', filename=drink.imageUrl) }}" class="card-img" alt="...">
       </div>
       <div class="col-md-8">
-        <div class="card-body">
+        <div class="card-body" style="padding: 1rem;">
           <h5 class="card-title">{{ drink.description }}</h5>
           <p class="card-text">
-            {% if drink.stock_active %}<i class="fas fa-boxes"></i> <span class="badge badge-secondary" id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
-            <i class="fas fa-money-bill-wave"></i> {{ drink.getprice() }}
+            <i class="fas fa-money-bill-wave"></i> {{ drink.getprice() }}<br>
+            {% if drink.stock_active %}<i class="fas fa-boxes"></i> <span id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
           </p>
         </div>
       </div>
