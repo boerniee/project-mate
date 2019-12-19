@@ -2,7 +2,7 @@ from flask import abort, Response
 from flask_login import current_user
 from app import login
 from functools import wraps
-from babel.numbers import format_currency
+from flask_babel import format_currency
 
 def getIntQueryParam(request, default):
     page = request.args.get('page')
