@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h1>{{ _('Benutzerverwaltung') }}</h1>
+  <div class="row">
+    <div class="col-8"><h1>{{ _('Benutzerverwaltung') }}</h1></div>
+    <div class="col-4">
+      <form class="form-inline my-2 my-lg-0 float-right" action="{{ url_for('main.manageusers') }}">
+        <input class="form-control mr-sm-2" type="search" placeholder="{{ _('Suchen') }}" aria-label="search" name="search" value="{{ searchterm or '' }}">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Suchen') }}</button>
+      </form>
+    </div>
+  </div>
 
   <table class="table table-hover">
     <thead>

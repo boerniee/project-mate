@@ -7,6 +7,7 @@ from app.utils import right_required, getIntQueryParam, format_curr
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
+from sqlalchemy import or_
 
 @bp.route('/manage/dashboard')
 @right_required(role='admin')
@@ -22,8 +23,12 @@ def admindashboard():
 def manageusers():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    users = User.query.paginate(page,per_page,error_out=False)
-    return render_template('admin/manageusers.html', title=_('Benutzerverwaltung'), users=users)
+    q = User.query.order_by(User.id.desc())
+    s = request.args.get('search')
+    if s:
+        q = q.filter(or_(User.username.like(f'%{s}%'), User.email.like(f'%{s}%')))
+    users = q.paginate(page,per_page,error_out=False)
+    return render_template('admin/manageusers.html', title=_('Benutzerverwaltung'), users=users, searchterm=s)
 
 @bp.route('/manage/user/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
@@ -64,7 +69,6 @@ def managedrinks():
     s = request.args.get('search')
     if s:
         q = q.filter(Drink.description.like(f'%{s}%'))
-    print(type(q))
     drinks = q.paginate(page,per_page,error_out=False)
     return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks, searchterm=s)
 
