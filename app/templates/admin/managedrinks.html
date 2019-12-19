@@ -31,8 +31,8 @@
       <td id="stock-{{ drink.id }}">{{ drink.stock if drink.stock_active else '-' }}</td>
       <td>{{ _('Aktiv') if drink.active else _('Inaktiv') }}</td>
       <td>
-        <a class="edit" href="{{ url_for('main.editdrink', id=drink.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit"></i></a>
-        <a class="book" href="javascript:showModal({{ drink.id }})" title="{{ _('Buchung tätigen') }}"><i class="fas fa-cart-plus"></i></a>
+        <a class="edit" href="{{ url_for('main.editdrink', id=drink.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit fa-lg table-action"></i></a>
+        <a class="book" href="javascript:showModal({{ drink.id }})" title="{{ _('Buchung tätigen') }}"><i class="fas fa-cart-plus fa-lg table-action"></i></a>
       </td>
     </tr>
   {% endfor %}

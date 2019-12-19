@@ -11,3 +11,9 @@
   color:white;
   transform:rotate(-20deg);
 }
+
+.table-action {
+  padding-left: 5px;
+  padding-right: 5px;
+  cursor: pointer;
+}

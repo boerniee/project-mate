@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+<div class="toast" data-delay="3500" style="position: absolute; top: 2rem; right: 2rem;">
+  <div class="toast-header">
+    <strong class="mr-auto">{{ _('Mate4Life') }}</strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+  </div>
+</div>
+
   <table class="table table-hover">
     <thead>
       <tr>
@@ -20,8 +31,9 @@
           <td>{{ invoice.formatsum() }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
-            <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-file-invoice-dollar"></i></a>
-            <i class="fas fa-check-square" style="color:green;cursor:pointer;" title="{{ _('Als bezahlt markieren') }}" onclick="markinvoiceaspaid({{ invoice.id }});"></i>
+            <a href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-lg fa-file-invoice-dollar table-action"></i></a>
+            <i class="fas fa-lg fa-check-square table-action" style="color:green;" title="{{ _('Als bezahlt markieren') }}" onclick="markinvoiceaspaid({{ invoice.id }});"></i>
+            <i id="sendmail-{{ invoice.id }}" onclick="sendMail({{ invoice.id }})" title="{{ _('Erinnerung senden') }}" class="fas fa-lg fa-envelope table-action"></i>
           </td>
         </tr>
       {% endfor %}
@@ -53,6 +65,26 @@
 {% block custom_script %}
   <script>
     $("#manageinvoices").addClass('active');
+
+    function sendMail(id) {
+      $('#sendmail-'+id).removeClass('fa-envelope');
+      $('#sendmail-'+id).addClass('fa-snowflake fa-spin')
+      $.ajax({
+        url: "{{ url_for('main.send_reminder', id=0) }}".replace('0', id),
+        method: 'POST'
+      })
+      .done(function() {
+        $('.toast-body').text('{{ _('Erinnerung erfolgreich verschickt') }}');
+        $('.toast').toast('show');
+      })
+      .fail(function() {
+        $('.toast-body').text('{{ _('Ein unbekanntes Müsli ist aufgetreten') }}');
+        $('.toast').toast('show');
+      }).always(function() {
+        $('#sendmail-'+id).removeClass('fa-snowflake fa-spin')
+        $('#sendmail-'+id).addClass('fa-envelope')
+      });
+    }
 
     function markinvoiceaspaid(id) {
       $.ajax("{{ url_for('main.markinvoiceaspaid', id=0) }}".replace('0', id) )

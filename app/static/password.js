@@ -15,5 +15,8 @@ function validatePassword(password) {
             ctr++;
         }
     }
+    if (password.length < 6) {
+      return 0;
+    }
     return ctr;
 }

@@ -6,6 +6,7 @@ from app.models import Drink, Consumption, Invoice
 import datetime
 from app.billing import run_billing
 from app.main import bp
+from app.email import send_invoice_reminder
 
 @bp.route('/manage/invoice/<int:id>/paid')
 @right_required(role='admin')
@@ -51,6 +52,13 @@ def consume(id):
     db.session.commit()
 
     return jsonify({'success': True, 'stock': drink.stock})
+
+@bp.route('/invoice/<int:id>/remind', methods=['POST'])
+def send_reminder(id):
+    inv = Invoice.query.get(id)
+    if inv:
+        send_invoice_reminder(inv)
+    return jsonify({'success': True})
 
 @bp.route('/manage/billing/start')
 @right_required(role='admin')

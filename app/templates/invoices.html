@@ -20,8 +20,8 @@
           <td>{{ _('Ja') if invoice.paid else _('Nein') }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
-            <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-file-invoice-dollar"></i></a>
-            {% if not invoice.paid %}<a class="show" target="_new" href="{{ invoice.get_paypal_link() }}" title="{{ _('Bezahlen') }}"><i class="fab fa-paypal" style="color:red;"></i></a>{% endif %}
+            <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-lg table-action fa-file-invoice-dollar"></i></a>
+            {% if not invoice.paid %}<a class="show" target="_new" href="{{ invoice.get_paypal_link() }}" title="{{ _('Bezahlen') }}"><i class="fab fa-lg fa-paypal table-action" style="color:red;"></i></a>{% endif %}
           </td>
         </tr>
       {% endfor %}

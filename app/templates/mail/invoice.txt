@@ -1,8 +1,10 @@
 Hallool {{ invoice.user.username }},
 
-Klicke auf den folgenden Link um dein Passwort zurückzusetzen:
+Klicke auf den folgenden Link um deine Rechnung anzuzeigen:
 
 {{ url_for('main.show_invoice', _external=True, _scheme='https', id=invoice.id) }}
+
+Oder hier um deine Rechnung direkt via PayPal zu bezahlen:
 
 {{ invoice.get_paypal_link() }}
 
