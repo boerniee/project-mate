@@ -2,8 +2,8 @@ from app import db, login, app
 from time import time
 import jwt
 from hashlib import md5
-from app.utils import format_curr
 from flask_login import UserMixin
+from flask_babel import format_currency
 from werkzeug.security import generate_password_hash, check_password_hash
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -85,7 +85,7 @@ class Drink(db.Model):
     highlight = db.Column(db.Boolean)
 
     def getprice(self):
-        return format_curr(self.price)
+        return format_currency(self.price, 'EUR', u'#,##0.00 ¤', locale=app.config['BABEL_DEFAULT_LOCALE'])
 
     def __repr__(self):
         return '<Drink {}>'.format(self.description)
@@ -111,7 +111,7 @@ class Consumption(db.Model):
 
     @property
     def getprice(self):
-        return format_curr(self.drink.price * self.amount)
+        return format_currency(self.drink.price * self.amount, 'EUR', u'#,##0.00 ¤', locale=app.config['BABEL_DEFAULT_LOCALE'])
 
     def __repr__(self):
         return '<Consumption {}>'.format(self.id)
@@ -133,7 +133,7 @@ class Invoice(db.Model):
         return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)
 
     def formatsum(self):
-        return format_curr(self.getsum())
+        return format_currency(self.getsum(), 'EUR', u'#,##0.00 ¤', locale=app.config['BABEL_DEFAULT_LOCALE'])
 
     def __repr__(self):
         return '<Invoice {}>'.format(self.id)
@@ -149,7 +149,7 @@ class Position(db.Model):
     invoice = db.relationship('Invoice')
 
     def getsum(self):
-        return format_curr(self.sum)
+        return format_currency(self.sum, 'EUR', u'#,##0.00 ¤', locale=app.config['BABEL_DEFAULT_LOCALE'])
 
     def __repr__(self):
         return '<Position {}>'.format(self.id)
