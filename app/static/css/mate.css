@@ -17,3 +17,13 @@
   padding-right: 5px;
   cursor: pointer;
 }
+
+ul.pagination {
+  border-radius: 0rem;
+  background-color: #fff;
+}
+
+nav {
+  margin-bottom: 20px;
+  background-color: #ededed;
+}

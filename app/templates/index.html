@@ -5,7 +5,7 @@
   <div class="card-deck">
 
   {% for drink in drinks %}
-  <div class="card mb-3" style="max-width: 350px;" onClick="consume(this, {{ drink.id }})">
+  <div class="card mb-3" style="max-width: 350px;" {% if drink.stock > 0 or drink.stock_active == False %} onClick="consume(this, {{ drink.id }})" {% endif %}>
     <div class="row no-gutters">
       <div class="col-md-4">
         <img src="{{ url_for('static', filename=drink.imageUrl or 'default.png') }}" class="card-img" alt="...">
@@ -20,7 +20,8 @@
         </div>
       </div>
     </div>
-    {% if drink.highlight %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
+    {% if drink.highlight and drink.stock > 0 %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
+    {% if drink.stock < 1 and drink.stock_active == True %}<div class="card-badge">{{ _('Ausverkauft!') }}</div>{% endif %}
   </div>
 {% endfor %}
 </div>
@@ -49,7 +50,6 @@
   </script>
   <script>
     function consume(sender, id) {
-      console.log(sender);
       $.post("{{ url_for('main.consume', id='id') }}".replace('id', id) )
       .done(function(data) {
         var modal = $('#myModal');
@@ -57,6 +57,9 @@
         modal.find('.modal-header h4').html('🍻🎉');
         modal.modal('toggle');
         $('#stock-'+id).text(data['stock']);
+        if(data['stock'] === 0 && data['active']) {
+          location.reload();
+        }
       })
       .fail(function() {
         var modal = $('#myModal');
@@ -64,7 +67,13 @@
         modal.find('.modal-header h4').html('😩😩');
         modal.modal('toggle');
       });
-
     }
+    $( ".card" ).hover(
+      function() {
+        $(this).addClass('shadow').css('cursor', 'pointer');
+      }, function() {
+        $(this).removeClass('shadow');
+      }
+    );
   </script>
 {% endblock %}

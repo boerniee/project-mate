@@ -19,7 +19,6 @@ def markinvoiceaspaid(id):
 @bp.route('/api/stock', methods=['POST'])
 @right_required(role='admin')
 def add_stock():
-    print(request.data)
     request.json
     id = request.json['drink_id']
     drink = Drink.query.with_for_update().get(id)
@@ -41,6 +40,9 @@ def consume(id):
     if not drink:
         abort(Response("Not a valid drinkid", 400))
 
+    if not drink.active:
+        abort("Drink inactive", 400)
+
     if drink.stock_active and drink.stock <= 0:
         abort("Out of stock", 400)
     elif drink.stock_active and drink.stock > 0:
@@ -51,7 +53,7 @@ def consume(id):
     db.session.add(c)
     db.session.commit()
 
-    return jsonify({'success': True, 'stock': drink.stock})
+    return jsonify({'success': True, 'active': drink.stock_active, 'stock': drink.stock})
 
 @bp.route('/invoice/<int:id>/remind', methods=['POST'])
 def send_reminder(id):

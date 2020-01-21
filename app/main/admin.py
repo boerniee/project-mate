@@ -8,6 +8,7 @@ from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
 from sqlalchemy import or_
+from werkzeug import secure_filename
 
 @bp.route('/manage/dashboard')
 @right_required(role='admin')
@@ -96,7 +97,7 @@ def editdrink(id):
     form.active.data = drink.active
     form.stock.data = drink.stock_active
     form.highlight.data = drink.highlight
-    return render_template('admin/editdrink.html', title=_('Barbeiten '), form=form)
+    return render_template('admin/editdrink.html', title=_('Barbeiten '), drink=drink, form=form)
 
 @bp.route('/manage/invoice')
 @right_required(role='admin')

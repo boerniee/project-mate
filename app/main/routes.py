@@ -21,7 +21,8 @@ def get_version():
 @bp.route('/index')
 @login_required
 def index():
-    drinks = Drink.query.filter(and_(Drink.active==True, or_(and_(Drink.stock > 0, Drink.stock_active == True), Drink.stock_active == False))).order_by(desc(Drink.highlight)).all()
+    #, or_(and_(Drink.stock > 0, Drink.stock_active == True), Drink.stock_active == False))
+    drinks = Drink.query.filter(and_(Drink.active==True)).order_by(desc(Drink.highlight)).all()
     return render_template('index.html', title=_('Start'), drinks=drinks)
 
 @bp.route('/overview',methods=['GET'])
