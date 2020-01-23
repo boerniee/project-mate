@@ -11,7 +11,7 @@ def validate_lang(form, field):
         raise ValidationError(_l('Sprache ist nicht unterstützt'))
 
 def validate_username(self, username):
-    if current_user is not None and current_user.username == username.data:
+    if (current_user is not None and not current_user.is_anonymous) and current_user.username == username.data:
         return
     user = User.query.filter_by(username=username.data).first()
     if user is not None:
