@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mate.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block links %}{% endblock %}
     <title>{% block title %}{% if title %}{{ title }} - Projekt Mate{% else %}Welcome to Projekt Mate{% endif %}{% endblock %}</title>
   </head>
