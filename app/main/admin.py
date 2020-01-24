@@ -87,7 +87,8 @@ def editdrink(id):
         drink.description = form.description.data
         drink.price = form.price.data
         drink.active = form.active.data
-        drink.stock = 0
+        if not drink.stock:
+            stock = 0
         drink.stock_active = form.stock.data
         drink.highlight = form.highlight.data
         if form.file.data:

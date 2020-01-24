@@ -16,7 +16,7 @@ services:
       - redis:redis
       - mysql:db
     image: clubmate:latest
-    entrypoint: celery worker -A app.celery --loglevel=info
+    entrypoint: celery worker -A app.celery -B --loglevel=info
     env_file:
       - mate-variables.env
   redis:
