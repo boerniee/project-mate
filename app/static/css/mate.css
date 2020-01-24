@@ -27,3 +27,19 @@ nav {
   margin-bottom: 20px;
   background-color: #ededed;
 }
+
+.imagecontainer {
+  position:relative;
+  width:15rem;
+}
+
+.image-delete {
+  position:absolute;
+  right:15px;
+  top:15px;
+}
+
+.image {
+  max-width:15rem;
+  width: 100%;
+}

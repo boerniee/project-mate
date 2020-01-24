@@ -8,6 +8,12 @@ from flask_mail import Mail
 from flask_babel import Babel, lazy_gettext as _l
 from babel.core import negotiate_locale
 
+def patch_requests_class(app):
+    reqclass = app.request_class
+    patched = type(reqclass.__name__, (reqclass,),
+                   {'max_content_length': 1 * 1024 * 1024})
+    app.request_class = patched
+
 def make_celery(app):
     celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'],
                     broker=app.config['CELERY_BROKER_URL'])
@@ -22,6 +28,7 @@ def make_celery(app):
     return celery
 
 app = Flask(__name__)
+patch_requests_class(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

@@ -10,6 +10,7 @@ from flask_babel import _
 from sqlalchemy import or_
 from werkzeug import secure_filename
 import os
+import uuid
 
 @bp.route('/manage/dashboard')
 @right_required(role='admin')
@@ -86,11 +87,13 @@ def editdrink(id):
         drink.description = form.description.data
         drink.price = form.price.data
         drink.active = form.active.data
+        drink.stock = 0
         drink.stock_active = form.stock.data
         drink.highlight = form.highlight.data
-        filename = secure_filename(form.file.data.filename)
-        form.file.data.save(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename))
-        drink.imageUrl = filename
+        if form.file.data:
+            filename = str(uuid.uuid4())
+            form.file.data.save(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename))
+            drink.imageUrl = filename
         if id == 0:
             db.session.add(drink)
         db.session.commit()
