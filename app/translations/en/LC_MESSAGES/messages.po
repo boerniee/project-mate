@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-24 13:45+0100\n"
+"POT-Creation-Date: 2020-01-24 20:17+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -89,7 +89,7 @@ msgstr "Send Email"
 msgid "Passwort wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:48 app/auth/routes.py:40 app/auth/routes.py:56
+#: app/auth/forms.py:48 app/auth/routes.py:41 app/auth/routes.py:57
 #: app/templates/auth/reset_password_request.html:4
 msgid "Passwort zurücksetzen"
 msgstr "Reset password"
@@ -98,7 +98,7 @@ msgstr "Reset password"
 msgid "Passwort Wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:56 app/auth/routes.py:88
+#: app/auth/forms.py:56 app/auth/routes.py:89
 #: app/templates/auth/register.html:8
 msgid "Registrieren"
 msgstr "Register"
@@ -107,35 +107,35 @@ msgstr "Register"
 msgid "Gespeichert"
 msgstr "Saved"
 
-#: app/auth/routes.py:26 app/templates/auth/edit_self.html:6
+#: app/auth/routes.py:27 app/templates/auth/edit_self.html:6
 msgid "Profil bearbeiten"
 msgstr "Edit profile"
 
-#: app/auth/routes.py:37
+#: app/auth/routes.py:38
 msgid "Bitte kontrolliere deine Emails für weitere anweisungen"
 msgstr "Please check your Email for further instructions"
 
-#: app/auth/routes.py:48
+#: app/auth/routes.py:49
 msgid "Token ungültig"
 msgstr "Token invalid"
 
-#: app/auth/routes.py:54
+#: app/auth/routes.py:55
 msgid "Dein Passwort wurde zurückgesetzt."
 msgstr "Your password has been resetted"
 
-#: app/auth/routes.py:66
+#: app/auth/routes.py:67
 msgid "Falscher benutzername oder passwort"
 msgstr "Wrong username or password"
 
-#: app/auth/routes.py:73 app/templates/auth/login.html:4
+#: app/auth/routes.py:74 app/templates/auth/login.html:4
 msgid "Einloggen"
 msgstr "Login"
 
-#: app/auth/routes.py:85
+#: app/auth/routes.py:86
 msgid "Erfolgreich registriert, warte bitte auf die Freischaltung!"
 msgstr "Successfully registered, please wait for your activation"
 
-#: app/auth/routes.py:98
+#: app/auth/routes.py:99
 msgid "Passwort gespeichert"
 msgstr "Password saved"
 
@@ -463,9 +463,10 @@ msgid "Ändere dein Passwort"
 msgstr "Change your password"
 
 #: app/templates/error/400.html:5 app/templates/error/403.html:5
-#: app/templates/error/404.html:5
-msgid "Startseite"
-msgstr "Main page"
+#: app/templates/error/404.html:5 app/templates/error/413.html:5
+#: app/templates/error/500.html:6
+msgid "Zurück"
+msgstr "Back"
 
 #: app/templates/error/403.html:4
 msgid "Halt Stop!"
@@ -475,6 +476,10 @@ msgstr "Up to here and no further!"
 msgid "Hier habe ich leider nichts gefunden!"
 msgstr "Not found!"
 
+#: app/templates/error/413.html:4
+msgid "Datei zu groß"
+msgstr "File too big"
+
 #: app/templates/error/500.html:4
 msgid "An unexpected error has occurred"
 msgstr ""
@@ -482,10 +487,6 @@ msgstr ""
 #: app/templates/error/500.html:5
 msgid "Please try again later"
 msgstr ""
-
-#: app/templates/error/500.html:6
-msgid "Zurück"
-msgstr "Back"
 
 #~ msgid "Abrechnung"
 #~ msgstr "Billing"
@@ -505,3 +506,5 @@ msgstr "Back"
 #~ msgid "[MATE] Du hast eine neue Rechnung"
 #~ msgstr "[MATE] You have a new Invoice"
 
+#~ msgid "Startseite"
+#~ msgstr "Main page"
