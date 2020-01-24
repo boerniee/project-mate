@@ -3,5 +3,9 @@ deploy
 app.db
 __pycache__/
 mate/
+**/.DS_Store
+*.DS_Store
 .DS_Store
 *.mo
+app/static/images/
+celerybeat-schedule.db
