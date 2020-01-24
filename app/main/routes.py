@@ -2,7 +2,7 @@ from flask import render_template, jsonify, request, abort, Response, url_for
 from flask_login import current_user, login_required
 from app import db, app
 from app.models import Drink, Consumption, Invoice, User
-import datetime
+from datetime import datetime
 from babel.numbers import format_currency
 from sqlalchemy import and_, desc, or_
 from sqlalchemy.sql import text
@@ -12,16 +12,15 @@ from app.utils import format_curr
 from app.main import bp
 from flask_babel import _
 
-@bp.route('/version')
+@bp.route('/about')
 @login_required
-def get_version():
-    return render_template('version.html')
+def about():
+    return render_template('about.html', title=_('Über'), now=datetime.utcnow(), information=app.config['INFORMATION'])
 
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
-    #, or_(and_(Drink.stock > 0, Drink.stock_active == True), Drink.stock_active == False))
     drinks = Drink.query.filter(and_(Drink.active==True)).order_by(desc(Drink.highlight)).all()
     return render_template('index.html', title=_('Start'), drinks=drinks)
 

@@ -7,7 +7,7 @@ from werkzeug.urls import url_parse
 from app.models import User
 from app.email import send_welcome_mail, send_activated_mail
 from app.auth.email import send_password_reset_email
-from flask_babel import _, get_locale
+from flask_babel import _, get_locale, refresh, lazy_gettext as _l
 
 @bp.route('/profile/edit', methods=['GET', 'POST'])
 @login_required
@@ -19,10 +19,11 @@ def editself():
         if user.username != form.username.data:
             user.username = form.username.data
         db.session.commit()
-        flash(_('Gespeichert'))
+        flash(_l('Gespeichert'))
     form.username.data = current_user.username
     form.email.data = current_user.email
     form.lang.data = current_user.lang or app.config['BABEL_DEFAULT_LOCALE']
+    refresh()
     return render_template('auth/edit_self.html', title=_('Profil bearbeiten'), form=form, avatar=current_user.avatar(175))
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])

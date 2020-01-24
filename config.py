@@ -23,3 +23,8 @@ class Config(object):
     PAYPAL = os.environ.get('PAYPAL') or 'sooos'
     TEMPLATES_AUTO_RELOAD = True
     SERVER_NAME = os.environ.get('SERVER_NAME') or 'localhost:5000'
+    INFORMATION = {
+        "version": "1.0.0",
+        "name": "Projekt Mate",
+        "description": "Sell Mate to your colleagues. Fast! WOW!"
+    }
