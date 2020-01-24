@@ -3,7 +3,7 @@
 {% block app_content %}
   <div class="row">
     <div class="col-4 align-middle" style="display:inline;"><h1>{{ _('Getränkeverwaltung') }}</h1></div>
-    <div class="col-1"><a href="#"><button class="btn disabled btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></div>
+    <div class="col-1"><a href="{{ url_for('main.editdrink', id=0) }}"><button class="btn <!--disabled --> btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></div>
     <div class="col-7">
       <form class="form-inline my-2 my-lg-0 float-right" action="{{ url_for('main.managedrinks') }}">
         <input class="form-control mr-sm-2" type="search" placeholder="{{ _('Suchen') }}" aria-label="search" name="search" value="{{ searchterm or '' }}">

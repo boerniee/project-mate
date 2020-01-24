@@ -8,7 +8,7 @@
   <div class="card mb-3" style="max-width: 350px;" {% if drink.stock > 0 or drink.stock_active == False %} onClick="consume(this, {{ drink.id }})" {% endif %}>
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename=drink.imageUrl or 'default.png') }}" class="card-img" alt="...">
+        <img src="{{ url_for('static', filename='images/' + drink.imageUrl or 'default.png') }}" class="card-img" alt="...">
       </div>
       <div class="col-md-8">
         <div class="card-body" style="padding: 1rem;">

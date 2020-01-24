@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>{{ _('Bearbeiten') }}</h1>
+    <h1><a href="{{ url_for('main.managedrinks') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
     <form method="post" enctype="multipart/form-data" novalidate>
         {{ form.hidden_tag() }}
         <p>
@@ -18,7 +18,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p><img style="max-width:15rem;" src="{{ url_for('static', filename=drink.imageUrl or '') }}"></p>
+        {% if drink.imageUrl %}<p><img style="max-width:15rem;" src="{{ url_for('static', filename='images/' + drink.imageUrl or '') }}"></p>{% endif %}
         <p>{{ form.file }}</p>
         <p>{{ form.active() }} {{ form.active.label }}</p>
         <p>{{ form.stock() }} {{ form.stock.label }} <i id="help_stock" data-trigger="hover" title="Hilfe" data-content="{{ _('Wenn der Bestand inaktiv ist werden nur Buchungen von Getränken berücksichtigt') }}" class="fa fa-question-circle"></i></p>
