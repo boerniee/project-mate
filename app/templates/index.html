@@ -8,7 +8,7 @@
   <div class="card mb-3" style="max-width: 350px;" {% if drink.stock > 0 or drink.stock_active == False %} onClick="consume(this, {{ drink.id }})" {% endif %}>
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img src="{{ url_for('static', filename=drink.imageUrl or 'default.png') }}" class="card-img" alt="...">
+        {% if not drink.imageUrl%}<i class="fas fa-wine-bottle fa-7x" style="display:inline-block;"></i>{% else %}<img src="{{ url_for('static', filename='images/' + (drink.imageUrl or 'default.png')) }}" class="card-img" alt="...">{% endif %}
       </div>
       <div class="col-md-8">
         <div class="card-body" style="padding: 1rem;">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    {% if drink.highlight and drink.stock > 0 %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
+    {% if drink.highlight and not (drink.stock < 1 and drink.stock_active == True) %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
     {% if drink.stock < 1 and drink.stock_active == True %}<div class="card-badge">{{ _('Ausverkauft!') }}</div>{% endif %}
   </div>
 {% endfor %}

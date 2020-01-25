@@ -3,7 +3,7 @@ from app.main.forms import DrinkForm, UserForm
 from flask import render_template, redirect, url_for, flash, jsonify, request
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Drink, Invoice, Role, Consumption
-from app.utils import right_required, getIntQueryParam, format_curr
+from app.utils import right_required, getIntQueryParam, format_curr, save_image
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
@@ -79,6 +79,7 @@ def editdrink(id):
     form = DrinkForm()
     if id == 0:
         drink = Drink()
+        drink.stock = 0
     else:
         drink = Drink.query.get(id)
     if form.validate_on_submit():
@@ -87,6 +88,8 @@ def editdrink(id):
         drink.active = form.active.data
         drink.stock_active = form.stock.data
         drink.highlight = form.highlight.data
+        if form.file.data:
+            save_image(drink, form.file, app)
         if id == 0:
             db.session.add(drink)
         db.session.commit()

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SubmitField, FloatField
-from flask_wtf.file import FileField
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email
 from flask_babel import lazy_gettext as _l
 
@@ -11,7 +11,9 @@ class DrinkForm(FlaskForm):
     highlight = BooleanField(_l('Hervorheben'))
     stock = BooleanField(_l('Bestand führen'))
     submit = SubmitField(_l('Speichern'))
-    file = FileField()
+    file = FileField('image', validators=[
+        FileAllowed(['jpg', 'png'], _l('Nur Dateiendungen jpg order png erlaubt!'))
+    ])
 
 class UserForm(FlaskForm):
     username = StringField(_l('Benutzername'), render_kw={'readonly': True})

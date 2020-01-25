@@ -15,6 +15,7 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['saas@mate.brnhaed.de']
+    IMAGE_UPLOAD_FOLDER = os.environ.get('IMAGE_UPLOAD_FOLDER') or '/src/clubmate/app/static/images/'
     LANGUAGES = {
         'de': 'German',
         'en': 'English'
@@ -24,7 +25,7 @@ class Config(object):
     TEMPLATES_AUTO_RELOAD = True
     SERVER_NAME = os.environ.get('SERVER_NAME') or 'localhost:5000'
     INFORMATION = {
-        "version": "1.0.0",
+        "version": "1.1.0",
         "name": "Projekt Mate",
         "description": "Sell Mate to your colleagues. Fast! WOW!"
     }

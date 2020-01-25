@@ -7,6 +7,7 @@ import datetime
 from app.billing import run_billing
 from app.main import bp
 from app.email import send_invoice_reminder
+import os
 
 @bp.route('/manage/invoice/<int:id>/paid')
 @right_required(role='admin')
@@ -60,6 +61,19 @@ def send_reminder(id):
     inv = Invoice.query.get(id)
     if inv:
         send_invoice_reminder(inv)
+    return jsonify({'success': True})
+@bp.route('/manage/drink/<int:id>/image', methods=['DELETE'])
+def delete_product_image(id):
+    drink = Drink.query.get(id)
+    if not drink:
+        abort(Response("Not a valid drinkid", 400))
+    filename = drink.imageUrl
+    try:
+        os.remove(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename))
+    except FileNotFoundError:
+        pass
+    drink.imageUrl = None
+    db.session.commit()
     return jsonify({'success': True})
 
 @bp.route('/manage/billing/start')

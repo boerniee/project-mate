@@ -41,4 +41,4 @@ For some jobs, like the billing, you need a celery worker with a redis.
 Export the same variables as exported above for the main application.
 
 Start the celery worker after you activated the virtual environment.
-Start worker: `celery worker -A app.celery --loglevel=info`
+Start worker: `celery worker -A app.celery -B --loglevel=info`

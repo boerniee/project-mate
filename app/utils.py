@@ -3,6 +3,8 @@ from flask_login import current_user
 from app import login
 from functools import wraps
 from flask_babel import format_currency
+import os
+import uuid
 
 def getIntQueryParam(request, default):
     page = request.args.get('page')
@@ -13,6 +15,16 @@ def getIntQueryParam(request, default):
             return int(page)
         except TypeError:
             return default
+
+def save_image(drink, file, app):
+    if drink.imageUrl:
+        try:
+            os.remove(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], drink.imageUrl))
+        except FileNotFoundError:
+            pass
+    filename = str(uuid.uuid4())
+    file.data.save(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename))
+    drink.imageUrl = filename
 
 def format_curr(amount):
     if not amount:
