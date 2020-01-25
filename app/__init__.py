@@ -55,7 +55,7 @@ app.register_blueprint(main_bp)
 
 app.jinja_env.auto_reload = True
 
-from app import models, billing, jobs
+from app import models, billing
 
 @babel.localeselector
 def get_locale():

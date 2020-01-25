@@ -37,7 +37,7 @@
     $('#help_stock').popover();
     function deleteImage() {
       $.ajax({
-          url: '{{ url_for('main.delete_product_image', id=drink.id) }}',
+          url: '{{ url_for('main.delete_product_image', id=drink.id or 0) }}',
           type: 'DELETE',
           success: function(result) {
             location.reload();
