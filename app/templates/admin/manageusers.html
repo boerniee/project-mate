@@ -5,7 +5,7 @@
     <div class="col-8"><h1>{{ _('Benutzerverwaltung') }}</h1></div>
     <div class="col-4">
       <form class="form-inline my-2 my-lg-0 float-right" action="{{ url_for('main.manageusers') }}">
-        <input class="form-control mr-sm-2" type="search" placeholder="{{ _('Suchen') }}" aria-label="search" name="search" value="{{ searchterm or '' }}">
+        <input class="form-control mr-sm-2" type="search" placeholder="{{ _('Suchen') }}" aria-label="search" name="search" value="{{ request.args.get('search') or '' }}">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ _('Suchen') }}</button>
       </form>
     </div>
@@ -18,15 +18,19 @@
         <th scope="col">{{ _('Benutzername') }}</th>
         <th scope="col">{{ _('Aktiv') }}</th>
         <th scope="col">{{ _('EMail') }}</th>
+        <th scope="col" data-formatter="TableActions">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
     {% for user in users.items %}
-      <tr onclick="window.location.href = '{{ url_for('main.edituser', id=user.id) }}'">
+      <tr>
         <th scope="row">{{ loop.index + ((users.page-1)*users.per_page) }}</th>
         <td>{{ user.username }}</td>
         <td>{{ _('Ja') if user.is_active else _('Nein') }}</td>
         <td>{{ user.email }}</td>
+        <td>
+          <a class="edit" href="{{ url_for('main.edituser', id=user.id, q=request.args.get('search'), p=request.args.get('page')) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit fa-lg table-action"></i></a>
+        </td>
       </tr>
     {% endfor %}
     </tbody>
@@ -37,7 +41,7 @@
       {%- for page in users.iter_pages() %}
           {% if page %}
             {% if page != users.page %}
-              <li class="page-item"><a class="page-link" href="{{ url_for('main.manageusers', page=page) }}">{{ page }}</a></li>
+              <li class="page-item"><a class="page-link" href="{{ url_for('main.manageusers', page=page, search=request.args.get('search')) }}">{{ page }}</a></li>
             {% else %}
             <li class="page-item active">
               <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>

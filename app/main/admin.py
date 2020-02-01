@@ -24,12 +24,12 @@ def admindashboard():
 def manageusers():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    q = User.query.order_by(User.id.desc())
+    q = User.query.order_by(User.active.desc(), User.id.desc())
     s = request.args.get('search')
     if s:
         q = q.filter(or_(User.username.like(f'%{s}%'), User.email.like(f'%{s}%')))
     users = q.paginate(page,per_page,error_out=False)
-    return render_template('admin/manageusers.html', title=_('Benutzerverwaltung'), users=users, searchterm=s)
+    return render_template('admin/manageusers.html', title=_('Benutzerverwaltung'), users=users)
 
 @bp.route('/manage/user/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
