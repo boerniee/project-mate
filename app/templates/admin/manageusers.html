@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+  <div class="toast mate-toast" data-delay="3500">
+    <div class="toast-header">
+      <strong class="mr-auto">{{ _('Mate4Life') }}</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body">
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-8"><h1>{{ _('Benutzerverwaltung') }}</h1></div>
     <div class="col-4">
@@ -30,6 +41,7 @@
         <td>{{ user.email }}</td>
         <td>
           <a class="edit" href="{{ url_for('main.edituser', id=user.id, q=request.args.get('search'), p=request.args.get('page')) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit fa-lg table-action"></i></a>
+          <a class="" title="{{ _('Nachbuchen') }}" data-toggle="modal" data-target="#myModal" data-userid="{{ user.id }}" data-username="{{ user.username }}"><i class="fas fa-plus fa-lg table-action"></i></a>
         </td>
       </tr>
     {% endfor %}
@@ -53,10 +65,95 @@
         {%- endfor %}
       </ul>
     </nav>
+
+    <div class="modal fade" id="myModal">
+      <input type="hidden" id="userid"></input>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ _('Nachbuchen') }}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row justify-content-center">
+                {{ _('Benutzer') }}<span id="userField"></span>
+              </div>
+              <div class="row" style="padding-top: 1rem;">
+                <div class="col-md-8">
+                  <select style="width: 100%;" id="products" class="form-control form-control-sm">
+                    <option>{{ _('Lädt...') }}</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <select id="amount" style="width: 100%;" class="form-control form-control-sm">
+                    {% for i in range(1, 11) %}<option value={{ i }}>{{ i }}</option>{% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div style="padding-top: 1rem;" class="row justify-content-center">
+                <div class="col-auto form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="credit">
+                  <label class="form-check-label" for="credit">
+                    {{ _('Gutschrift') }}
+                  </label>
+                </div>
+                <div class="col-auto form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="withStock">
+                  <label class="form-check-label" for="withStock">
+                    {{ _('Bestand berücksichtigen') }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="book">{{ _('Buchen') }}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Abbrechen') }}</button>
+          </div>
+        </div>
+      </div>
+      </div>
 {% endblock %}
 
 {% block custom_script %}
   <script>
     $("#manageusers").addClass('active');
+
+    $('#myModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var username = button.data('username');
+      var userid = button.data('userid');
+      var modal = $(this);
+      modal.find('#userField').text(': ' + username);
+      modal.find('#userid').val(userid);
+
+      $.ajax({
+        url: "{{ url_for('main.products') }}",
+        dataType: "json"
+      }).done(
+        function(data) {
+          var sel = $("#products");
+          sel.empty();
+          for (var i=0; i<data.length; i++) {
+            sel.append('<option value="' + data[i].id + '">' + data[i].description + " (" + data[i].price + ")" + '</option>');
+          }
+        }
+      );
+    });
+
+    $("#book").on("click", function(e){
+      $('#myModal').modal('toggle');
+      $.post({
+        url: "{{ url_for('main.book') }}",
+        data: JSON.stringify({ "amount": $('#amount').val() , "user": $('#userid').val() , "credit": $('#credit').prop('checked') , "product": $('#products').val() , "stock": $('#withStock').prop('checked') }),
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        success: function(d) {
+          $('.toast-body').text('{{ _('Erfolgreich gebucht') }}');
+          $('.toast').toast('show');
+        }
+      })
+    });
   </script>
 {% endblock %}

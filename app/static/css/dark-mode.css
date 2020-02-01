@@ -78,3 +78,11 @@
   color: #ccc;
   border: 1px solid #333;
 }
+
+[data-theme="dark"] .toast-header {
+  background-color: #1b1b1b;
+}
+
+[data-theme="dark"] .toast-body {
+  background-color: #2b2b2b;
+}

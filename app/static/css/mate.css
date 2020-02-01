@@ -43,3 +43,10 @@ nav {
   max-width:15rem;
   width: 100%;
 }
+
+.mate-toast {
+  z-index: 1000;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-01 20:47+0100\n"
+"POT-Creation-Date: 2020-02-02 00:30+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -52,7 +52,7 @@ msgstr "Please use another Email address"
 
 #: app/auth/forms.py:29 app/auth/forms.py:35 app/auth/forms.py:51
 #: app/main/forms.py:19 app/templates/admin/dashboard.html:10
-#: app/templates/admin/manageusers.html:18
+#: app/templates/admin/manageusers.html:29
 msgid "Benutzername"
 msgstr "Username"
 
@@ -144,7 +144,7 @@ msgstr "Password saved"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: app/main/admin.py:32 app/templates/admin/manageusers.html:5
+#: app/main/admin.py:32 app/templates/admin/manageusers.html:16
 msgid "Benutzerverwaltung"
 msgstr "User management"
 
@@ -176,7 +176,7 @@ msgstr "Price"
 
 #: app/main/forms.py:10 app/main/forms.py:21
 #: app/templates/admin/manageproducts.html:33
-#: app/templates/admin/manageusers.html:19
+#: app/templates/admin/manageusers.html:30
 msgid "Aktiv"
 msgstr "Active"
 
@@ -228,7 +228,8 @@ msgstr "Version"
 msgid "Verwaltung"
 msgstr "Manage"
 
-#: app/templates/admin/manageinvoices.html:19 app/templates/base.html:40
+#: app/templates/admin/manageinvoices.html:19
+#: app/templates/admin/manageusers.html:80 app/templates/base.html:40
 msgid "Benutzer"
 msgstr "User"
 
@@ -311,15 +312,16 @@ msgid "Datum"
 msgstr "Date"
 
 #: app/templates/admin/manageinvoices.html:22
-#: app/templates/admin/manageproducts.html:22 app/templates/invoices.html:11
+#: app/templates/admin/manageproducts.html:22
+#: app/templates/admin/manageusers.html:32 app/templates/invoices.html:11
 msgid "Aktionen"
 msgstr "Actions"
 
-#: app/templates/admin/manageusers.html:28 app/templates/invoices.html:20
+#: app/templates/admin/manageusers.html:40 app/templates/invoices.html:20
 msgid "Ja"
 msgstr "Yes"
 
-#: app/templates/admin/manageusers.html:28 app/templates/invoices.html:20
+#: app/templates/admin/manageusers.html:40 app/templates/invoices.html:20
 msgid "Nein"
 msgstr "No"
 
@@ -365,6 +367,7 @@ msgstr "Error"
 
 #: app/templates/admin/editproduct.html:4 app/templates/admin/edituser.html:4
 #: app/templates/admin/manageproducts.html:35
+#: app/templates/admin/manageusers.html:43
 msgid "Bearbeiten"
 msgstr "Edit"
 
@@ -375,6 +378,7 @@ msgid ""
 msgstr ""
 
 #: app/templates/admin/manageinvoices.html:6
+#: app/templates/admin/manageusers.html:6
 msgid "Mate4Life"
 msgstr "Mate4Life"
 
@@ -401,8 +405,8 @@ msgstr "A unknown cereal has happened"
 
 #: app/templates/admin/manageproducts.html:9
 #: app/templates/admin/manageproducts.html:10
-#: app/templates/admin/manageusers.html:8
-#: app/templates/admin/manageusers.html:9
+#: app/templates/admin/manageusers.html:19
+#: app/templates/admin/manageusers.html:20
 msgid "Suchen"
 msgstr "Search"
 
@@ -423,16 +427,39 @@ msgid "Buchung tätigen"
 msgstr "Make a booking"
 
 #: app/templates/admin/manageproducts.html:61
+#: app/templates/admin/manageusers.html:111
 msgid "Buchen"
 msgstr "Book"
 
 #: app/templates/admin/manageproducts.html:62
+#: app/templates/admin/manageusers.html:112
 msgid "Abbrechen"
 msgstr "Cancel"
 
-#: app/templates/admin/manageusers.html:20
+#: app/templates/admin/manageusers.html:31
 msgid "EMail"
 msgstr "EMail"
+
+#: app/templates/admin/manageusers.html:44
+#: app/templates/admin/manageusers.html:74
+msgid "Nachbuchen"
+msgstr "Book"
+
+#: app/templates/admin/manageusers.html:85
+msgid "Lädt..."
+msgstr "Loading..."
+
+#: app/templates/admin/manageusers.html:98
+msgid "Gutschrift"
+msgstr "Credit"
+
+#: app/templates/admin/manageusers.html:104
+msgid "Bestand berücksichtigen"
+msgstr "Book stock"
+
+#: app/templates/admin/manageusers.html:153
+msgid "Erfolgreich gebucht"
+msgstr "Successfully booked"
 
 #: app/templates/auth/login.html:19
 msgid "Passwort vergessen?"
@@ -534,4 +561,3 @@ msgstr ""
 #~ "Wenn der Bestand inaktiv ist werden "
 #~ "nur Buchungen von Getränken berücksichtigt"
 #~ msgstr ""
-

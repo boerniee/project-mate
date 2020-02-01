@@ -85,6 +85,14 @@ class Product(db.Model):
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'description': self.description,
+            'active': self.active,
+            'price': self.getprice()
+        }
+
     def getprice(self):
         return format_curr(self.price)
 

@@ -2,12 +2,13 @@ from flask import jsonify, abort, Response, request
 from flask_login import current_user, login_required
 from app import app, db
 from app.utils import right_required
-from app.models import Product, Consumption, Invoice
+from app.models import Product, Consumption, Invoice, User
 import datetime
 from app.billing import run_billing
 from app.main import bp
 from app.email import send_invoice_reminder
 import os
+import json
 
 @bp.route('/manage/invoice/<int:id>/paid')
 @right_required(role='admin')
@@ -62,6 +63,7 @@ def send_reminder(id):
     if inv:
         send_invoice_reminder(inv)
     return jsonify({'success': True})
+
 @bp.route('/manage/product/<int:id>/image', methods=['DELETE'])
 def delete_product_image(id):
     product = Product.query.get(id)
@@ -73,6 +75,39 @@ def delete_product_image(id):
     except FileNotFoundError:
         pass
     product.imageUrl = None
+    db.session.commit()
+    return jsonify({'success': True})
+
+@bp.route('/manage/products')
+@right_required(role='admin')
+def products():
+    products = Product.query.all()
+    return json.dumps([x.serialize() for x in products], ensure_ascii=False)
+
+@bp.route('/manage/book', methods=['POST'])
+@right_required(role='admin')
+def book():
+    req = request.get_json()
+
+    print(req)
+
+    if req['stock']:
+        p = Product.query.with_for_update().get(req['product'])
+    else:
+        p = Product.query.get(req['product'])
+    if not p:
+        abort(Response("Not a valid productid", 400))
+
+    u = User.query.get(req['user'])
+    if not u:
+        abort(Response("Not a valid user", 400))
+
+    amount = -int(req['amount']) if req['credit'] else int(req['amount'])
+    c = Consumption(amount=amount, user_id=u.id, price=p.price, product_id=p.id, billed=False, time=datetime.datetime.utcnow())
+    if req['stock']:
+        p.stock -= amount
+
+    db.session.add(c)
     db.session.commit()
     return jsonify({'success': True})
 
