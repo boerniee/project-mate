@@ -8,7 +8,7 @@
     <thead>
       <tr class="tableheader">
         <th scope="col">#</th>
-        <th scope="col">{{  _('Getränk') }}</th>
+        <th scope="col">{{  _('Produkt') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
         <th scope="col">{{ _('Zeit') }}</th>
@@ -19,7 +19,7 @@
       {% for con in consumptions.items %}
         <tr>
           <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
-          <td>{{ con.drink.description }}</td>
+          <td>{{ con.product.description }}</td>
           <td>{{ con.getprice }}</td>
           <td>{{ con.amount }}</td>
           <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>

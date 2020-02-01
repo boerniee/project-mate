@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-24 20:17+0100\n"
+"POT-Creation-Date: 2020-02-01 20:47+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/__init__.py:31
+#: app/__init__.py:39
 msgid "Bitte logge dich ein."
 msgstr "Please log in."
 
@@ -51,13 +51,13 @@ msgid "Bitte nutze eine andere Email Adresse."
 msgstr "Please use another Email address"
 
 #: app/auth/forms.py:29 app/auth/forms.py:35 app/auth/forms.py:51
-#: app/main/forms.py:17 app/templates/admin/dashboard.html:10
+#: app/main/forms.py:19 app/templates/admin/dashboard.html:10
 #: app/templates/admin/manageusers.html:18
 msgid "Benutzername"
 msgstr "Username"
 
 #: app/auth/forms.py:30 app/auth/forms.py:41 app/auth/forms.py:52
-#: app/main/forms.py:18
+#: app/main/forms.py:20
 msgid "Email"
 msgstr "Email"
 
@@ -65,7 +65,7 @@ msgstr "Email"
 msgid "Sprache"
 msgstr "Language"
 
-#: app/auth/forms.py:32 app/main/forms.py:13 app/main/forms.py:21
+#: app/auth/forms.py:32 app/main/forms.py:13 app/main/forms.py:23
 msgid "Speichern"
 msgstr "Save"
 
@@ -103,7 +103,7 @@ msgstr "Repeat password"
 msgid "Registrieren"
 msgstr "Register"
 
-#: app/auth/routes.py:22 app/main/admin.py:56 app/main/admin.py:93
+#: app/auth/routes.py:22 app/main/admin.py:56 app/main/admin.py:96
 msgid "Gespeichert"
 msgstr "Saved"
 
@@ -148,34 +148,34 @@ msgstr "Dashboard"
 msgid "Benutzerverwaltung"
 msgstr "User management"
 
-#: app/main/admin.py:74 app/templates/admin/managedrinks.html:5
-msgid "Getränkeverwaltung"
-msgstr "Drink management"
+#: app/main/admin.py:74 app/templates/admin/manageproducts.html:5
+msgid "Produktverwaltung"
+msgstr "Product management"
 
-#: app/main/admin.py:100
+#: app/main/admin.py:103
 msgid "Barbeiten "
 msgstr "Edit"
 
-#: app/main/admin.py:108
+#: app/main/admin.py:111
 msgid "Rechnungen verwalten"
 msgstr "Manage Invoices"
 
-#: app/main/admin.py:113 app/templates/admin/superadmin.html:4
+#: app/main/admin.py:116 app/templates/admin/superadmin.html:4
 #: app/templates/base.html:48
 msgid "Superadmin"
 msgstr "Superadmin"
 
-#: app/main/forms.py:8 app/templates/admin/managedrinks.html:18
+#: app/main/forms.py:8 app/templates/admin/manageproducts.html:18
 msgid "Beschreibung"
 msgstr "Description"
 
 #: app/main/forms.py:9 app/templates/admin/dashboard.html:13
-#: app/templates/admin/managedrinks.html:19 app/templates/overview.html:12
+#: app/templates/admin/manageproducts.html:19 app/templates/overview.html:12
 msgid "Preis"
 msgstr "Price"
 
-#: app/main/forms.py:10 app/main/forms.py:19
-#: app/templates/admin/managedrinks.html:33
+#: app/main/forms.py:10 app/main/forms.py:21
+#: app/templates/admin/manageproducts.html:33
 #: app/templates/admin/manageusers.html:19
 msgid "Aktiv"
 msgstr "Active"
@@ -188,7 +188,11 @@ msgstr "Highlight"
 msgid "Bestand führen"
 msgstr "Keep Inventory"
 
-#: app/main/forms.py:20
+#: app/main/forms.py:15
+msgid "Nur Dateiendungen jpg order png erlaubt!"
+msgstr "Only file ending jpf or png allowed"
+
+#: app/main/forms.py:22
 msgid "Admin"
 msgstr "Admin"
 
@@ -229,8 +233,8 @@ msgid "Benutzer"
 msgstr "User"
 
 #: app/templates/base.html:41
-msgid "Getränke"
-msgstr "Drinks"
+msgid "Produkte"
+msgstr "Products"
 
 #: app/templates/base.html:67
 msgid "Passwort ändern"
@@ -246,10 +250,10 @@ msgstr "Logout"
 
 #: app/templates/index.html:4
 #, python-format
-msgid "Genieße unser leckeres Getränk"
-msgid_plural "Genieße eines unserer %(num)s leckeren Getränke"
-msgstr[0] "Enjoy our delicious drink"
-msgstr[1] "Enjoy one of our %(num)s delicious drinks"
+msgid "Genieße unser leckeres Produkt"
+msgid_plural "Genieße eines unserer %(num)s leckeren Produkte"
+msgstr[0] "Enjoy our only great product"
+msgstr[1] "Enjoy one of our %(num)s great products"
 
 #: app/templates/index.html:23
 msgid "Jetzt probieren!"
@@ -259,7 +263,7 @@ msgstr "Try now!"
 msgid "Ausverkauft!"
 msgstr "Sold out!"
 
-#: app/templates/admin/managedrinks.html:50 app/templates/index.html:33
+#: app/templates/admin/manageproducts.html:50 app/templates/index.html:33
 msgid "SooS"
 msgstr "SaaS"
 
@@ -268,8 +272,8 @@ msgid "OK"
 msgstr "OK"
 
 #: app/templates/index.html:56
-msgid "Viel spaß mit deinem Getränk!"
-msgstr "Have fun with your drink!"
+msgid "Viel spaß mit deinem Produkt!"
+msgstr "Enjoy your product!"
 
 #: app/templates/index.html:66
 msgid "Awups, da ist etwas schief gelaufen!"
@@ -281,8 +285,8 @@ msgstr "Paid"
 
 #: app/templates/admin/dashboard.html:11 app/templates/invoice.html:20
 #: app/templates/overview.html:11
-msgid "Getränk"
-msgstr "Drink"
+msgid "Produkt"
+msgstr "Product"
 
 #: app/templates/invoice.html:21 app/templates/overview.html:13
 msgid "Stück"
@@ -292,7 +296,7 @@ msgstr "Pieces"
 msgid "Summe"
 msgstr "Sum"
 
-#: app/templates/admin/managedrinks.html:41 app/templates/invoice.html:36
+#: app/templates/admin/manageproducts.html:41 app/templates/invoice.html:36
 #: app/templates/invoices.html:29 app/templates/overview.html:29
 msgid "Keine Einträge vorhanden"
 msgstr "No entries"
@@ -306,8 +310,8 @@ msgstr "Amount"
 msgid "Datum"
 msgstr "Date"
 
-#: app/templates/admin/managedrinks.html:22
-#: app/templates/admin/manageinvoices.html:22 app/templates/invoices.html:11
+#: app/templates/admin/manageinvoices.html:22
+#: app/templates/admin/manageproducts.html:22 app/templates/invoices.html:11
 msgid "Aktionen"
 msgstr "Actions"
 
@@ -359,47 +363,16 @@ msgstr "it ruuuns"
 msgid "Fehler"
 msgstr "Error"
 
-#: app/templates/admin/editdrink.html:4 app/templates/admin/edituser.html:4
-#: app/templates/admin/managedrinks.html:35
+#: app/templates/admin/editproduct.html:4 app/templates/admin/edituser.html:4
+#: app/templates/admin/manageproducts.html:35
 msgid "Bearbeiten"
 msgstr "Edit"
 
-#: app/templates/admin/editdrink.html:24
+#: app/templates/admin/editproduct.html:29
 msgid ""
-"Wenn der Bestand inaktiv ist werden nur Buchungen von Getränken "
+"Wenn der Bestand inaktiv ist werden nur Buchungen von Produkten "
 "berücksichtigt"
 msgstr ""
-
-#: app/templates/admin/managedrinks.html:9
-#: app/templates/admin/managedrinks.html:10
-#: app/templates/admin/manageusers.html:8
-#: app/templates/admin/manageusers.html:9
-msgid "Suchen"
-msgstr "Search"
-
-#: app/templates/admin/managedrinks.html:20
-msgid "Bestand"
-msgstr "Stock"
-
-#: app/templates/admin/managedrinks.html:21
-msgid "Status"
-msgstr "State"
-
-#: app/templates/admin/managedrinks.html:33
-msgid "Inaktiv"
-msgstr "Inactive"
-
-#: app/templates/admin/managedrinks.html:36
-msgid "Buchung tätigen"
-msgstr "Make a booking"
-
-#: app/templates/admin/managedrinks.html:61
-msgid "Buchen"
-msgstr "Book"
-
-#: app/templates/admin/managedrinks.html:62
-msgid "Abbrechen"
-msgstr "Cancel"
 
 #: app/templates/admin/manageinvoices.html:6
 msgid "Mate4Life"
@@ -425,6 +398,37 @@ msgstr "Sent reminder successfully"
 #: app/templates/admin/manageinvoices.html:95
 msgid "Ein unbekanntes Müsli ist aufgetreten"
 msgstr "A unknown cereal has happened"
+
+#: app/templates/admin/manageproducts.html:9
+#: app/templates/admin/manageproducts.html:10
+#: app/templates/admin/manageusers.html:8
+#: app/templates/admin/manageusers.html:9
+msgid "Suchen"
+msgstr "Search"
+
+#: app/templates/admin/manageproducts.html:20
+msgid "Bestand"
+msgstr "Stock"
+
+#: app/templates/admin/manageproducts.html:21
+msgid "Status"
+msgstr "State"
+
+#: app/templates/admin/manageproducts.html:33
+msgid "Inaktiv"
+msgstr "Inactive"
+
+#: app/templates/admin/manageproducts.html:36
+msgid "Buchung tätigen"
+msgstr "Make a booking"
+
+#: app/templates/admin/manageproducts.html:61
+msgid "Buchen"
+msgstr "Book"
+
+#: app/templates/admin/manageproducts.html:62
+msgid "Abbrechen"
+msgstr "Cancel"
 
 #: app/templates/admin/manageusers.html:20
 msgid "EMail"
@@ -508,3 +512,26 @@ msgstr ""
 
 #~ msgid "Startseite"
 #~ msgstr "Main page"
+
+#~ msgid "Getränkeverwaltung"
+#~ msgstr "Drink management"
+
+#~ msgid "Getränke"
+#~ msgstr "Drinks"
+
+#~ msgid "Genieße unser leckeres Getränk"
+#~ msgid_plural "Genieße eines unserer %(num)s leckeren Getränke"
+#~ msgstr[0] "Enjoy our delicious drink"
+#~ msgstr[1] "Enjoy one of our %(num)s delicious drinks"
+
+#~ msgid "Viel spaß mit deinem Getränk!"
+#~ msgstr "Have fun with your drink!"
+
+#~ msgid "Getränk"
+#~ msgstr "Drink"
+
+#~ msgid ""
+#~ "Wenn der Bestand inaktiv ist werden "
+#~ "nur Buchungen von Getränken berücksichtigt"
+#~ msgstr ""
+

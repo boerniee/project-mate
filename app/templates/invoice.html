@@ -17,7 +17,7 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">{{ _('Getränk') }}</th>
+        <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
         <th scope="col">{{ _('Summe') }}</th>
       </tr>
@@ -27,7 +27,7 @@
       {% for position in invoice.positions %}
         <tr>
           <th scope="row">{{ loop.index }}</th>
-          <td>{{ position.drink.description }}</td>
+          <td>{{ position.product.description }}</td>
           <td>{{ position.amount }}</td>
           <td>{{ position.getsum() }}</td>
         </tr>

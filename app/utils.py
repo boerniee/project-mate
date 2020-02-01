@@ -16,15 +16,15 @@ def getIntQueryParam(request, default):
         except TypeError:
             return default
 
-def save_image(drink, file, app):
-    if drink.imageUrl:
+def save_image(product, file, app):
+    if product.imageUrl:
         try:
-            os.remove(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], drink.imageUrl))
+            os.remove(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], product.imageUrl))
         except FileNotFoundError:
             pass
     filename = str(uuid.uuid4())
     file.data.save(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], filename))
-    drink.imageUrl = filename
+    product.imageUrl = filename
 
 def format_curr(amount):
     if not amount:

@@ -1,7 +1,7 @@
 from flask import render_template, jsonify, request, abort, Response, url_for
 from flask_login import current_user, login_required
 from app import db, app
-from app.models import Drink, Consumption, Invoice, User
+from app.models import Product, Consumption, Invoice, User
 from datetime import datetime
 from babel.numbers import format_currency
 from sqlalchemy import and_, desc, or_
@@ -21,8 +21,8 @@ def about():
 @bp.route('/index')
 @login_required
 def index():
-    drinks = Drink.query.filter(and_(Drink.active==True)).order_by(desc(Drink.highlight)).all()
-    return render_template('index.html', title=_('Start'), drinks=drinks)
+    products = Product.query.filter(and_(Product.active==True)).order_by(desc(Product.highlight)).all()
+    return render_template('index.html', title=_('Start'), products=products)
 
 @bp.route('/overview',methods=['GET'])
 @login_required

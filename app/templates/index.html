@@ -1,27 +1,27 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h3>{{ ngettext('Genieße unser leckeres Getränk', 'Genieße eines unserer %(num)s leckeren Getränke', drinks|length) }}</h3>
+  <h3>{{ ngettext('Genieße unser leckeres Produkt', 'Genieße eines unserer %(num)s leckeren Produkte', products|length) }}</h3>
   <div class="card-deck">
 
-  {% for drink in drinks %}
-  <div class="card mb-3" style="max-width: 350px;" {% if drink.stock > 0 or drink.stock_active == False %} onClick="consume(this, {{ drink.id }})" {% endif %}>
+  {% for product in products %}
+  <div class="card mb-3" style="max-width: 350px;" {% if product.stock > 0 or product.stock_active == False %} onClick="consume(this, {{ product.id }})" {% endif %}>
     <div class="row no-gutters">
       <div class="col-md-4">
-        {% if not drink.imageUrl%}<i class="fas fa-wine-bottle fa-7x" style="display:inline-block;"></i>{% else %}<img src="{{ url_for('static', filename='images/' + (drink.imageUrl or 'default.png')) }}" class="card-img" alt="...">{% endif %}
+        {% if not product.imageUrl%}<i class="fas fa-wine-bottle fa-7x" style="display:inline-block;"></i>{% else %}<img src="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}" class="card-img" alt="...">{% endif %}
       </div>
       <div class="col-md-8">
         <div class="card-body" style="padding: 1rem;">
-          <h5 class="card-title">{{ drink.description }}</h5>
+          <h5 class="card-title">{{ product.description }}</h5>
           <p class="card-text">
-            <i class="fas fa-money-bill-wave"></i> {{ drink.getprice() }}<br>
-            {% if drink.stock_active %}<i class="fas fa-boxes"></i> <span id="stock-{{ drink.id }}">{{ drink.stock }}</span>{% endif %}
+            <i class="fas fa-money-bill-wave"></i> {{ product.getprice() }}<br>
+            {% if product.stock_active %}<i class="fas fa-boxes"></i> <span id="stock-{{ product.id }}">{{ product.stock }}</span>{% endif %}
           </p>
         </div>
       </div>
     </div>
-    {% if drink.highlight and not (drink.stock < 1 and drink.stock_active == True) %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
-    {% if drink.stock < 1 and drink.stock_active == True %}<div class="card-badge">{{ _('Ausverkauft!') }}</div>{% endif %}
+    {% if product.highlight and not (product.stock < 1 and product.stock_active == True) %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
+    {% if product.stock < 1 and product.stock_active == True %}<div class="card-badge">{{ _('Ausverkauft!') }}</div>{% endif %}
   </div>
 {% endfor %}
 </div>
@@ -53,7 +53,7 @@
       $.post("{{ url_for('main.consume', id='id') }}".replace('id', id) )
       .done(function(data) {
         var modal = $('#myModal');
-        modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Getränk!') }}');
+        modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Produkt!') }}');
         modal.find('.modal-header h4').html('🍻🎉');
         modal.modal('toggle');
         $('#stock-'+id).text(data['stock']);

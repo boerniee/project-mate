@@ -1,8 +1,8 @@
 from app import app, db
-from app.main.forms import DrinkForm, UserForm
+from app.main.forms import ProductForm, UserForm
 from flask import render_template, redirect, url_for, flash, jsonify, request
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Drink, Invoice, Role, Consumption
+from app.models import User, Product, Invoice, Role, Consumption
 from app.utils import right_required, getIntQueryParam, format_curr, save_image
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
@@ -61,46 +61,46 @@ def edituser(id):
     form.admin.data = user.has_role('admin')
     return render_template('admin/edituser.html', title='Barbeiten ', form=form)
 
-@bp.route('/manage/drink')
+@bp.route('/manage/product')
 @right_required(role='admin')
-def managedrinks():
+def manageproducts():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    q = Drink.query.order_by(Drink.active.desc())
+    q = Product.query.order_by(Product.active.desc())
     s = request.args.get('search')
     if s:
-        q = q.filter(Drink.description.like(f'%{s}%'))
-    drinks = q.paginate(page,per_page,error_out=False)
-    return render_template('admin/managedrinks.html', title=_('Getränkeverwaltung'), drinks=drinks, searchterm=s)
+        q = q.filter(Product.description.like(f'%{s}%'))
+    products = q.paginate(page,per_page,error_out=False)
+    return render_template('admin/manageproducts.html', title=_('Produktverwaltung'), products=products, searchterm=s)
 
-@bp.route('/manage/drink/<int:id>', methods=['GET', 'POST'])
+@bp.route('/manage/product/<int:id>', methods=['GET', 'POST'])
 @right_required(role='admin')
-def editdrink(id):
-    form = DrinkForm()
+def editproduct(id):
+    form = ProductForm()
     if id == 0:
-        drink = Drink()
-        drink.stock = 0
+        product = Product()
+        product.stock = 0
     else:
-        drink = Drink.query.get(id)
+        product = Product.query.get(id)
     if form.validate_on_submit():
-        drink.description = form.description.data
-        drink.price = form.price.data
-        drink.active = form.active.data
-        drink.stock_active = form.stock.data
-        drink.highlight = form.highlight.data
+        product.description = form.description.data
+        product.price = form.price.data
+        product.active = form.active.data
+        product.stock_active = form.stock.data
+        product.highlight = form.highlight.data
         if form.file.data:
-            save_image(drink, form.file, app)
+            save_image(product, form.file, app)
         if id == 0:
-            db.session.add(drink)
+            db.session.add(product)
         db.session.commit()
         flash(_('Gespeichert'))
-        return redirect(url_for('main.managedrinks'))
-    form.description.data = drink.description
-    form.price.data = drink.price
-    form.active.data = drink.active
-    form.stock.data = drink.stock_active
-    form.highlight.data = drink.highlight
-    return render_template('admin/editdrink.html', title=_('Barbeiten '), drink=drink, form=form)
+        return redirect(url_for('main.manageproducts'))
+    form.description.data = product.description
+    form.price.data = product.price
+    form.active.data = product.active
+    form.stock.data = product.stock_active
+    form.highlight.data = product.highlight
+    return render_template('admin/editproduct.html', title=_('Barbeiten '), product=product, form=form)
 
 @bp.route('/manage/invoice')
 @right_required(role='admin')

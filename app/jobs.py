@@ -1,6 +1,5 @@
 from app import app, db, celery
 from celery.schedules import crontab
-from app.models import Drink
 import os
 
 @celery.on_after_finalize.connect

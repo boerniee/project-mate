@@ -74,7 +74,8 @@ class UserRoles(db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-class Drink(db.Model):
+class Product(db.Model):
+    #__tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(64), index=True, unique=True)
     price = db.Column(db.Float, index=True)
@@ -88,30 +89,30 @@ class Drink(db.Model):
         return format_curr(self.price)
 
     def __repr__(self):
-        return '<Drink {}>'.format(self.description)
+        return '<Product {}>'.format(self.description)
 
 class Consumption(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
-    drink_id = db.Column(db.Integer, db.ForeignKey('drink.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)
     billed = db.Column(db.Boolean)
     user = db.relationship('User', back_populates="consumptions")
-    drink = db.relationship('Drink')
+    product = db.relationship('Product')
 
     def serialize(self):
         return {
             'amount': self.amount,
-            'drink': self.drink.description,
+            'product': self.product.description,
             'price': self.getprice,
             'time': self.time
         }
 
     @property
     def getprice(self):
-        return format_curr(self.drink.price * self.amount)
+        return format_curr(self.product.price * self.amount)
 
     def __repr__(self):
         return '<Consumption {}>'.format(self.id)
@@ -140,12 +141,12 @@ class Invoice(db.Model):
 
 class Position(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('drink.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
     sum = db.Column(db.Float)
-    drink = db.relationship('Drink')
+    product = db.relationship('Product')
     invoice = db.relationship('Invoice')
 
     def getsum(self):

@@ -8,7 +8,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">{{ _('Benutzername') }}</th>
-        <th scope="col">{{ _('Getränk') }}</th>
+        <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Anzahl') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Datum') }}</th>
@@ -19,7 +19,7 @@
       <tr>
         <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
         <td>{{ con.user.username }}</td>
-        <td>{{ con.drink.description }}</td>
+        <td>{{ con.product.description }}</td>
         <td>{{ con.amount }}</td>
         <td>{{ con.getprice }}</td>
         <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>

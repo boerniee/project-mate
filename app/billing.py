@@ -21,13 +21,13 @@ def createInvoice(user):
     groups = defaultdict(list)
     consumptions = Consumption.query.filter_by(user_id=user, billed=False).all()
     for consumption in consumptions:
-        groups[consumption.drink].append(consumption)
+        groups[consumption.product].append(consumption)
 
     invoice = Invoice(user_id=user, paid=False, date=datetime.datetime.utcnow(), positions=[], paypalme=app.config['PAYPAL'])
     for k,v in groups.items():
         summe = sum((c.price * c.amount) for c in v)
         amount = sum(c.amount for c in v)
-        p = Position(amount=amount, sum=summe, invoice=invoice, drink=k)
+        p = Position(amount=amount, sum=summe, invoice=invoice, product=k)
         invoice.positions.append(p)
 
     for consumption in consumptions:
