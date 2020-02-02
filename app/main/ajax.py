@@ -6,7 +6,10 @@ from app.models import Product, Consumption, Invoice, User
 import datetime
 from app.billing import run_billing
 from app.main import bp
+from app.schema import BookRequestSchema
 from app.email import send_invoice_reminder
+from marshmallow import ValidationError
+from flask_babel import _
 import os
 import json
 
@@ -87,9 +90,12 @@ def products():
 @bp.route('/manage/book', methods=['POST'])
 @right_required(role='admin')
 def book():
-    req = request.get_json()
-
-    print(req)
+    schema = BookRequestSchema()
+    try:
+        req = schema.load(request.get_json())
+    except ValidationError as err:
+        print(err)
+        return _("Fehler bei der Validierung"), 400
 
     if req['stock']:
         p = Product.query.with_for_update().get(req['product'])

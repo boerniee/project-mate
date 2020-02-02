@@ -8,6 +8,7 @@ from flask_mail import Mail
 from flask_babel import Babel, lazy_gettext as _l
 from babel.core import negotiate_locale
 from pathlib import Path
+from flask_marshmallow import Marshmallow
 
 def patch_requests_class(app):
     reqclass = app.request_class
@@ -32,6 +33,7 @@ app = Flask(__name__)
 patch_requests_class(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
+ma = Marshmallow(app)
 migrate = Migrate(app, db)
 babel = Babel(app)
 login = LoginManager(app)

@@ -154,6 +154,10 @@
           $('.toast').toast('show');
         }
       })
+      .fail(function(e) {
+        $('.toast-body').text(e.responseText);
+        $('.toast').toast('show');
+      });
     });
   </script>
 {% endblock %}
