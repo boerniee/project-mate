@@ -30,7 +30,6 @@ def overview():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
     cons = Consumption.query.filter(and_(Consumption.user_id == current_user.id, Consumption.billed == False)).order_by(desc(Consumption.time)).paginate(page,per_page,error_out=False)
-
     sum = db.engine.execute(text('select sum(amount * price) from consumption where user_id = :uid and billed = 0'), uid=current_user.id).fetchone()
     return render_template('overview.html', title=_('Übersicht'), summed=format_curr(sum[0] or 0), consumptions=cons)
 

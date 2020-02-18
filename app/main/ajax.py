@@ -12,6 +12,7 @@ from marshmallow import ValidationError
 from flask_babel import _
 import os
 import json
+from app.schema import consumptions_schema
 
 @bp.route('/manage/invoice/<int:id>/paid')
 @right_required(role='admin')
@@ -116,6 +117,12 @@ def book():
     db.session.add(c)
     db.session.commit()
     return jsonify({'success': True})
+
+@bp.route('/ajax/consumptions/<int:id>')
+@right_required(role='admin')
+def consumptions(id):
+    cons = Consumption.query.filter(Consumption.billed == False, Consumption.user_id == id).order_by(Consumption.time.desc()).all()
+    return json.dumps({'consumptions':consumptions_schema.dump(cons)})
 
 @bp.route('/manage/billing/start')
 @right_required(role='admin')

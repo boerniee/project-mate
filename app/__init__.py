@@ -5,10 +5,15 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
 from celery import Celery
 from flask_mail import Mail
-from flask_babel import Babel, lazy_gettext as _l
+from flask_babel import Babel, format_currency, lazy_gettext as _l
 from babel.core import negotiate_locale
 from pathlib import Path
 from flask_marshmallow import Marshmallow
+
+def format_curr(amount):
+    if not amount:
+        amount = 0
+    return format_currency(amount, 'EUR')
 
 def patch_requests_class(app):
     reqclass = app.request_class
@@ -56,6 +61,7 @@ from app.main import bp as main_bp
 app.register_blueprint(main_bp)
 
 app.jinja_env.auto_reload = True
+app.jinja_env.globals.update(format_curr=format_curr)
 
 from app import models, billing
 

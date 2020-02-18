@@ -7,7 +7,7 @@ from app.utils import right_required, getIntQueryParam, format_curr, save_image
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 from werkzeug import secure_filename
 
 @bp.route('/manage/dashboard')
@@ -15,9 +15,15 @@ from werkzeug import secure_filename
 def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
+
+    print("Hallo")
+    stmt = db.session.query(Consumption.user_id, func.sum(Consumption.price * Consumption.amount).label('sum'), func.sum(Consumption.amount).label('amount')).group_by(Consumption.user_id).filter(Consumption.billed == False).subquery()
+    res = db.session.query(User, stmt.c.amount, stmt.c.sum).outerjoin(stmt, User.id == stmt.c.user_id).group_by(User.id).all()
+    print(res)
+
     open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
-    cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
-    return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
+    #cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
+    return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=res, open=format_curr(open))
 
 @bp.route('/manage/user')
 @right_required(role='admin')
