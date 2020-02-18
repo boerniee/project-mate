@@ -1,6 +1,32 @@
 {% extends "base.html" %}
 
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+{% block messages %}{% endblock %}
+
 {% block app_content %}
+  <div class="wrapper">
+    <form class="form-signin" action="" method="post">
+        {{ form.hidden_tag() }}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+      <h2 class="form-signin-heading">Please login</h2>
+      {{ form.username(size=32,class_="form-control",placeholder=form.username.label.text) }}
+      <input type="password" class="form-control" name="password" placeholder="Password" id="password" required=""/>
+      {{ form.remember_me() }} {{ form.remember_me.label }}
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+      <button class="btn btn-lg btn-primary btn-block" onclick="window.location.href = '{{ url_for('auth.register') }}';" type="button">{{ _('Registrieren') }}</button> 
+    </form>
+  </div>
+
+<!-- 
     <h1>{{ _('Einloggen') }}</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -19,7 +45,7 @@
         {{ _('Passwort vergessen?') }}
         <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Hier klicken zum zurücksetzen') }}</a>
     </p>
-    <p>{{ _('Neu hier?') }} <a href="{{ url_for('auth.register') }}">{{ _('Hier klicken zum registrieren!') }}</a></p>
+    <p>{{ _('Neu hier?') }} <a href="{{ url_for('auth.register') }}">{{ _('Hier klicken zum registrieren!') }}</a></p> -->
 {% endblock %}
 
 {% block custom_script %}
