@@ -8,48 +8,35 @@
 
 {% block app_content %}
   <div class="wrapper">
-    <form class="form-signin" action="" method="post">
+    <form class="form-signin" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-info" role="alert">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
-      <h2 class="form-signin-heading">Please login</h2>
-      {{ form.username(size=32,class_="form-control",placeholder=form.username.label.text) }}
-      <input type="password" class="form-control" name="password" placeholder="Password" id="password" required=""/>
+        {% include 'messages.html' %}
+      <h2 class="form-signin-heading">{{ _('Anmelden') }}</h2>
+      {% if form.username.errors %}{% set x={"title": form.username.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+      {{ form.username(size=32,class_="form-control straight-bottom",placeholder=form.username.label.text, **x or {}) }}
+      {% set x={}%}
+      {% if form.password.errors %}{% set x={"title": form.password.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+      <div class="input-group mb-2">
+        {{ form.password(class_="form-control straight-top", placeholder=form.password.label.text, **x or {}) }}
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
+        </div>
+      </div>
       {{ form.remember_me() }} {{ form.remember_me.label }}
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
-      <button class="btn btn-lg btn-primary btn-block" onclick="window.location.href = '{{ url_for('auth.register') }}';" type="button">{{ _('Registrieren') }}</button> 
+      <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Anmelden') }}</button>
+      <div class="btn-group" style="padding-top: 15px;">
+        <button type="button" class="btn btn-primary" onclick="window.location.href = '{{ url_for('auth.register') }}';">{{ _('Registrieren') }}</button>
+        <button type="button" class="btn btn-primary" onclick="window.location.href = '{{ url_for('auth.reset_password_request') }}';">{{ _('Passwort zurücksetzen') }}</button>
+      </div>
     </form>
   </div>
-
-<!-- 
-    <h1>{{ _('Einloggen') }}</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        {% include 'auth/password_field.html' %}
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    <p>
-        {{ _('Passwort vergessen?') }}
-        <a href="{{ url_for('auth.reset_password_request') }}">{{ _('Hier klicken zum zurücksetzen') }}</a>
-    </p>
-    <p>{{ _('Neu hier?') }} <a href="{{ url_for('auth.register') }}">{{ _('Hier klicken zum registrieren!') }}</a></p> -->
 {% endblock %}
 
 {% block custom_script %}
   <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip('show')
+    })
     $("#login").addClass('active');
   </script>
   {% include 'auth/password_js.html' %}

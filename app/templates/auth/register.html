@@ -1,39 +1,52 @@
 {% extends "base.html" %}
 
 {% block links %}
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
 {% endblock %}
 
 {% block app_content %}
-    <h1>{{ _('Registrieren') }}</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=64) }}<br>
-            {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        {% include 'auth/password_field.html' %}
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=32) }}<br>
-            {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+<div class="wrapper">
+  <form class="form-register" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      {% include 'messages.html' %}
+    <h2 class="form-signin-heading">{{ _('Registrieren') }}</h2>
+    {% if form.username.errors %}{% set x={"title": form.username.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+    {{ form.username.label }}
+    {{ form.username(size=32,class_="form-control padding-15",placeholder=form.username.label.text, **x or {}) }}
+    {{ form.email.label }}
+    {% set x={}%}
+    {% if form.email.errors %}{% set x={"title": form.email.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+    {{ form.email(size=64,class_="form-control padding-15", placeholder=form.email.label.text, **x or {}) }}
+    {{ form.password.label }}
+    <div class="form-row">
+      <div class="col-6">
+        {% set x={}%}
+        {% if form.password.errors %}{% set x={"title": form.password.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+        <div class="input-group mb-2">
+          {{ form.password(class_="form-control", placeholder=form.password.label.text, **x or {}) }}
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        {% set x={}%}
+        {% if form.password2.errors %}{% set x={"title": form.password2.errors[0], "data-toggle":"tooltip", "data-placement":"right"}%}{% endif %}
+        {{ form.password2(size=32,class_="form-control", placeholder=form.password2.label.text, **x or {}) }}
+      </div>
+    </div>
+
+    <div class="progress"><div class="progress-bar" id="progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div><br>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Registrieren') }}</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block custom_script %}
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip('show')
+  })
+</script>
   {% include 'auth/password_strength.html' %}
 {% endblock %}
