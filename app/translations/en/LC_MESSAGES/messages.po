@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-02 00:30+0100\n"
+"POT-Creation-Date: 2020-02-18 21:16+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/__init__.py:39
+#: app/__init__.py:41
 msgid "Bitte logge dich ein."
 msgstr "Please log in."
 
@@ -77,7 +77,8 @@ msgstr "Password"
 msgid "Angemeldet bleiben"
 msgstr "Stay logged in"
 
-#: app/auth/forms.py:38 app/templates/base.html:76
+#: app/auth/forms.py:38 app/templates/auth/login.html:14
+#: app/templates/auth/login.html:26 app/templates/base.html:76
 msgid "Anmelden"
 msgstr "Login"
 
@@ -90,6 +91,7 @@ msgid "Passwort wiederholen"
 msgstr "Repeat password"
 
 #: app/auth/forms.py:48 app/auth/routes.py:41 app/auth/routes.py:57
+#: app/templates/auth/login.html:29
 #: app/templates/auth/reset_password_request.html:4
 msgid "Passwort zurücksetzen"
 msgstr "Reset password"
@@ -98,8 +100,8 @@ msgstr "Reset password"
 msgid "Passwort Wiederholen"
 msgstr "Repeat password"
 
-#: app/auth/forms.py:56 app/auth/routes.py:89
-#: app/templates/auth/register.html:8
+#: app/auth/forms.py:56 app/auth/routes.py:89 app/templates/auth/login.html:28
+#: app/templates/auth/register.html:12 app/templates/auth/register.html:40
 msgid "Registrieren"
 msgstr "Register"
 
@@ -127,7 +129,7 @@ msgstr "Your password has been resetted"
 msgid "Falscher benutzername oder passwort"
 msgstr "Wrong username or password"
 
-#: app/auth/routes.py:74 app/templates/auth/login.html:4
+#: app/auth/routes.py:74
 msgid "Einloggen"
 msgstr "Login"
 
@@ -164,6 +166,10 @@ msgstr "Manage Invoices"
 #: app/templates/base.html:48
 msgid "Superadmin"
 msgstr "Superadmin"
+
+#: app/main/ajax.py:98
+msgid "Fehler bei der Validierung"
+msgstr "Error during validation"
 
 #: app/main/forms.py:8 app/templates/admin/manageproducts.html:18
 msgid "Beschreibung"
@@ -461,31 +467,15 @@ msgstr "Book stock"
 msgid "Erfolgreich gebucht"
 msgstr "Successfully booked"
 
-#: app/templates/auth/login.html:19
-msgid "Passwort vergessen?"
-msgstr "Forgot your password?"
-
-#: app/templates/auth/login.html:20
-msgid "Hier klicken zum zurücksetzen"
-msgstr "Click here to reset"
-
-#: app/templates/auth/login.html:22
-msgid "Neu hier?"
-msgstr "New?"
-
-#: app/templates/auth/login.html:22
-msgid "Hier klicken zum registrieren!"
-msgstr "Click here to register!"
-
-#: app/templates/auth/password_strength.html:16
+#: app/templates/auth/password_strength.html:26
 msgid "Schwach"
 msgstr "Weak"
 
-#: app/templates/auth/password_strength.html:20
+#: app/templates/auth/password_strength.html:31
 msgid "Mittel"
 msgstr "Medium"
 
-#: app/templates/auth/password_strength.html:24
+#: app/templates/auth/password_strength.html:36
 msgid "Stark"
 msgstr "Strong"
 
@@ -561,3 +551,15 @@ msgstr ""
 #~ "Wenn der Bestand inaktiv ist werden "
 #~ "nur Buchungen von Getränken berücksichtigt"
 #~ msgstr ""
+
+#~ msgid "Passwort vergessen?"
+#~ msgstr "Forgot your password?"
+
+#~ msgid "Hier klicken zum zurücksetzen"
+#~ msgstr "Click here to reset"
+
+#~ msgid "Neu hier?"
+#~ msgstr "New?"
+
+#~ msgid "Hier klicken zum registrieren!"
+#~ msgstr "Click here to register!"

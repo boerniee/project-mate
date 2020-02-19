@@ -1,6 +1,5 @@
 function validatePassword(password) {
     if (password.length === 0) {
-        document.getElementById("msg").innerHTML = "";
         return -1;
     }
     var matchedCase = new Array();

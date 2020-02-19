@@ -86,3 +86,7 @@
 [data-theme="dark"] .toast-body {
   background-color: #2b2b2b;
 }
+
+[data-theme="dark"] .auth-form {
+	background-color: rgb(51, 59, 64);
+}
