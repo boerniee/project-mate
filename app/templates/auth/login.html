@@ -8,7 +8,7 @@
 
 {% block app_content %}
   <div class="wrapper">
-    <form class="form-signin" action="" method="post" novalidate>
+    <form class="form-signin auth-form" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         {% include 'messages.html' %}
       <h2 class="form-signin-heading">{{ _('Anmelden') }}</h2>
@@ -19,12 +19,12 @@
       <div class="input-group mb-2">
         {{ form.password(class_="form-control straight-top", placeholder=form.password.label.text, **x or {}) }}
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
+          <button class="btn btn-outline-secondary showpwd-button" id="showpassword" style="border-top-right-radius: 0;" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
         </div>
       </div>
       {{ form.remember_me() }} {{ form.remember_me.label }}
       <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Anmelden') }}</button>
-      <div class="btn-group" style="padding-top: 15px;">
+      <div class="btn-group" style="width: 100%;padding-top: 15px;">
         <button type="button" class="btn btn-primary" onclick="window.location.href = '{{ url_for('auth.register') }}';">{{ _('Registrieren') }}</button>
         <button type="button" class="btn btn-primary" onclick="window.location.href = '{{ url_for('auth.reset_password_request') }}';">{{ _('Passwort zurücksetzen') }}</button>
       </div>
@@ -35,6 +35,7 @@
 {% block custom_script %}
   <script>
     $(function () {
+      $('[data-toggle="tooltip"]').tooltip({'trigger': 'manual'})
       $('[data-toggle="tooltip"]').tooltip('show')
     })
     $("#login").addClass('active');

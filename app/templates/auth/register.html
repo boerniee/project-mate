@@ -6,7 +6,7 @@
 
 {% block app_content %}
 <div class="wrapper">
-  <form class="form-register" action="" method="post" novalidate>
+  <form class="form-register auth-form" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
       {% include 'messages.html' %}
     <h2 class="form-signin-heading">{{ _('Registrieren') }}</h2>
@@ -25,7 +25,7 @@
         <div class="input-group mb-2">
           {{ form.password(class_="form-control", placeholder=form.password.label.text, **x or {}) }}
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
+            <button class="btn btn-outline-secondary showpwd-button" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
           </div>
         </div>
       </div>
@@ -45,6 +45,7 @@
 {% block custom_script %}
 <script>
   $(function () {
+    $('[data-toggle="tooltip"]').tooltip({'trigger': 'manual'})
     $('[data-toggle="tooltip"]').tooltip('show')
   })
 </script>

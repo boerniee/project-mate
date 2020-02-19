@@ -7,28 +7,23 @@
 	padding-top: 15px;
 }
 
-.form-register {
-  max-width: 680px;
+.auth-form {
   padding: 15px 35px 45px;
   margin: 0 auto;
   background-color: rgb(248, 249, 250);
   border: 1px solid rgba(0,0,0,0.1);
 }
 
-[data-theme="dark"] .form-register {
-	background-color: rgb(51, 59, 64);
+.form-register {
+  max-width: 680px;
 }
 
 .form-signin {
   max-width: 380px;
-  padding: 15px 35px 45px;
-  margin: 0 auto;
-  background-color: rgb(248, 249, 250);
-  border: 1px solid rgba(0,0,0,0.1);
 }
 
-[data-theme="dark"] .form-signin {
-	background-color: rgb(51, 59, 64);
+.form-reset {
+  max-width: 500px;
 }
 
 .form-signin-heading,
@@ -62,4 +57,8 @@ input:focus {
   margin-bottom: 20px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.showpwd-button {
+    background-color:white;
 }
