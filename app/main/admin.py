@@ -15,14 +15,9 @@ from werkzeug import secure_filename
 def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-
-    print("Hallo")
-    stmt = db.session.query(Consumption.user_id, func.sum(Consumption.price * Consumption.amount).label('sum'), func.sum(Consumption.amount).label('amount')).group_by(Consumption.user_id).filter(Consumption.billed == False).subquery()
-    res = db.session.query(User, stmt.c.amount, stmt.c.sum).outerjoin(stmt, User.id == stmt.c.user_id).group_by(User.id).all()
-    print(res)
-
+    stmt = db.session.query(Consumption.user_id, func.sum(Consumption.price * Consumption.amount).label('sum'), func.sum(Consumption.amount).label('amount'), Consumption.time).group_by(Consumption.user_id).filter(Consumption.billed == False).subquery()
+    res = db.session.query(User, stmt.c.amount, stmt.c.sum, stmt.c.time).join(stmt, User.id == stmt.c.user_id).group_by(User.id).all()
     open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
-    #cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=res, open=format_curr(open))
 
 @bp.route('/manage/user')
