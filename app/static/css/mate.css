@@ -12,6 +12,11 @@
   transform:rotate(-20deg);
 }
 
+.card {
+  max-width: 350px;
+  cursor: pointer;
+}
+
 .table-action {
   padding-left: 5px;
   padding-right: 5px;

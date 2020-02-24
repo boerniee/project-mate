@@ -13,5 +13,12 @@ class ProductSchema(ma.ModelSchema):
     class Meta:
         fields = ("id", "description", "price", "stock")
 
+class OfferSchema(ma.Schema):
+    supplier = fields.String(attribute="user.username")
+    product_name = fields.String(attribute="product.description")
+    class Meta:
+        fields = ("id", "stock", "supplier", "price", "product_name")
+
 products_schema = ProductSchema(many=True)
 product_schema = ProductSchema()
+offer_schema = OfferSchema()

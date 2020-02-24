@@ -5,28 +5,12 @@
   <div class="card-deck">
 
   {% for product in products %}
-  <div class="card mb-3" style="max-width: 350px;" data-drinkid="{{ product.id }}" {% if product.stock > 0 or product.stock_active == False %} onClick="consume(this)" {% endif %}>
-    <div class="row no-gutters">
-      <div class="col-md-4">
-        {% if not product.imageUrl%}<i class="fas fa-wine-bottle fa-7x" style="display:inline-block;"></i>{% else %}<img src="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}" class="card-img" alt="...">{% endif %}
-      </div>
-      <div class="col-md-8">
-        <div class="card-body" style="padding: 1rem;">
-          <h5 class="card-title">{{ product.description }}</h5>
-          <p class="card-text">
-            <i class="fas fa-money-bill-wave"></i> {{ product.getprice() }}<br>
-            {% if product.stock_active %}<i class="fas fa-boxes"></i> <span id="stock-{{ product.id }}">{{ product.stock }}</span>{% endif %}
-          </p>
-        </div>
-      </div>
-    </div>
-    {% if product.highlight and not (product.stock < 1 and product.stock_active == True) %}<div class="card-badge">{{ _('Jetzt probieren!') }}</div>{% endif %}
-    {% if product.stock < 1 and product.stock_active == True %}<div class="card-badge">{{ _('Ausverkauft!') }}</div>{% endif %}
-  </div>
+  <product-card productid="{{ product.id }}" notificationcallback="show_modal('soos', 'saas')" description="{{ product.description }}" stock="{{ product.stock }}" price="{{ product.getprice() }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
+  </product-card>
 {% endfor %}
 </div>
 
-<div class="modal fade" id="myModal">
+<div class="modal fade" id="resultmodal">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -45,13 +29,17 @@
 {% endblock %}
 
 {% block custom_script %}
+  <script src="{{url_for('static', filename='js/product.js')}}"></script>
   <script>
     $("#start").addClass('active');
   </script>
   <script>
     function consume(sender) {
-      var id = $(sender).data('drinkid')
-      $.post("{{ url_for('main.consume', id='id') }}".replace('id', id) )
+      sender.price = "1,29 €";
+      console.log(sender.productId)
+      return
+      var id = $(sender).data('productid')
+      $.post("".replace('id', id).reaplace )
       .done(function(data) {
         var modal = $('#myModal');
         modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Produkt!') }}');
@@ -71,7 +59,7 @@
     }
     $( ".card" ).hover(
       function() {
-        $(this).addClass('shadow').css('cursor', 'pointer');
+        $(this).addClass('shadow');
       }, function() {
         $(this).removeClass('shadow');
       }

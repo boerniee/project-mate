@@ -75,7 +75,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 class Product(db.Model):
-    #__tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(64), index=True, unique=True)
     price = db.Column(db.Float, index=True)
@@ -84,6 +83,7 @@ class Product(db.Model):
     stock_active = db.Column(db.Boolean)
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
+    offers = db.relationship("Offer")
 
     def serialize(self):
         return {
@@ -99,16 +99,40 @@ class Product(db.Model):
     def __repr__(self):
         return '<Product {}>'.format(self.description)
 
+class Offer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stock = db.Column(db.Integer)
+    active = db.Column(db.Boolean)
+    price = db.Column(db.Float)
+    created = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    product = db.relationship('Product')
+    user = db.relationship("User")
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'price': self.getprice(),
+            'stock': self.stock,
+            'supplier': self.user.username
+        }
+
+    def getprice(self):
+        return format_curr(self.price)
+
 class Consumption(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    offer_id = db.Column(db.Integer, db.ForeignKey('offer.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)
     billed = db.Column(db.Boolean)
     user = db.relationship('User', back_populates="consumptions")
     product = db.relationship('Product')
+    offer = db.relationship('Offer')
 
     def serialize(self):
         return {
@@ -120,7 +144,7 @@ class Consumption(db.Model):
 
     @property
     def getprice(self):
-        return format_curr(self.product.price * self.amount)
+        return format_curr(self.price * self.amount)
 
     def __repr__(self):
         return '<Consumption {}>'.format(self.id)

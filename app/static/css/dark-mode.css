@@ -28,7 +28,7 @@
   color: #eee;
 }
 
-[data-theme="dark"] div.card {
+[data-theme="dark"] .card {
   background-color: #333b40 !important;
 }
 

@@ -9,6 +9,7 @@ from sqlalchemy.sql import text
 from app.utils import getIntQueryParam
 from app.email import send_email
 from app.utils import format_curr
+from app.service.productservice import get_active_products
 from app.main import bp
 from flask_babel import _
 
@@ -21,7 +22,7 @@ def about():
 @bp.route('/index')
 @login_required
 def index():
-    products = Product.query.filter(and_(Product.active==True)).order_by(desc(Product.highlight)).all()
+    products = get_active_products()
     return render_template('index.html', title=_('Start'), products=products)
 
 @bp.route('/overview',methods=['GET'])

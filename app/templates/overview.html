@@ -11,6 +11,7 @@
         <th scope="col">{{  _('Produkt') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Lieferant') }}</th>
         <th scope="col">{{ _('Zeit') }}</th>
       </tr>
     </thead>
@@ -22,6 +23,7 @@
           <td>{{ con.product.description }}</td>
           <td>{{ con.getprice }}</td>
           <td>{{ con.amount }}</td>
+          <td>{{ con.offer.user.username }}</td>
           <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
         </tr>
       {% endfor %}
