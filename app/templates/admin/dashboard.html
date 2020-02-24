@@ -93,7 +93,7 @@
           var sel = $("#detailbody");
           sel.empty();
           for (var i=0; i<data['consumptions'].length; i++) {
-            sel.append('<tr><td>' + data['consumptions'][i]['product']['description'] + "</td><td>" + data['consumptions'][i]['amount'] + "</td><td>" + data['consumptions'][i]['price'] + "</td><td>" + data['consumptions'][i]['time'] + "</td></tr>");
+            sel.append('<tr><td>' + data['consumptions'][i]['product']['description'] + "</td><td>" + data['consumptions'][i]['amount'] + "</td><td>" + data['consumptions'][i]['price'] + "</td><td>" + data['consumptions'][i]['datetime'] + "</td></tr>");
           }
         }
       );

@@ -16,9 +16,10 @@ class ProductSchema(ma.ModelSchema):
 
 class ConsumptionSchema(ma.ModelSchema):
     product = fields.Nested(ProductSchema, only=("description",))
+    datetime = fields.DateTime('%d.%m.%Y %H:%M:%S', attribute="time")
 
     class Meta:
-        fields = ("price", "amount", "product", "time")
+        fields = ("price", "amount", "product", "datetime")
 
     @post_dump()
     def format_currency(self, data, **kwargs):
