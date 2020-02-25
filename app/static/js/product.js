@@ -40,6 +40,16 @@ class ProductCard extends HTMLElement {
   set price(price) {
     this.shadowRoot.getElementById('price').innerHTML = " " + price;
   }
+  
+  set supplier(supplier) {
+    var supplierElement = this.shadowRoot.getElementById('supplier');
+    var supplierIcon = document.createElement('i');
+    supplierIcon.setAttribute('class', 'fas fa-people-carry');
+    supplierElement.innerHTML = "";
+    supplierElement.appendChild(supplierIcon);
+    supplierElement.innerHTML = supplierElement.innerHTML + " " + supplier;
+    supplierElement.setAttribute('title', supplier);
+  }
 
   get disabled() {
     return this.hasAttribute('disabled');
@@ -82,11 +92,13 @@ class ProductCard extends HTMLElement {
         if (data['found']) {
           this.stock = data['offer']['stock'];
           this.price = data['offer']['price'];
+          this.supplier = data['offer']['supplier'];
           this.offerid = data['offer']['id'];
           this.disabled = false;
         } else {
           this.stock = "-"
           this.price = "-"
+          this.supplier = "-"
           this.badge = data['text'];
         }
       },
@@ -125,32 +137,55 @@ class ProductCard extends HTMLElement {
     var cardTitle = document.createElement('h5');
     cardTitle.setAttribute('class', 'card-title');
     cardTitle.setAttribute('id', 'title');
-    //cardTitle.innerHTML = this.getAttribute('description');
+    cardTitle.innerHTML = this.getAttribute('description');
     cardBody.appendChild(cardTitle);
-
-    var cardText = document.createElement('p');
-    cardText.setAttribute('class', 'card-text');
-
-    var cardPrice = document.createElement('i');
-    cardPrice.setAttribute('class', 'fas fa-money-bill-wave');
-    cardText.appendChild(cardPrice);
-
+    
+    // Information grid
+    var cardText = document.createElement('div');
+    cardText.setAttribute('class', 'card-text row');
+    
+    var cardLeft = document.createElement('div');
+    cardLeft.setAttribute('class', 'col-md-5');
+    cardLeft.setAttribute('style', 'padding-right:0px;');
+    
+    var priceIcon = document.createElement('i');
+    priceIcon.setAttribute('class', 'fas fa-money-bill-wave');
+    
     var price = document.createElement('span');
     price.setAttribute('id', 'price');
     price.innerHTML = " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
-    cardText.appendChild(price);
-
-    var br = document.createElement('br');
-    cardText.appendChild(br);
-
-    var cardStock = document.createElement('i');
-    cardStock.setAttribute('class', 'fas fa-boxes');
-    cardText.appendChild(cardStock);
-
+    
+    var stockIcon = document.createElement('i');
+    stockIcon.setAttribute('class', 'fas fa-boxes');
+    
     var stock = document.createElement('span');
     stock.setAttribute('id', 'stock');
     stock.innerHTML = " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
-    cardText.appendChild(stock);
+    
+    cardLeft.appendChild(priceIcon);
+    cardLeft.appendChild(price);
+    cardLeft.appendChild(document.createElement('br'));
+    cardLeft.appendChild(stockIcon);
+    cardLeft.appendChild(stock);
+    
+    var cardRight = document.createElement('div');
+    cardRight.setAttribute('class', 'col-md-7');
+    
+    var supplierIcon = document.createElement('i');
+    supplierIcon.setAttribute('class', 'fas fa-people-carry');
+    
+    var supplier = document.createElement('div');
+    supplier.setAttribute('style', 'max-width: 110px;padding-right:0px;');
+    supplier.setAttribute('id', 'supplier');
+    supplier.setAttribute('class', 'text-truncate');
+    supplier.appendChild(supplierIcon);
+    supplier.innerHTML = supplier.innerHTML + " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
+    //cardRight.appendChild(supplierIcon);
+    cardRight.appendChild(supplier);
+    
+    cardText.appendChild(cardLeft);
+    cardText.appendChild(cardRight);   
+    
     shadow.innerHTML = '<style>.card .card-badge {position:absolute;top:-10px;left:-30px;padding:5px;background:blue;color:white;transform:rotate(-20deg);}</style><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">'
     cardBody.appendChild(cardText);
     shadow.appendChild(rowDiv);
@@ -158,4 +193,4 @@ class ProductCard extends HTMLElement {
   }
 }
 
-customElements.define('product-card', ProductCard, { extends: 'div' });
+customElements.define('product-card', ProductCard);

@@ -5,7 +5,7 @@
   <div class="card-deck">
 
   {% for product in products %}
-  <product-card productid="{{ product.id }}" notificationcallback="show_modal('soos', 'saas')" description="{{ product.description }}" stock="{{ product.stock }}" price="{{ product.getprice() }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
+  <product-card productid="{{ product.id }}" description="{{ product.description }}" stock="{{ product.stock }}" price="{{ product.getprice() }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
   </product-card>
 {% endfor %}
 </div>
