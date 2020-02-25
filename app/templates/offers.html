@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 7%">#</th>
+      <th scope="col" style="width: 25%">{{ _('Produkt') }}</th>
+      <th scope="col" style="width: 15%">{{ _('Bestand') }}</th>
+      <th scope="col" style="width: 10%">{{ _('Preis') }}</th>
+      <th scope="col" style="width: 10%">{{ _('Aktiv') }}</th>
+      <th scope="col" style="width: 18%">{{ _('Datum') }}</th>
+      <th scope="col" data-formatter="TableActions" class="col-md-1" style="width: 30%">{{ _('Aktionen') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if offers.items|length > 0 %}
+    {% for offer in offers.items %}
+      <tr>
+        <th scope="row">{{ loop.index + ((offers.page-1)*offers.per_page) }}</th>
+        <td>{{ offer.product.description }}</td>
+        <td>{{ offer.stock }}</td>
+        <td>{{ offer.getprice() }}</td>
+        <td>{{ _('Ja') if offer.active else _('Nein') }}</td>
+        <td>{{ offer.created.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td>
+          <a class="show" href="{{ url_for('main.offer', id=offer.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-lg fa-edit table-action"></i></a>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
+  {% endif %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#offer").addClass('active');
+  </script>
+{% endblock %}

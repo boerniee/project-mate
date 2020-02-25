@@ -31,6 +31,11 @@
               <span class="badge badge-pill badge-primary" style="float:right;margin-bottom:-10px;">{{ current_user.unpaid_bills }}</span>
               <a id="invoice" class="nav-link" href="{{ url_for('main.invoice') }}">{{ _('Rechnungen') }}</a>
             </li>
+            {% if current_user.has_role('supplier') %}
+              <li class="nav-item">
+                <a id="offer" class="nav-link" href="{{ url_for('main.offers') }}">{{ _('Eigene Angebote') }}</a>
+              </li>
+            {% endif %}
             {% if current_user.has_role('admin') %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -21,6 +21,13 @@
               {% endfor %}
           </p>
           <p>
+              {{ form.paypal.label }}<br>
+              {{ form.paypal(class_='form-control', size=50) }}<br>
+              {% for error in form.paypal.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </p>
+          <p>
               {{ form.lang.label }}<br>
               {{ form.lang(class_='form-control') }}<br>
               {% for error in form.lang.errors %}

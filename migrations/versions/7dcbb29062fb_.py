@@ -15,11 +15,9 @@ down_revision = '48546fdb930b'
 branch_labels = None
 depends_on = None
 
-
-def upgrade():
-    op.rename_table('drink', 'product')
+def consumption2():
     meta = sa.MetaData()
-    consumption = sa.Table(
+    return sa.Table(
         'consumption',meta,
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('amount', sa.Integer(), nullable=True),
@@ -33,13 +31,32 @@ def upgrade():
         sa.PrimaryKeyConstraint('id')
     )
 
+def consumption():
+    meta = sa.MetaData()
+    return sa.Table(
+        'consumption',meta,
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('amount', sa.Integer(), nullable=True),
+        sa.Column('price', sa.Float(), nullable=True),
+        sa.Column('product_id', sa.Integer(), nullable=True),
+        sa.Column('user_id', sa.Integer(), nullable=True),
+        sa.Column('time', sa.DateTime(), nullable=True),
+        sa.Column('billed', sa.Boolean(), nullable=True),
+        sa.ForeignKeyConstraint(['product_id'], ['product.id'], ),
+        sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+        sa.PrimaryKeyConstraint('id')
+    )
+
+def upgrade():
+    op.rename_table('drink', 'product')
+
     bind = op.get_bind()
     if bind.engine.name == 'mysql':
         op.alter_column('consumption', 'drink_id', new_column_name='product_id', type_=sa.Integer())
         op.drop_constraint(u'consumption_ibfk_1', 'consumption', type_='foreignkey')
         op.create_foreign_key(u'consumption_ibfk_1', 'consumption', 'product', ['product_id'], ['id'])
     else:
-        with op.batch_alter_table('consumption', copy_from=consumption) as bop:
+        with op.batch_alter_table('consumption', copy_from=consumption2()) as bop:
             bop.alter_column('drink_id', new_column_name='product_id')
 
 
@@ -51,5 +68,5 @@ def downgrade():
         op.drop_constraint(u'consumption_ibfk_1', 'consumption', type_='foreignkey')
         op.create_foreign_key(u'consumption_ibfk_1', 'consumption', 'drink', ['drink_id'], ['id'])
     else:
-        with op.batch_alter_table('consumption', copy_from=consumption) as bop:
+        with op.batch_alter_table('consumption', copy_from=consumption()) as bop:
             bop.alter_column('product_id', new_column_name='drink_id')

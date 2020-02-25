@@ -28,6 +28,7 @@ def validate_password(self, field):
 class EditProfile(FlaskForm):
     username = StringField(_l('Benutzername'), validators=[DataRequired(), validate_username])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    paypal = StringField(_l('PayPal.me'))
     lang = SelectField(_l('Sprache'), choices=[(key, val) for key,val in app.config['LANGUAGES'].items()], validators=[DataRequired(), validate_lang])
     submit = SubmitField(_l('Speichern'))
 
