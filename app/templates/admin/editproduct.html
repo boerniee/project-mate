@@ -11,13 +11,6 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>
-            {{ form.price.label }}<br>
-            {{ form.price(size=32) }}<br>
-            {% for error in form.price.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
         {% if product.imageUrl %}<p><div class="imagecontainer"><i class="fas fa-times image-delete" onClick="deleteImage()"></i><img class="image" src="{{ url_for('static', filename='images/' + product.imageUrl or '') }}"></div></p>{% endif %}
         <p>
           {{ form.file }}<br>
@@ -26,7 +19,6 @@
           {% endfor %}
         </p>
         <p>{{ form.active() }} {{ form.active.label }}</p>
-        <p>{{ form.stock() }} {{ form.stock.label }} <i id="help_stock" data-trigger="hover" title="Hilfe" data-content="{{ _('Wenn der Bestand inaktiv ist werden nur Buchungen von Produkten berücksichtigt') }}" class="fa fa-question-circle"></i></p>
         <p>{{ form.highlight() }} {{ form.highlight.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>

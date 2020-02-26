@@ -57,26 +57,8 @@ def consume(offerid):
     c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, offer_id=offer.id, billed=False, time=datetime.datetime.utcnow())
     db.session.add(c)
     db.session.commit()
-    print(c.getprice)
 
     return jsonify({'success': True, 'title': '🍻🎉', 'text': _('Viel spaß mit deinem Produkt!')})
-    #if not product:
-    #    abort(Response("Not a valid productid", 400))
-
-    #if not product.active:
-#        abort("Product inactive", 400)
-
-    #if product.stock_active and product.stock <= 0:
-    #    abort("Out of stock", 400)
-    #elif product.stock_active and product.stock > 0:
-    #    product.stock -= 1
-
-    #c = Consumption(amount=1, user_id=current_user.id, price=product.price, product_id=product.id, billed=False, time=datetime.datetime.utcnow())
-
-    #db.session.add(c)
-    #db.session.commit()
-
-    #return jsonify({'success': True, 'active': product.stock_active, 'stock': product.stock})
 
 @bp.route('/ajax/product/<int:id>/offer')
 def get_offer_for_product(id):

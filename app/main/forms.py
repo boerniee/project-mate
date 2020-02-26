@@ -15,7 +15,6 @@ class ProductForm(FlaskForm):
     description = StringField(_l('Beschreibung'), validators=[DataRequired()])
     active = BooleanField(_l('Aktiv'))
     highlight = BooleanField(_l('Hervorheben'))
-    stock = BooleanField(_l('Bestand führen'))
     submit = SubmitField(_l('Speichern'))
     file = FileField('image', validators=[
         FileAllowed(['jpg', 'png'], _l('Nur Dateiendungen jpg order png erlaubt!'))

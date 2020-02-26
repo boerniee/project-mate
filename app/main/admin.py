@@ -84,9 +84,7 @@ def editproduct(id):
         product = Product.query.get(id)
     if form.validate_on_submit():
         product.description = form.description.data
-        product.price = form.price.data
         product.active = form.active.data
-        product.stock_active = form.stock.data
         product.highlight = form.highlight.data
         if form.file.data:
             save_image(product, form.file, app)
@@ -96,9 +94,7 @@ def editproduct(id):
         flash(_('Gespeichert'))
         return redirect(url_for('main.manageproducts'))
     form.description.data = product.description
-    form.price.data = product.price
     form.active.data = product.active
-    form.stock.data = product.stock_active
     form.highlight.data = product.highlight
     return render_template('admin/editproduct.html', title=_('Barbeiten '), product=product, form=form)
 

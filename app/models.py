@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     lang = db.Column(db.String(3))
     roles = db.relationship('Role', secondary='user_roles')
     consumptions = db.relationship("Consumption", back_populates="user")
-    invoices = db.relationship("Invoice")
+    invoices = db.relationship("Invoice", foreign_keys="Invoice.user_id")
 
     @property
     def is_active(self):
@@ -156,12 +156,13 @@ class Invoice(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     paid = db.Column(db.Boolean)
-    paypalme = db.Column(db.String(64))
+    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     positions = db.relationship("Position")
-    user = db.relationship("User")
+    user = db.relationship("User", foreign_keys="Invoice.user_id")
+    supplier = db.relationship("User", foreign_keys="Invoice.supplier_id")
 
     def get_paypal_link(self):
-        return f"https://www.paypal.me/{self.paypalme}/{self.getsum()}"
+        return f"https://www.paypal.me/{self.user.paypal}/{self.getsum()}"
 
     def getsum(self):
         return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)

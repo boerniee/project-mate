@@ -15,6 +15,19 @@ down_revision = '7dcbb29062fb'
 branch_labels = None
 depends_on = None
 
+def get_invoice_table():
+    meta = sa.MetaData()
+    return sa.Table('invoice',meta,
+        sa.Column('id', sa.Integer(), nullable=False),
+        sa.Column('sum', sa.Float(), nullable=True),
+        sa.Column('user_id', sa.Integer(), nullable=True),
+        sa.Column('date', sa.DateTime(), nullable=True),
+        sa.Column('paypalme', sa.String(length=64), nullable=True),
+        sa.Column('paid', sa.Boolean(), nullable=True),
+        sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+        sa.PrimaryKeyConstraint('id')
+        )
+
 def get_user_table():
     meta = sa.MetaData()
     return sa.Table('user',meta,
@@ -58,12 +71,18 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
 
+    op.add_column('invoice', sa.Column('supplier_id', sa.Integer(), nullable=True))
+    op.add_column('consumption', sa.Column('offer_id', sa.Integer(), nullable=True))
+    op.add_column('user', sa.Column('paypal', sa.String(length=50), nullable=True))
+
     bind = op.get_bind()
     if bind.engine.name == 'mysql':
         op.create_foreign_key(None, 'consumption', 'offer', ['offer_id'], ['id'])
-
-    op.add_column('consumption', sa.Column('offer_id', sa.Integer(), nullable=True))
-    op.add_column('user', sa.Column('paypal', sa.String(length=50), nullable=True))
+        op.create_foreign_key(None, 'invoice', 'user', ['supplier_id'], ['id'])
+        op.drop_column('invoice', 'paypalme')
+    else:
+        with op.batch_alter_table('invoice', copy_from=get_invoice_table()) as bop:
+            bop.drop_column('paypalme')
     # ### end Alembic commands ###
 
 

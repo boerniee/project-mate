@@ -41,7 +41,7 @@ def overview():
 def invoice():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    invoices = db.session.query(Invoice).join(User).filter(User.id==current_user.id).order_by(Invoice.paid, Invoice.date.desc()).paginate(page,per_page,error_out=False)
+    invoices = db.session.query(Invoice).join(User, User.id == Invoice.user_id).filter(User.id==current_user.id).order_by(Invoice.paid, Invoice.date.desc()).paginate(page,per_page,error_out=False)
     return render_template('invoices.html', title=_('Rechnungen'), invoices=invoices)
 
 @bp.route('/invoice/<id>', methods=['GET'])
@@ -77,14 +77,13 @@ def offer(id):
         offer.price = form.price.data
         offer.stock = form.stock.data
         offer.product_id = form.product.data
-        print(form.product.data)
         if not offer.id:
             db.session.add(offer)
         db.session.commit()
         flash(_('Gespeichert'))
         return redirect(url_for('main.offers'))
-
-    form.product.data = offer.product.id
+    if offer.product:
+        form.product.data = offer.product.id
     form.active.data = offer.active
     form.price.data = offer.price
     form.stock.data = offer.stock
