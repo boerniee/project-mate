@@ -17,7 +17,6 @@
         <th scope="col">#</th>
         <th scope="col">{{ _('Beschreibung') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
-        <th scope="col">{{  _('Bestand') }}</th>
         <th scope="col">{{ _('Status') }}</th>
         <th scope="col" data-formatter="TableActions">{{ _('Aktionen') }}</th>
       </tr>
@@ -29,11 +28,9 @@
       <th scope="row">{{ loop.index + ((products.page-1)*products.per_page) }}</th>
       <td>{{ product.description }}</td>
       <td>{{ product.getprice() }}</td>
-      <td id="stock-{{ product.id }}">{{ product.stock if product.stock_active else '-' }}</td>
       <td>{{ _('Aktiv') if product.active else _('Inaktiv') }}</td>
       <td>
         <a class="edit" href="{{ url_for('main.editproduct', id=product.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit fa-lg table-action"></i></a>
-        <a class="book" href="javascript:showModal({{ product.id }})" title="{{ _('Buchung tätigen') }}"><i class="fas fa-cart-plus fa-lg table-action"></i></a>
       </td>
     </tr>
   {% endfor %}
@@ -42,29 +39,6 @@
   {% endif %}
   </tbody>
 </table>
-
-<div class="modal fade" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">{{ _('SooS') }}</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div id="text">20</div>
-        <form name="stock">
-          <input type="hidden" id="product_id" name="product_id"/>
-          <input id="stock_amount" name="stock" type="range" min="1" max="100" value="20" class="slider">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="book_stock">{{ _('Buchen') }}</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _('Abbrechen') }}</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <nav aria-label="Page navigation">
   <ul class="pagination justify-content-center">
@@ -88,43 +62,5 @@
 {% block custom_script %}
   <script>
     $("#manageproducts").addClass('active');
-
-    $("#stock_amount").mousemove(function () {
-      $("#text").text($("#stock_amount").val())
-    });
-
-    function getFormData(form) {
-      var unindexed_array = form.serializeArray();
-      var indexed_array = {};
-
-      $.map(unindexed_array, function(n, i){
-          indexed_array[n['name']] = n['value'];
-      });
-
-      return indexed_array;
-    }
-
-    $("#book_stock").on("click", function(e){
-      $.ajax({
-                url: '{{ url_for('main.add_stock') }}',
-                type : 'POST',
-                contentType : 'application/json',
-                data : JSON.stringify(getFormData($('form[name="stock"]'))),
-                success : function(result) {
-                    $('#myModal').modal('toggle');
-                    $('#stock-'+result['id']).text(result['stock']);
-                },
-                error: function(xhr, resp, text) {
-                    console.log(xhr, resp, text);
-                }
-            });
-    });
-
-    function showModal(id) {
-      var modal = $('#myModal');
-      $('#product_id').val(id);
-      modal.find('.modal-header h4').html('gut guut guuut');
-      modal.modal('toggle');
-    }
   </script>
 {% endblock %}

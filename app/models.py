@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     paypal = db.Column(db.String(50))
     lang = db.Column(db.String(3))
     roles = db.relationship('Role', secondary='user_roles')
-    consumptions = db.relationship("Consumption", back_populates="user")
+    consumptions = db.relationship("Consumption", foreign_keys="Consumption.user_id", back_populates="user")
     invoices = db.relationship("Invoice", foreign_keys="Invoice.user_id")
 
     @property
@@ -80,8 +80,6 @@ class Product(db.Model):
     description = db.Column(db.String(64), index=True, unique=True)
     price = db.Column(db.Float, index=True)
     imageUrl = db.Column(db.String(2048))
-    stock = db.Column(db.Integer)
-    stock_active = db.Column(db.Boolean)
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
     offers = db.relationship("Offer")
@@ -127,13 +125,13 @@ class Consumption(db.Model):
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
-    offer_id = db.Column(db.Integer, db.ForeignKey('offer.id'))
+    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)
     billed = db.Column(db.Boolean)
-    user = db.relationship('User', back_populates="consumptions")
+    user = db.relationship('User', foreign_keys="Consumption.user_id")
     product = db.relationship('Product')
-    offer = db.relationship('Offer')
+    supplier = db.relationship('User', foreign_keys="Consumption.supplier_id")
 
     def serialize(self):
         return {

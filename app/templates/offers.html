@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<div class="col-1"><a href="{{ url_for('main.offer', id=0) }}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></div>
+<h1>{{ _('Eigene Angebote') }}<a style="padding-left: 15px;" href="{{ url_for('main.offer', id=0) }}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></h1>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -26,11 +26,12 @@
         <td>{{ offer.created.strftime('%d.%m.%Y %H:%M') }}</td>
         <td>
           <a class="show" href="{{ url_for('main.offer', id=offer.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-lg fa-edit table-action"></i></a>
+          <a class="show" onclick="deleteoffer({{ offer.id }})" title="{{ _('Löschen') }}"><i class="fas fa-lg fa-trash-alt table-action"></i></a>
         </td>
       </tr>
     {% endfor %}
   {% else %}
-    <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
+    <tr><td colspan="7">{{ _('Keine Einträge vorhanden') }}</td></tr>
   {% endif %}
   </tbody>
 </table>
@@ -39,5 +40,18 @@
 {% block custom_script %}
   <script>
     $("#offer").addClass('active');
+
+    function deleteoffer(id) {
+      $.ajax({
+        url: "{{ url_for('main.delete_offer', id=0) }}".replace('0', id),
+        type: 'DELETE',
+        success: function() {
+          window.location.reload();
+        },
+        fail: function() {
+          alert("{{ _('Ein unbekanntes Müsli ist aufgetreten') }}")
+        }
+      });
+    }
   </script>
 {% endblock %}

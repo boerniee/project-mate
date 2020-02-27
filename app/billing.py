@@ -15,23 +15,28 @@ def run_billing():
         res = billUser(user[0])
 
 def billUser(user):
-    createInvoice(user)
+    cons = Consumption.query.filter_by(user_id=user, billed=False).all()
+    cons_by_supplier = defaultdict(list)
+    for con in cons:
+        cons_by_supplier[con.supplier_id].append(con)
+    
+    for k,v in cons_by_supplier:
+        createInvoice(v)
 
-def createInvoice(user):
+def createInvoice(inv_data, supplier_id):
     groups = defaultdict(list)
-    consumptions = Consumption.query.filter_by(user_id=user, billed=False).all()
-    for consumption in consumptions:
-        groups[consumption.product].append(consumption)
+    for c in inv_data:
+        groups[c.product].append(c)
 
-    invoice = Invoice(user_id=user, paid=False, date=datetime.datetime.utcnow(), positions=[], paypalme=app.config['PAYPAL'])
+    invoice = Invoice(user_id=user, paid=False, date=datetime.datetime.utcnow(), positions=[], supplier_id=supplier_id)
     for k,v in groups.items():
         summe = sum((c.price * c.amount) for c in v)
         amount = sum(c.amount for c in v)
         p = Position(amount=amount, sum=summe, invoice=invoice, product=k)
         invoice.positions.append(p)
 
-    for consumption in consumptions:
-        consumption.billed = True
+    for c in inv_data:
+        c.billed = True
 
     invsum = sum(p.sum for p in invoice.positions)
     invoice.sum=invsum

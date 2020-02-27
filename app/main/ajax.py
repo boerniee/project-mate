@@ -4,7 +4,7 @@ from app import app, db
 from app.utils import right_required, format_curr
 from app.models import Product, Consumption, Invoice, User, Offer
 import datetime
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 from app.billing import run_billing
 from app.main import bp
 from app.schema import BookRequestSchema, offer_schema
@@ -14,6 +14,16 @@ from marshmallow import ValidationError
 from flask_babel import _
 import os
 import json
+from collections import defaultdict
+
+@bp.route('/ajax/offer/<int:id>', methods=['DELETE'])
+@login_required
+def delete_offer(id):
+    o = Offer.query.get(id)
+    if o:
+        db.session.delete(o)
+        db.session.commit()
+    return jsonify({'success': True})
 
 @bp.route('/manage/invoice/<int:id>/paid')
 @right_required(role='admin')
@@ -24,27 +34,12 @@ def markinvoiceaspaid(id):
     return jsonify({'success': True})
 
 @bp.route('/ajax/invoice/<int:id>/remind', methods=['POST'])
+@login_required
 def send_reminder(id):
     inv = Invoice.query.get(id)
     if inv:
         send_invoice_reminder(inv)
     return jsonify({'success': True})
-
-@bp.route('/ajax/stock', methods=['POST'])
-@right_required(role='admin')
-def add_stock():
-    id = request.json['product_id']
-    product = Product.query.with_for_update().get(id)
-
-    if not product:
-        abort(Response("Not a valid productid", 400))
-    try:
-        amount = int(request.json['stock'])
-    except Exception:
-        abort(Response('Invalid stock value', 400))
-    product.stock += amount
-    db.session.commit()
-    return jsonify({'success': True, 'id': product.id,  'stock': product.stock if product.stock_active else '-'})
 
 @bp.route('/ajax/consume/offer/<int:offerid>', methods=['POST'])
 @login_required
@@ -54,13 +49,22 @@ def consume(offerid):
         return jsonify({'success': False, 'title': 'Ungültiges Angebot', 'text': 'Dieses Angebot ist nicht mehr gültig bitte versuche es noch einmal.'})
 
     offer.stock -= 1
-    c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, offer_id=offer.id, billed=False, time=datetime.datetime.utcnow())
+    c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, supplier_id=offer.user.id, billed=False, time=datetime.datetime.utcnow())
+    if offer.stock < 1:
+        db.session.delete(offer)
     db.session.add(c)
     db.session.commit()
 
     return jsonify({'success': True, 'title': '🍻🎉', 'text': _('Viel spaß mit deinem Produkt!')})
 
+@bp.route('/ajax/product/<int:id>/offer/all')
+@right_required(role='admin')
+def get_all_offers_product(id):
+    offers = Offer.query.filter(Offer.product_id == id).all()
+    return jsonify({'offers': [o.serialize() for o in offers]})
+
 @bp.route('/ajax/product/<int:id>/offer')
+@login_required
 def get_offer_for_product(id):
     response = {'found': False, 'text': "", 'offer': None}
 
@@ -74,6 +78,7 @@ def get_offer_for_product(id):
     return jsonify(response)
 
 @bp.route('/ajax/product/<int:id>/image', methods=['DELETE'])
+@right_required(role='admin')
 def delete_product_image(id):
     product = Product.query.get(id)
     if not product:
