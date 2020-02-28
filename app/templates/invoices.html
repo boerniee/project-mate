@@ -1,14 +1,16 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+  <h1>{{ _('Rechnungen') }}</h1>
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col" style="width: 7%">#</th>
-        <th scope="col" style="width: 15%">{{ _('Betrag') }}</th>
         <th scope="col" style="width: 15%">{{ _('Bezahlt') }}</th>
-        <th scope="col" style="width: 33%">{{ _('Datum') }}</th>
-        <th scope="col" data-formatter="TableActions" class="col-md-1" style="width: 30%">{{ _('Aktionen') }}</th>
+        <th scope="col" style="width: 15%">{{ _('Betrag') }}</th>
+        <th scope="col" style="width: 20%">{{ _('Lieferant') }}</th>
+        <th scope="col" style="width: 28%">{{ _('Datum') }}</th>
+        <th scope="col" data-formatter="TableActions" class="col-md-1" style="width: 15%">{{ _('Aktionen') }}</th>
       </tr>
     </thead>
     <tbody>
@@ -16,8 +18,9 @@
       {% for invoice in invoices.items %}
         <tr>
           <th scope="row">{{ loop.index + ((invoices.page-1)*invoices.per_page) }}</th>
-          <td>{{ invoice.formatsum() }}</td>
           <td>{{ _('Ja') if invoice.paid else _('Nein') }}</td>
+          <td>{{ invoice.formatsum() }}</td>
+          <td>{{ invoice.supplier.username }}</td>
           <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
           <td>
             <a class="show" href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-lg table-action fa-file-invoice-dollar"></i></a>
