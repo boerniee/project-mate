@@ -37,7 +37,7 @@ def right_required(role="ANY"):
         def decorated_view(*args, **kwargs):
             if not current_user.is_authenticated:
                return login.unauthorized()
-            if ( (not current_user.has_role(role)) and (role != "ANY")):
+            if ( (not current_user.has_role(role)) and (role != "ANY")) and not current_user.has_role('admin'):
                 return login.unauthorized()
             return fn(*args, **kwargs)
         return decorated_view

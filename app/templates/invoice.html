@@ -23,6 +23,7 @@
         <th scope="col">#</th>
         <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Summe') }}</th>
       </tr>
     </thead>
@@ -33,6 +34,7 @@
           <th scope="row">{{ loop.index }}</th>
           <td>{{ position.product.description }}</td>
           <td>{{ position.amount }}</td>
+          <td>{{ position.getprice() }}</td>
           <td>{{ position.getsum() }}</td>
         </tr>
       {% endfor %}

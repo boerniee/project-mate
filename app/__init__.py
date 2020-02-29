@@ -17,8 +17,7 @@ def patch_requests_class(app):
     app.request_class = patched
 
 def make_celery(app):
-    celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'],
-                    broker=app.config['CELERY_BROKER_URL'])
+    celery = Celery(app.import_name, backend=app.config['REDIS_URL'], broker=app.config['REDIS_URL'])
     celery.conf.update(app.config)
     TaskBase = celery.Task
     class ContextTask(TaskBase):
@@ -40,7 +39,6 @@ login = LoginManager(app)
 login.login_view = 'auth.login'
 login.login_message = _l("Bitte logge dich ein.")
 celery = make_celery(app)
-celery.conf.update(app.config)
 mail = Mail(app)
 
 Path(app.config['IMAGE_UPLOAD_FOLDER']).mkdir(parents=True, exist_ok=True)

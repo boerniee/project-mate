@@ -184,5 +184,8 @@ class Position(db.Model):
     def getsum(self):
         return format_curr(self.sum)
 
+    def getprice(self):
+        return format_curr(self.price)
+
     def __repr__(self):
         return '<Position {}>'.format(self.id)

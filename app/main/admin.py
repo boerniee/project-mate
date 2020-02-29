@@ -7,16 +7,22 @@ from app.utils import right_required, getIntQueryParam, format_curr, save_image
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
-from sqlalchemy import or_
+from sqlalchemy import or_, and_, func
 from werkzeug import secure_filename
 
 @bp.route('/manage/dashboard')
-@right_required(role='admin')
+@right_required(role='supplier')
 def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
-    cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
+    q = Consumption.query
+    if current_user.has_role('admin'):
+        q = q.filter(Consumption.billed == False)
+        open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
+    else:
+        q = q.filter(and_(Consumption.billed == False, Consumption.supplier_id == current_user.id))
+        open = db.engine.execute('select sum(amount * price) from consumption where billed = 0 and supplier_id = ' + str(current_user.id)).first()[0]
+    cons = q.order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
 
 @bp.route('/manage/user')
@@ -99,14 +105,14 @@ def editproduct(id):
     return render_template('admin/editproduct.html', title=_('Barbeiten '), product=product, form=form)
 
 @bp.route('/manage/invoice')
-@right_required(role='admin')
+@right_required(role='supplier')
 def manageinvoices():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    invoices = Invoice.query.filter_by(paid=False).paginate(page,per_page,error_out=False)
+    q = Invoice.query
+    if current_user.has_role('admin'):
+        q = q.filter_by(paid=False)
+    else:
+        q = q.filter_by(supplier_id=current_user.id)
+    invoices = q.paginate(page,per_page,error_out=False)
     return render_template('admin/manageinvoices.html', title=_('Rechnungen verwalten'), invoices=invoices)
-
-@bp.route('/manage/admin')
-@right_required(role='superadmin')
-def superadmin():
-    return render_template('admin/superadmin.html', title=_('Superadmin'))

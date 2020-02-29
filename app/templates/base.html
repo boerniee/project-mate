@@ -47,9 +47,6 @@
                   {% endif %}
                 </div>
               </li>
-              {% if current_user.has_role('superadmin') %}
-                <li class="nav-item"><a id="superadmin" class="nav-link" href="{{ url_for('main.superadmin') }}">{{ _('Superadmin') }}</a></li>
-              {% endif %}
             {% endif %}
           </ul>
         </div>
