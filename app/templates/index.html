@@ -5,6 +5,7 @@
   <div class="card-deck">
 
   {% for product in products %}
+  {% if (loop.index -1) % 3 == 0 and loop.index > 1 %}</div><div class="card-deck">{% endif %}
   <product-card productid="{{ product.id }}" description="{{ product.description }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
   </product-card>
 {% endfor %}

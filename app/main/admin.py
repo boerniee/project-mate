@@ -15,8 +15,9 @@ from werkzeug import secure_filename
 def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
+
     q = Consumption.query
-    if current_user.has_role('admin'):
+    if request.args.get('all') and current_user.has_role('admin'):
         q = q.filter(Consumption.billed == False)
         open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
     else:
