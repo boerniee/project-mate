@@ -50,12 +50,14 @@ def edituser(id):
             send_activated_mail(user)
         user.email = form.email.data
         user.active = form.active.data
-        if form.admin.data and not user.has_role('admin'):
-            role = Role.query.filter_by(name='admin').first()
-            user.roles.append(role)
-        elif not form.admin.data and user.has_role('admin'):
-            role = Role.query.filter_by(name='admin').first()
-            user.roles.remove(role)
+        if form.admin.data:
+            user.add_role('admin')
+        else:
+            user.remove_role('admin')
+        if form.supplier.data:
+            user.add_role('supplier')
+        else:
+            user.remove_role('supplier')
         if id == 0:
             db.session.add(user)
         db.session.commit()
@@ -65,6 +67,7 @@ def edituser(id):
     form.email.data = user.email
     form.active.data = user.active
     form.admin.data = user.has_role('admin')
+    form.supplier.data = user.has_role('supplier')
     return render_template('admin/edituser.html', title='Barbeiten ', form=form)
 
 @bp.route('/manage/product')
@@ -111,8 +114,8 @@ def manageinvoices():
     per_page = app.config['PER_PAGE']
     q = Invoice.query
     if current_user.has_role('admin'):
-        q = q.filter_by(paid=False)
+        q = q.filter(Invoice.paid==False)
     else:
-        q = q.filter_by(supplier_id=current_user.id)
+        q = q.filter(and_(Invoice.supplier_id==current_user.id, Invoice.paid==False))
     invoices = q.paginate(page,per_page,error_out=False)
     return render_template('admin/manageinvoices.html', title=_('Rechnungen verwalten'), invoices=invoices)

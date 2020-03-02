@@ -91,17 +91,19 @@
                   </select>
                 </div>
               </div>
+              <div class="row" style="padding-top: 1rem;">
+                <div class="col-4"><input placeholder="{{ _('Preis') }}" id="price" name="price" class="form-control" type="text" /></div>
+                <div class="col-md-8">
+                  <select style="width: 100%;" id="supplier" class="form-control form-control-sm">
+                    <option>{{ _('Lädt...') }}</option>
+                  </select>
+                </div>
+              </div>
               <div style="padding-top: 1rem;" class="row justify-content-center">
                 <div class="col-auto form-check">
                   <input class="form-check-input" type="checkbox" value="" id="credit">
                   <label class="form-check-label" for="credit">
                     {{ _('Gutschrift') }}
-                  </label>
-                </div>
-                <div class="col-auto form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="withStock">
-                  <label class="form-check-label" for="withStock">
-                    {{ _('Bestand berücksichtigen') }}
                   </label>
                 </div>
               </div>
@@ -136,7 +138,20 @@
           var sel = $("#products");
           sel.empty();
           for (var i=0; i<data.length; i++) {
-            sel.append('<option value="' + data[i].id + '">' + data[i].description + " (" + data[i].price + ")" + '</option>');
+            sel.append('<option value="' + data[i].id + '">' + data[i].description + '</option>');
+          }
+        }
+      );
+
+      $.ajax({
+        url: "{{ url_for('main.supplier') }}",
+        dataType: "json"
+      }).done(
+        function(data) {
+          var sel = $("#supplier");
+          sel.empty();
+          for (var i=0; i<data.length; i++) {
+            sel.append('<option value="' + data[i].id + '">' + data[i].username + '</option>');
           }
         }
       );
@@ -146,7 +161,7 @@
       $('#myModal').modal('toggle');
       $.post({
         url: "{{ url_for('main.book') }}",
-        data: JSON.stringify({ "amount": $('#amount').val() , "user": $('#userid').val() , "credit": $('#credit').prop('checked') , "product": $('#products').val() , "stock": $('#withStock').prop('checked') }),
+        data: JSON.stringify({ "amount": $('#amount').val() , "user": $('#userid').val(), "price": $('#price').val(), "supplier": $('#supplier').val(), "credit": $('#credit').prop('checked') , "product": $('#products').val() }),
         contentType:"application/json; charset=utf-8",
         dataType:"json",
         success: function(d) {

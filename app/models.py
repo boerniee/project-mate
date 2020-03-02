@@ -34,6 +34,16 @@ class User(UserMixin, db.Model):
     def has_role(self, role):
         return role in [r.name for r in self.roles]
 
+    def remove_role(self, role):
+        if self.has_role(role):
+            r = Role.query.filter_by(name=role).first()
+            self.roles.remove(r)
+
+    def add_role(self, role):
+        if not self.has_role(role):
+            r = Role.query.filter_by(name=role).first()
+            self.roles.append(r)
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -78,7 +88,6 @@ def load_user(id):
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(64), index=True, unique=True)
-    price = db.Column(db.Float, index=True)
     imageUrl = db.Column(db.String(2048))
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
@@ -88,12 +97,8 @@ class Product(db.Model):
         return {
             'id': self.id,
             'description': self.description,
-            'active': self.active,
-            'price': self.getprice()
+            'active': self.active
         }
-
-    def getprice(self):
-        return format_curr(self.price)
 
     def __repr__(self):
         return '<Product {}>'.format(self.description)
@@ -154,13 +159,14 @@ class Invoice(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     paid = db.Column(db.Boolean)
+    sent = db.Column(db.Boolean)
     supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     positions = db.relationship("Position")
     user = db.relationship("User", foreign_keys="Invoice.user_id")
     supplier = db.relationship("User", foreign_keys="Invoice.supplier_id")
 
     def get_paypal_link(self):
-        return f"https://www.paypal.me/{self.user.paypal}/{self.getsum()}"
+        return f"https://www.paypal.me/{self.supplier.paypal}/{self.getsum()}"
 
     def getsum(self):
         return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)

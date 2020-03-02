@@ -3,7 +3,7 @@
 {% block app_content %}
   <div class="row">
     <div class="col-6"><h1 style="float:left;line-height:2.5rem;">{{ _('Dashboard') }}</h1>{% if current_user.has_role('admin') %}<button id="billingstart" class="btn btn-primary" style="margin-left: 25px;float:left;" type="button">{{ _('Starte Abrechnung') }}</button>{% endif %}</div>
-    <div class="col-6" style="float:right;"><h1>{{ _('Offen:') + ' ' + open }}</h1></div>
+    <div class="col-6 text-right"><h1>{{ _('Offen:') + ' ' + open }}</h1></div>
   </div>
 
   <table class="table table-hover">

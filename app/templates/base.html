@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css')}}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block links %}{% endblock %}
-    <title>{% block title %}{% if title %}{{ title }} - Projekt Mate{% else %}Welcome to Projekt Mate{% endif %}{% endblock %}</title>
+    <title>{% block title %}{% if title %}{{ title }} - {{ config['INFORMATION']['name'] }}{% else %}Welcome to Projekt Mate{% endif %}{% if config['BETA'] %} - BETA{% endif %}{% endblock %}</title>
   </head>
   <body>
     <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url_for('main.index') if current_user.is_authenticated else url_for('auth.login') }}">Projekt Mate</a>
+      <a class="navbar-brand" href="{{ url_for('main.index') if current_user.is_authenticated else url_for('auth.login') }}">{{ config['INFORMATION']['name'] }}{% if config['BETA'] %} <span style="color:red;">BETA</span>{% endif %}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -39,7 +39,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <a class="dropdown-item" id="manageinvoices" href="{{ url_for('main.manageinvoices') }}"><i class="fas fa-glasses"></i> {{ _('Rechnungen') }}</a>
                   <a class="dropdown-item" id="admindashboard" href="{{ url_for('main.admindashboard') }}"><i class="fas fa-chart-line"></i> {{ _('Dashboard') }}</a>
-                  <a class="dropdown-item" id="offer" href="{{ url_for('main.offers') }}"><i class="fas fa-people-carry"></i> {{ _('Eigene Angebote') }}</a>
+                  <a class="dropdown-item" id="offer" href="{{ url_for('main.offers') }}"><i class="fas fa-people-carry"></i> {{ _('Angebote') }}</a>
                   {% if current_user.has_role('admin') %}
                       <div class="dropdown-divider"></div>
                       <a class="dropdown-item" id="manageusers" href="{{ url_for('main.manageusers') }}"><i class="fas fa-users"></i> {{ _('Benutzer') }}</a>
@@ -78,8 +78,8 @@
                 </ul>
             {% endif %}
             </div>
-        </nav>
 
+        </nav>
     {% block content %}
         <div class="container">
             {% block messages %}

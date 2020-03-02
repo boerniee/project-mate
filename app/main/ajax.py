@@ -2,12 +2,12 @@ from flask import jsonify, abort, Response, request
 from flask_login import current_user, login_required
 from app import app, db
 from app.utils import right_required, format_curr
-from app.models import Product, Consumption, Invoice, User, Offer
+from app.models import Product, Consumption, Invoice, User, Offer,  UserRoles, Role
 import datetime
-from sqlalchemy import and_, func
+from sqlalchemy import or_, and_, func
 from app.billing import run_billing
 from app.main import bp
-from app.schema import BookRequestSchema, offer_schema
+from app.schema import BookRequestSchema, offer_schema, supplier_schema
 from app.email import send_invoice_reminder
 from app.service.productservice import get_offer_by_id, get_offer_by_product
 from marshmallow import ValidationError
@@ -98,6 +98,12 @@ def products():
     products = Product.query.all()
     return json.dumps([x.serialize() for x in products], ensure_ascii=False)
 
+@bp.route('/ajax/supplier')
+@right_required(role='admin')
+def supplier():
+    u = User.query.join(UserRoles).join(Role).filter(and_(or_(Role.name == 'supplier', Role.name == 'admin'), User.paypal != None)).all()
+    return supplier_schema.dumps(u)
+
 @bp.route('/manage/book', methods=['POST'])
 @right_required(role='admin')
 def book():
@@ -105,13 +111,9 @@ def book():
     try:
         req = schema.load(request.get_json())
     except ValidationError as err:
-        print(err)
         return _("Fehler bei der Validierung"), 400
 
-    if req['stock']:
-        p = Product.query.with_for_update().get(req['product'])
-    else:
-        p = Product.query.get(req['product'])
+    p = Product.query.get(req['product'])
     if not p:
         abort(Response("Not a valid productid", 400))
 
@@ -119,10 +121,10 @@ def book():
     if not u:
         abort(Response("Not a valid user", 400))
 
+    s = User.query.get(req['supplier'])
+
     amount = -int(req['amount']) if req['credit'] else int(req['amount'])
-    c = Consumption(amount=amount, user_id=u.id, price=p.price, product_id=p.id, billed=False, time=datetime.datetime.utcnow())
-    if req['stock']:
-        p.stock -= amount
+    c = Consumption(amount=amount, user=u, supplier=s, price=req['price'], product_id=p.id, billed=False, time=datetime.datetime.utcnow())
 
     db.session.add(c)
     db.session.commit()

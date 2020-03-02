@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <h1>{{ _('Rechnungen') }}</h1>
+  <h1 style="line-height:2.5rem;">{{ _('Rechnungen') }}</h1>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -29,7 +29,7 @@
         </tr>
       {% endfor %}
     {% else %}
-      <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
+      <tr><td colspan="6">{{ _('Keine Einträge vorhanden') }}</td></tr>
     {% endif %}
     </tbody>
   </table>

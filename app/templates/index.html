@@ -5,7 +5,7 @@
   <div class="card-deck">
 
   {% for product in products %}
-  <product-card productid="{{ product.id }}" description="{{ product.description }}" stock="{{ product.stock }}" price="{{ product.getprice() }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
+  <product-card productid="{{ product.id }}" description="{{ product.description }}" image="{{ url_for('static', filename='images/' + (product.imageUrl or 'default.png')) }}">
   </product-card>
 {% endfor %}
 </div>
@@ -32,31 +32,6 @@
   <script src="{{url_for('static', filename='js/product.js')}}"></script>
   <script>
     $("#start").addClass('active');
-  </script>
-  <script>
-    function consume(sender) {
-      sender.price = "1,29 €";
-      console.log(sender.productId)
-      return
-      var id = $(sender).data('productid')
-      $.post("".replace('id', id).reaplace )
-      .done(function(data) {
-        var modal = $('#myModal');
-        modal.find('.modal-body').text('{{ _('Viel spaß mit deinem Produkt!') }}');
-        modal.find('.modal-header h4').html('🍻🎉');
-        modal.modal('toggle');
-        $('#stock-'+id).text(data['stock']);
-        if(data['stock'] === 0 && data['active']) {
-          location.reload();
-        }
-      })
-      .fail(function() {
-        var modal = $('#myModal');
-        modal.find('.modal-body').text('{{ _('Awups, da ist etwas schief gelaufen!') }}');
-        modal.find('.modal-header h4').html('😩😩');
-        modal.modal('toggle');
-      });
-    }
     $( ".card" ).hover(
       function() {
         $(this).addClass('shadow');

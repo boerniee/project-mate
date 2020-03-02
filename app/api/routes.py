@@ -7,7 +7,6 @@ from flask import jsonify
 @bp.route("/product")
 def products():
     products = Product.query.all()
-    print(products_schema.dump(products))
     return jsonify(products=products_schema.dump(products))
 
 @bp.route("/product/<int:id>")

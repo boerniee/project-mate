@@ -16,7 +16,6 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">{{ _('Beschreibung') }}</th>
-        <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Status') }}</th>
         <th scope="col" data-formatter="TableActions">{{ _('Aktionen') }}</th>
       </tr>
@@ -27,7 +26,6 @@
     <tr>
       <th scope="row">{{ loop.index + ((products.page-1)*products.per_page) }}</th>
       <td>{{ product.description }}</td>
-      <td>{{ product.getprice() }}</td>
       <td>{{ _('Aktiv') if product.active else _('Inaktiv') }}</td>
       <td>
         <a class="edit" href="{{ url_for('main.editproduct', id=product.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-edit fa-lg table-action"></i></a>

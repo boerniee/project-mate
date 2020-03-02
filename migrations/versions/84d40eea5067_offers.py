@@ -36,6 +36,7 @@ def upgrade():
 
     with op.batch_alter_table('invoice', schema=None) as batch_op:
         batch_op.add_column(sa.Column('supplier_id', sa.Integer(), nullable=True))
+        batch_op.add_column(sa.Column('sent', sa.Boolean(), nullable=False))
         batch_op.create_foreign_key('fk_inv_supplier_id', 'user', ['supplier_id'], ['id'])
         batch_op.drop_column('paypalme')
 

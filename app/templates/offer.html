@@ -6,14 +6,14 @@
     {{ form.hidden_tag() }}
     <p>
         {{ form.product.label }}<br>
-        {{ form.product() }}<br>
+        {{ form.product(class_="form-control") }}<br>
         {% for error in form.product.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
     </p>
     <p>
         {{ form.price.label }}<br>
-        {{ form.price() }}<br>
+        {{ form.price(class_="form-control") }}<br>
         {% for error in form.price.errors %}
         <span style="color: red;">[{{ error }}]</span>
         {% endfor %}

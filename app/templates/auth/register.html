@@ -9,7 +9,7 @@
   <form class="form-register auth-form" action="" method="post" novalidate>
       {{ form.hidden_tag() }}
       {% include 'messages.html' %}
-    <h2 class="form-signin-heading">{{ _('Registrieren') }}</h2>
+    <h2 class="form-signin-heading"><a href="{{ url_for('auth.login') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Registrieren') }}</h2>
     {% if form.username.errors %}{% set x={"title": form.username.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
     {{ form.username.label }}
     {{ form.username(size=32,class_="form-control padding-15",placeholder=form.username.label.text, **x or {}) }}

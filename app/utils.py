@@ -17,6 +17,8 @@ def getIntQueryParam(request, default):
             return default
 
 def save_image(product, file, app):
+    if not os.path.exists(app.config['IMAGE_UPLOAD_FOLDER']):
+        os.makedirs(app.config['IMAGE_UPLOAD_FOLDER'])
     if product.imageUrl:
         try:
             os.remove(os.path.join(app.config['IMAGE_UPLOAD_FOLDER'], product.imageUrl))
