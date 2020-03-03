@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Email
 from flask_babel import lazy_gettext as _l
 
 class OfferForm(FlaskForm):
-    product = SelectField(_l('Sprache'), coerce=int,validators=[DataRequired()])
+    product = SelectField(_l('Produkt'), coerce=int,validators=[DataRequired()])
     price = FloatField(_l('Preis'), validators=[DataRequired()])
     stock = IntegerField(_l('Bestand'), validators=[DataRequired()])
     active = BooleanField(_l('Aktiv'))
@@ -16,7 +16,7 @@ class ProductForm(FlaskForm):
     active = BooleanField(_l('Aktiv'))
     highlight = BooleanField(_l('Hervorheben'))
     submit = SubmitField(_l('Speichern'))
-    file = FileField('image', validators=[
+    file = FileField(_l('Produktbild'), validators=[
         FileAllowed(['jpg', 'png'], _l('Nur Dateiendungen jpg order png erlaubt!'))
     ])
 

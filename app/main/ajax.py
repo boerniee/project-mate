@@ -75,6 +75,7 @@ def get_offer_for_product(id):
     else:
         response['offer'] = offer.serialize()
         response['found'] = True
+        response['text'] = _('Jetzt probieren') if offer.product.highlight else ""
     return jsonify(response)
 
 @bp.route('/ajax/product/<int:id>/image', methods=['DELETE'])
