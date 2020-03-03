@@ -27,6 +27,8 @@ def send_emails():
     invoices = Invoice.query.filter(Invoice.sent == False).all()
     for invoice in invoices:
         sendEmail(invoice)
+        invoice.sent = True
+        db.session.commit()
 
 def billUser(user):
     cons = db.session.query(Consumption).filter(Consumption.user==user, Consumption.billed==False).all()
