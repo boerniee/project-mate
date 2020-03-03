@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-02 14:07+0100\n"
+"POT-Creation-Date: 2020-03-03 20:05+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/__init__.py:40
+#: app/__init__.py:39
 msgid "Bitte logge dich ein."
 msgstr "Please log in."
 
@@ -51,13 +51,13 @@ msgid "Bitte nutze eine andere Email Adresse."
 msgstr "Please use another Email address"
 
 #: app/auth/forms.py:29 app/auth/forms.py:36 app/auth/forms.py:52
-#: app/main/forms.py:24 app/templates/admin/dashboard.html:13
+#: app/main/forms.py:25 app/templates/admin/dashboard.html:21
 #: app/templates/admin/manageusers.html:29
 msgid "Benutzername"
 msgstr "Username"
 
 #: app/auth/forms.py:30 app/auth/forms.py:42 app/auth/forms.py:53
-#: app/main/forms.py:25
+#: app/main/forms.py:26
 msgid "Email"
 msgstr "Email"
 
@@ -65,12 +65,12 @@ msgstr "Email"
 msgid "PayPal.me"
 msgstr "PayPal.me"
 
-#: app/auth/forms.py:32 app/main/forms.py:8
+#: app/auth/forms.py:32
 msgid "Sprache"
 msgstr "Language"
 
-#: app/auth/forms.py:33 app/main/forms.py:12 app/main/forms.py:18
-#: app/main/forms.py:29
+#: app/auth/forms.py:33 app/main/forms.py:13 app/main/forms.py:19
+#: app/main/forms.py:30
 msgid "Speichern"
 msgstr "Save"
 
@@ -110,7 +110,7 @@ msgstr "Repeat password"
 msgid "Registrieren"
 msgstr "Register"
 
-#: app/auth/routes.py:23 app/main/admin.py:64 app/main/admin.py:103
+#: app/auth/routes.py:23 app/main/admin.py:65 app/main/admin.py:104
 #: app/main/routes.py:83
 msgid "Gespeichert"
 msgstr "Saved"
@@ -147,24 +147,24 @@ msgstr "Successfully registered, please wait for your activation"
 msgid "Passwort gespeichert"
 msgstr "Password saved"
 
-#: app/main/admin.py:26 app/templates/admin/dashboard.html:5
+#: app/main/admin.py:27 app/templates/admin/dashboard.html:5
 #: app/templates/base.html:41
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: app/main/admin.py:38 app/templates/admin/manageusers.html:16
+#: app/main/admin.py:39 app/templates/admin/manageusers.html:16
 msgid "Benutzerverwaltung"
 msgstr "User management"
 
-#: app/main/admin.py:83 app/templates/admin/manageproducts.html:5
+#: app/main/admin.py:84 app/templates/admin/manageproducts.html:5
 msgid "Produktverwaltung"
 msgstr "Product management"
 
-#: app/main/admin.py:108
+#: app/main/admin.py:109
 msgid "Barbeiten "
 msgstr "Edit"
 
-#: app/main/admin.py:121 app/templates/admin/manageinvoices.html:4
+#: app/main/admin.py:122 app/templates/admin/manageinvoices.html:4
 msgid "Rechnungen verwalten"
 msgstr "Manage Invoices"
 
@@ -176,45 +176,60 @@ msgstr "Enjoy your product!"
 msgid "Ausverkauft"
 msgstr "Out of Stock"
 
-#: app/main/ajax.py:114
+#: app/main/ajax.py:78
+msgid "Jetzt probieren"
+msgstr "Try now"
+
+#: app/main/ajax.py:115
 msgid "Fehler bei der Validierung"
 msgstr "Error during validation"
 
-#: app/main/forms.py:9 app/templates/admin/dashboard.html:16
+#: app/main/forms.py:8 app/templates/admin/dashboard.html:22
+#: app/templates/invoice.html:24 app/templates/offers.html:19
+#: app/templates/overview.html:12
+msgid "Produkt"
+msgstr "Product"
+
+#: app/main/forms.py:9 app/templates/admin/dashboard.html:24
 #: app/templates/admin/manageusers.html:95 app/templates/invoice.html:26
-#: app/templates/offers.html:11 app/templates/overview.html:13
+#: app/templates/offers.html:21 app/templates/overview.html:13
 msgid "Preis"
 msgstr "Price"
 
-#: app/main/forms.py:10 app/templates/offers.html:10
+#: app/main/forms.py:10 app/templates/offers.html:20
 msgid "Bestand"
 msgstr "Stock"
 
-#: app/main/forms.py:11 app/main/forms.py:16 app/main/forms.py:26
+#: app/main/forms.py:11 app/main/forms.py:17 app/main/forms.py:27
 #: app/templates/admin/manageproducts.html:29
-#: app/templates/admin/manageusers.html:30 app/templates/offers.html:12
+#: app/templates/admin/manageusers.html:30 app/templates/offers.html:22
 msgid "Aktiv"
 msgstr "Active"
 
-#: app/main/forms.py:15 app/templates/admin/manageproducts.html:18
-msgid "Beschreibung"
-msgstr "Description"
-
-#: app/main/forms.py:17
-msgid "Hervorheben"
-msgstr "Highlight"
-
-#: app/main/forms.py:20
-msgid "Nur Dateiendungen jpg order png erlaubt!"
-msgstr "Only file ending jpf or png allowed"
-
-#: app/main/forms.py:27 app/templates/admin/dashboard.html:17
+#: app/main/forms.py:12 app/main/forms.py:28
+#: app/templates/admin/dashboard.html:25
 #: app/templates/admin/manageinvoices.html:21 app/templates/invoice.html:14
 #: app/templates/invoices.html:11 app/templates/overview.html:15
 msgid "Lieferant"
 msgstr "Supplier"
 
-#: app/main/forms.py:28
+#: app/main/forms.py:16 app/templates/admin/manageproducts.html:18
+msgid "Beschreibung"
+msgstr "Description"
+
+#: app/main/forms.py:18
+msgid "Hervorheben"
+msgstr "Highlight"
+
+#: app/main/forms.py:20
+msgid "Produktbild"
+msgstr "Product image"
+
+#: app/main/forms.py:21
+msgid "Nur Dateiendungen jpg order png erlaubt!"
+msgstr "Only file ending jpf or png allowed"
+
+#: app/main/forms.py:29
 msgid "Admin"
 msgstr "Admin"
 
@@ -248,12 +263,12 @@ msgstr "I'm afraid you can't do that"
 msgid "Angebot nicht gefunden"
 msgstr "Offer not found"
 
-#: app/main/routes.py:96
+#: app/main/routes.py:97
 msgid "Bitte hinterlege deine PayPal.me Kennung"
 msgstr "Please save your paypal.me username"
 
-#: app/main/routes.py:104 app/templates/base.html:42
-#: app/templates/offers.html:4
+#: app/main/routes.py:105 app/templates/base.html:42
+#: app/templates/offers.html:6
 msgid "Angebote"
 msgstr "Offers"
 
@@ -293,11 +308,11 @@ msgid_plural "Genieße eines unserer %(num)s leckeren Produkte"
 msgstr[0] "Enjoy our only great product"
 msgstr[1] "Enjoy one of our %(num)s great products"
 
-#: app/templates/index.html:17
+#: app/templates/index.html:18
 msgid "SooS"
 msgstr "SaaS"
 
-#: app/templates/index.html:23
+#: app/templates/index.html:24
 msgid "OK"
 msgstr "OK"
 
@@ -313,16 +328,11 @@ msgstr "Open"
 msgid "Bezahlt"
 msgstr "Paid"
 
-#: app/templates/admin/dashboard.html:18
+#: app/templates/admin/dashboard.html:26
 #: app/templates/admin/manageinvoices.html:23 app/templates/invoice.html:14
-#: app/templates/invoices.html:12 app/templates/offers.html:13
+#: app/templates/invoices.html:12 app/templates/offers.html:23
 msgid "Datum"
 msgstr "Date"
-
-#: app/templates/admin/dashboard.html:14 app/templates/invoice.html:24
-#: app/templates/offers.html:9 app/templates/overview.html:12
-msgid "Produkt"
-msgstr "Product"
 
 #: app/templates/invoice.html:25 app/templates/overview.html:14
 msgid "Stück"
@@ -333,7 +343,7 @@ msgid "Summe"
 msgstr "Sum"
 
 #: app/templates/admin/manageproducts.html:36 app/templates/invoice.html:42
-#: app/templates/invoices.html:32 app/templates/offers.html:34
+#: app/templates/invoices.html:32 app/templates/offers.html:44
 #: app/templates/overview.html:32
 msgid "Keine Einträge vorhanden"
 msgstr "No entries"
@@ -345,17 +355,17 @@ msgstr "Amount"
 #: app/templates/admin/manageinvoices.html:24
 #: app/templates/admin/manageproducts.html:20
 #: app/templates/admin/manageusers.html:32 app/templates/invoices.html:13
-#: app/templates/offers.html:14
+#: app/templates/offers.html:24
 msgid "Aktionen"
 msgstr "Actions"
 
 #: app/templates/admin/manageusers.html:40 app/templates/invoices.html:21
-#: app/templates/offers.html:25
+#: app/templates/offers.html:35
 msgid "Ja"
 msgstr "Yes"
 
 #: app/templates/admin/manageusers.html:40 app/templates/invoices.html:21
-#: app/templates/offers.html:25
+#: app/templates/offers.html:35
 msgid "Nein"
 msgstr "No"
 
@@ -370,16 +380,24 @@ msgstr "Pay"
 #: app/templates/admin/editproduct.html:4 app/templates/admin/edituser.html:4
 #: app/templates/admin/manageproducts.html:31
 #: app/templates/admin/manageusers.html:43 app/templates/offer.html:4
-#: app/templates/offers.html:28
+#: app/templates/offers.html:38
 msgid "Bearbeiten"
 msgstr "Edit"
 
-#: app/templates/offers.html:29
+#: app/templates/admin/dashboard.html:9 app/templates/offers.html:10
+msgid "Meine"
+msgstr "Own"
+
+#: app/templates/admin/dashboard.html:10 app/templates/offers.html:11
+msgid "Alle"
+msgstr "All"
+
+#: app/templates/offers.html:39
 msgid "Löschen"
 msgstr "Delete"
 
 #: app/templates/admin/manageinvoices.html:84
-#: app/templates/admin/manageinvoices.html:98 app/templates/offers.html:52
+#: app/templates/admin/manageinvoices.html:98 app/templates/offers.html:62
 msgid "Ein unbekanntes Müsli ist aufgetreten"
 msgstr "A unknown cereal has happened"
 
@@ -395,25 +413,29 @@ msgstr "Time"
 msgid "Starte Abrechnung"
 msgstr "Start billing"
 
-#: app/templates/admin/dashboard.html:6
+#: app/templates/admin/dashboard.html:13
 msgid "Offen:"
 msgstr "Open:"
 
-#: app/templates/admin/dashboard.html:15
+#: app/templates/admin/dashboard.html:23
 msgid "Anzahl"
 msgstr "Amount"
 
-#: app/templates/admin/dashboard.html:64
+#: app/templates/admin/dashboard.html:72
 msgid "Erfolgreich durchgeführt"
 msgstr "Success"
 
-#: app/templates/admin/dashboard.html:77
+#: app/templates/admin/dashboard.html:85
 msgid "das ähh läuft..."
 msgstr "it ruuuns"
 
-#: app/templates/admin/dashboard.html:89
+#: app/templates/admin/dashboard.html:97
 msgid "Fehler"
 msgstr "Error"
+
+#: app/templates/admin/editproduct.html:29
+msgid "Attribute"
+msgstr "Attributes"
 
 #: app/templates/admin/edituser.html:26
 msgid "Rechte"
@@ -599,4 +621,3 @@ msgstr ""
 
 #~ msgid "Bestand berücksichtigen"
 #~ msgstr "Book stock"
-

@@ -7,8 +7,8 @@
   </div>
     <div class="col-3 btn-group btn-group">
       {% if current_user.has_role('admin') %}
-        <button title="Zeige nur Transaktionen bei denen du Lieferant bist" type="button" onclick="window.location.href='{{ url_for('main.offers') }}'" class="btn btn-primary{% if request.args.get('all') == None %} active{% endif %}">Meine</button>
-        <button title="Zeige alle Transaktionen" type="button" onclick="window.location.href='{{ url_for('main.offers', all=1) }}'" class="btn btn-primary{% if request.args.get('all') != None %} active{% endif %}">Alle</button>
+        <button title="Zeige nur Transaktionen bei denen du Lieferant bist" type="button" onclick="window.location.href='{{ url_for('main.offers') }}'" class="btn btn-primary{% if request.args.get('all') == None %} active{% endif %}">{{ _('Meine') }}</button>
+        <button title="Zeige alle Transaktionen" type="button" onclick="window.location.href='{{ url_for('main.offers', all=1) }}'" class="btn btn-primary{% if request.args.get('all') != None %} active{% endif %}">{{ _('Alle') }}</button>
       {% endif %}
     </div>
 </div>
