@@ -50,7 +50,6 @@
 
 {% block custom_script %}
   <script>
-    $('#help_stock').popover();
     function deleteImage() {
       $.ajax({
           url: '{{ url_for('main.delete_product_image', id=product.id or 0) }}',

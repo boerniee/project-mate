@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block custom_script %}
-  <script src="{{url_for('static', filename='js/product.js')}}"></script>
+  <script src="{{url_for('static', filename='js/product.js', v=config['INFORMATION']['version'])}}"></script>
   <script>
     $("#start").addClass('active');
     $( ".card" ).hover(

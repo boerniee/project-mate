@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-<h1 style="line-height:2.5rem;">{{ _('Angebote') }}<a style="padding-left: 15px;" href="{{ url_for('main.offer', id=0) }}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></h1>
+<div class="row" style="padding-bottom: 10px;">
+  <div class="col-9">
+    <h1 style="float:left;line-height:2.25rem;">{{ _('Angebote') }}<a style="padding-left: 15px;" href="{{ url_for('main.offer', id=0) }}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></h1>
+  </div>
+    <div class="col-3 btn-group btn-group">
+      {% if current_user.has_role('admin') %}
+        <button title="Zeige nur Transaktionen bei denen du Lieferant bist" type="button" onclick="window.location.href='{{ url_for('main.offers') }}'" class="btn btn-primary{% if request.args.get('all') == None %} active{% endif %}">Meine</button>
+        <button title="Zeige alle Transaktionen" type="button" onclick="window.location.href='{{ url_for('main.offers', all=1) }}'" class="btn btn-primary{% if request.args.get('all') != None %} active{% endif %}">Alle</button>
+      {% endif %}
+    </div>
+</div>
 <table class="table table-hover">
   <thead>
     <tr>

@@ -87,6 +87,7 @@ def offer(id):
     form.active.data = offer.active
     form.price.data = offer.price
     form.stock.data = offer.stock
+    form.supplier.data = offer.user.username
     return render_template('offer.html', title='Neu' if id == 0 else ('#' + str(id)), form=form)
 
 @bp.route('/offer')
@@ -98,7 +99,7 @@ def offers():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
     q = Offer.query
-    if not current_user.has_role('admin'):
+    if not current_user.has_role('admin') or not request.args.get('all'):
         q = q.filter(Offer.user == current_user)
     offers = q.order_by(Offer.created.desc()).paginate(page,per_page,error_out=False)
     return render_template('offers.html', title=_('Angebote'), offers=offers)

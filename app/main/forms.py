@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, SubmitField, FloatField, IntegerField, SelectField
+from wtforms import StringField, BooleanField, SubmitField, FloatField, IntegerField, SelectField, TextField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms.validators import DataRequired, Email
 from flask_babel import lazy_gettext as _l
@@ -9,6 +9,7 @@ class OfferForm(FlaskForm):
     price = FloatField(_l('Preis'), validators=[DataRequired()])
     stock = IntegerField(_l('Bestand'), validators=[DataRequired()])
     active = BooleanField(_l('Aktiv'))
+    supplier = TextField(_l('Lieferant'), render_kw={'readonly': True})
     submit = SubmitField(_l('Speichern'))
 
 class ProductForm(FlaskForm):
