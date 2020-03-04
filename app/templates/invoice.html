@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <div style="float:left;">
-    <h3># {{ invoice.id }}</h3>
-    <h3>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</h3>
-    <h3>{{ invoice.formatsum() }}</h3>
+  <div class="row">
+    <div class="col-6" style="padding-bottom: 15px;">
+        <h1 style="float:left;line-height:2.5rem;"><a style="color: inherit;" href="{{ url_for('main.invoice') }}"><i class="fas fa-file-invoice-dollar"></i></a> {{ _('Rechnung') }} #{{ invoice.id }}</h1><h5 style="float:left;line-height: 2.5rem;"><span style="margin-left: 10px;" class="badge {% if not invoice.paid %}badge-danger">{{ _('Offen') }}{% else %}badge-success">{{ _('Bezahlt') }}{% endif %}</span></h5>
+    </div>
+    <div class="col-6 text-right">
+        {% if not invoice.paid and invoice.supplier.paypal %}<a href="{{ invoice.get_paypal_link() }}" target="_blank"><img style="width:125px; height:45px;" src="{{ url_for('static', filename='paypal.png') }}"></a>{% endif %}
+    </div>
   </div>
-  <div style="float:right;">
-    {% if not invoice.paid %}
-      <a href="{{ invoice.get_paypal_link() }}" target="_blank"><img style="width:125px;" src="{{ url_for('static', filename='paypal.png') }}"></a>
-    {% else %}
-      <h3 style="padding-top: 45px;"><span class="badge badge-success">{{ _('Bezahlt') }}</span></h3>
-    {% endif %}
+  <div class="row">
+    <div class="col-6">
+        <h5><i title="{{ _('Datum') }}" class="far fa-calendar-alt"></i> {{ invoice.date.strftime('%d.%m.%Y %H:%M') }} | <i title="{{ _('Lieferant') }}" class="fas fa-people-carry"></i> {{ invoice.supplier.username }}</h5>
+    </div>
+    <div class="col-6 text-right">
+        <h3>Summe: {{ invoice.formatsum() }}</h3>
+    </div>
   </div>
   <table class="table table-hover">
     <thead>
@@ -19,6 +23,7 @@
         <th scope="col">#</th>
         <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Summe') }}</th>
       </tr>
     </thead>
@@ -29,6 +34,7 @@
           <th scope="row">{{ loop.index }}</th>
           <td>{{ position.product.description }}</td>
           <td>{{ position.amount }}</td>
+          <td>{{ position.getprice() }}</td>
           <td>{{ position.getsum() }}</td>
         </tr>
       {% endfor %}

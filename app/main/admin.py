@@ -7,16 +7,23 @@ from app.utils import right_required, getIntQueryParam, format_curr, save_image
 from app.email import send_welcome_mail, send_activated_mail
 from app.main import bp
 from flask_babel import _
-from sqlalchemy import or_
+from sqlalchemy import or_, and_, func
 from werkzeug import secure_filename
 
 @bp.route('/manage/dashboard')
-@right_required(role='admin')
+@right_required(role='supplier')
 def admindashboard():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
-    cons = Consumption.query.filter(Consumption.billed == False).order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
+
+    q = Consumption.query
+    if request.args.get('all') and current_user.has_role('admin'):
+        q = q.filter(Consumption.invoice_id == None)
+        open = db.engine.execute('select sum(amount * price) from consumption where invoice_id is NULL').first()[0]
+    else:
+        q = q.filter(and_(Consumption.invoice_id == None, Consumption.supplier_id == current_user.id))
+        open = db.engine.execute('select sum(amount * price) from consumption where invoice_id is NULL and supplier_id = ' + str(current_user.id)).first()[0]
+    cons = q.order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
 
 @bp.route('/manage/user')
@@ -44,12 +51,14 @@ def edituser(id):
             send_activated_mail(user)
         user.email = form.email.data
         user.active = form.active.data
-        if form.admin.data and not user.has_role('admin'):
-            role = Role.query.filter_by(name='admin').first()
-            user.roles.append(role)
-        elif not form.admin.data and user.has_role('admin'):
-            role = Role.query.filter_by(name='admin').first()
-            user.roles.remove(role)
+        if form.admin.data:
+            user.add_role('admin')
+        else:
+            user.remove_role('admin')
+        if form.supplier.data:
+            user.add_role('supplier')
+        else:
+            user.remove_role('supplier')
         if id == 0:
             db.session.add(user)
         db.session.commit()
@@ -59,6 +68,7 @@ def edituser(id):
     form.email.data = user.email
     form.active.data = user.active
     form.admin.data = user.has_role('admin')
+    form.supplier.data = user.has_role('supplier')
     return render_template('admin/edituser.html', title='Barbeiten ', form=form)
 
 @bp.route('/manage/product')
@@ -84,9 +94,7 @@ def editproduct(id):
         product = Product.query.get(id)
     if form.validate_on_submit():
         product.description = form.description.data
-        product.price = form.price.data
         product.active = form.active.data
-        product.stock_active = form.stock.data
         product.highlight = form.highlight.data
         if form.file.data:
             save_image(product, form.file, app)
@@ -96,21 +104,19 @@ def editproduct(id):
         flash(_('Gespeichert'))
         return redirect(url_for('main.manageproducts'))
     form.description.data = product.description
-    form.price.data = product.price
     form.active.data = product.active
-    form.stock.data = product.stock_active
     form.highlight.data = product.highlight
     return render_template('admin/editproduct.html', title=_('Barbeiten '), product=product, form=form)
 
 @bp.route('/manage/invoice')
-@right_required(role='admin')
+@right_required(role='supplier')
 def manageinvoices():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
-    invoices = Invoice.query.filter_by(paid=False).paginate(page,per_page,error_out=False)
+    q = Invoice.query
+    if current_user.has_role('admin'):
+        q = q.filter(Invoice.paid==False)
+    else:
+        q = q.filter(and_(Invoice.supplier_id==current_user.id, Invoice.paid==False))
+    invoices = q.paginate(page,per_page,error_out=False)
     return render_template('admin/manageinvoices.html', title=_('Rechnungen verwalten'), invoices=invoices)
-
-@bp.route('/manage/admin')
-@right_required(role='superadmin')
-def superadmin():
-    return render_template('admin/superadmin.html', title=_('Superadmin'))

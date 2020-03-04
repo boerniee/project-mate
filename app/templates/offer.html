@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<h1 style="padding-bottom: 10px;"><a href="{{ url_for('main.offers') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
+<div style="max-width: 700px;">
+<form method="post" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="form-group row">
+      <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.product.label.text }}</label>
+      <div class="col-sm-9">
+        {{ form.product(class_="form-control") }}
+        {% for error in form.product.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.price.label.text }}</label>
+      <div class="col-sm-9">
+        {{ form.price(class_="form-control") }}
+        {% for error in form.price.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.stock.label.text }}</label>
+      <div class="col-sm-9">
+        {{ form.stock(class_="form-control") }}
+        {% for error in form.stock.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+    </div>
+    {% if current_user.has_role('admin') %}
+    <div class="form-group row">
+      <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.supplier.label.text }}</label>
+      <div class="col-sm-9">
+        {{ form.supplier(class_="form-control") }}
+      </div>
+    </div>
+    {% endif %}
+    <div class="form-group row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-9">
+        <div class="form-check">
+          {{ form.active(class_="form-check-input") }}
+          {{ form.active.label(class_="form-check-label") }}
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-10">
+        {{ form.submit(class_="btn btn-primary") }}
+      </div>
+    </div>
+</form>
+</div>
+{% endblock %}

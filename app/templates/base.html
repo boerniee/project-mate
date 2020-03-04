@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mate.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mate.css', v=config['INFORMATION']['version'])}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css')}}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block links %}{% endblock %}
-    <title>{% block title %}{% if title %}{{ title }} - Projekt Mate{% else %}Welcome to Projekt Mate{% endif %}{% endblock %}</title>
+    <title>{% block title %}{% if title %}{{ title }} - {{ config['INFORMATION']['name'] }}{% else %}Welcome to Projekt Mate{% endif %}{% if config['BETA'] %} - BETA{% endif %}{% endblock %}</title>
   </head>
   <body>
     <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="{{ url_for('main.index') if current_user.is_authenticated else url_for('auth.login') }}">Projekt Mate</a>
+      <a class="navbar-brand" href="{{ url_for('main.index') if current_user.is_authenticated else url_for('auth.login') }}">{{ config['INFORMATION']['name'] }}{% if config['BETA'] %} <span style="color:red;">BETA</span>{% endif %}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -31,22 +31,22 @@
               <span class="badge badge-pill badge-primary" style="float:right;margin-bottom:-10px;">{{ current_user.unpaid_bills }}</span>
               <a id="invoice" class="nav-link" href="{{ url_for('main.invoice') }}">{{ _('Rechnungen') }}</a>
             </li>
-            {% if current_user.has_role('admin') %}
+            {% if current_user.has_role('admin') or current_user.has_role('supplier') %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   {{ _('Verwaltung') }}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" id="manageusers" href="{{ url_for('main.manageusers') }}"><i class="fas fa-users"></i> {{ _('Benutzer') }}</a>
-                  <a class="dropdown-item" id="manageproducts" href="{{ url_for('main.manageproducts') }}"><i class="fas fa-glass-cheers"></i> {{ _('Produkte') }}</a>
-                  <div class="dropdown-divider"></div>
                   <a class="dropdown-item" id="manageinvoices" href="{{ url_for('main.manageinvoices') }}"><i class="fas fa-glasses"></i> {{ _('Rechnungen') }}</a>
                   <a class="dropdown-item" id="admindashboard" href="{{ url_for('main.admindashboard') }}"><i class="fas fa-chart-line"></i> {{ _('Dashboard') }}</a>
+                  <a class="dropdown-item" id="offer" href="{{ url_for('main.offers') }}"><i class="fas fa-people-carry"></i> {{ _('Angebote') }}</a>
+                  {% if current_user.has_role('admin') %}
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" id="manageusers" href="{{ url_for('main.manageusers') }}"><i class="fas fa-users"></i> {{ _('Benutzer') }}</a>
+                      <a class="dropdown-item" id="manageproducts" href="{{ url_for('main.manageproducts') }}"><i class="fas fa-glass-cheers"></i> {{ _('Produkte') }}</a>
+                  {% endif %}
                 </div>
               </li>
-              {% if current_user.has_role('superadmin') %}
-                <li class="nav-item"><a id="superadmin" class="nav-link" href="{{ url_for('main.superadmin') }}">{{ _('Superadmin') }}</a></li>
-              {% endif %}
             {% endif %}
           </ul>
         </div>
@@ -78,8 +78,8 @@
                 </ul>
             {% endif %}
             </div>
-        </nav>
 
+        </nav>
     {% block content %}
         <div class="container">
             {% block messages %}

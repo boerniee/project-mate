@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="row" style="padding-bottom: 10px;">
+  <div class="col-9">
+    <h1 style="float:left;line-height:2.25rem;">{{ _('Angebote') }}<a style="padding-left: 15px;" href="{{ url_for('main.offer', id=0) }}"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-plus"></i></button></a></h1>
+  </div>
+    <div class="col-3 btn-group btn-group">
+      {% if current_user.has_role('admin') %}
+        <button title="Zeige nur Transaktionen bei denen du Lieferant bist" type="button" onclick="window.location.href='{{ url_for('main.offers') }}'" class="btn btn-primary{% if request.args.get('all') == None %} active{% endif %}">{{ _('Meine') }}</button>
+        <button title="Zeige alle Transaktionen" type="button" onclick="window.location.href='{{ url_for('main.offers', all=1) }}'" class="btn btn-primary{% if request.args.get('all') != None %} active{% endif %}">{{ _('Alle') }}</button>
+      {% endif %}
+    </div>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 7%">#</th>
+      <th scope="col" style="width: 25%">{{ _('Produkt') }}</th>
+      <th scope="col" style="width: 15%">{{ _('Bestand') }}</th>
+      <th scope="col" style="width: 10%">{{ _('Preis') }}</th>
+      <th scope="col" style="width: 10%">{{ _('Aktiv') }}</th>
+      <th scope="col" style="width: 18%">{{ _('Datum') }}</th>
+      <th scope="col" data-formatter="TableActions" class="col-md-1" style="width: 30%">{{ _('Aktionen') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% if offers.items|length > 0 %}
+    {% for offer in offers.items %}
+      <tr>
+        <th scope="row">{{ loop.index + ((offers.page-1)*offers.per_page) }}</th>
+        <td>{{ offer.product.description }}</td>
+        <td>{{ offer.stock }}</td>
+        <td>{{ offer.getprice() }}</td>
+        <td>{{ _('Ja') if offer.active else _('Nein') }}</td>
+        <td>{{ offer.created.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td>
+          <a class="show" href="{{ url_for('main.offer', id=offer.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-lg fa-edit table-action"></i></a>
+          <a class="show" onclick="deleteoffer({{ offer.id }})" title="{{ _('Löschen') }}"><i class="fas fa-lg fa-trash-alt table-action"></i></a>
+        </td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <tr><td colspan="7">{{ _('Keine Einträge vorhanden') }}</td></tr>
+  {% endif %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#offer").addClass('active');
+
+    function deleteoffer(id) {
+      $.ajax({
+        url: "{{ url_for('main.delete_offer', id=0) }}".replace('0', id),
+        type: 'DELETE',
+        success: function() {
+          window.location.reload();
+        },
+        fail: function() {
+          alert("{{ _('Ein unbekanntes Müsli ist aufgetreten') }}")
+        }
+      });
+    }
+  </script>
+{% endblock %}

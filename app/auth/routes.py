@@ -16,12 +16,14 @@ def editself():
     if form.validate_on_submit():
         user = User.query.get(current_user.id)
         user.lang = form.lang.data
+        user.paypal = form.paypal.data
         if user.username != form.username.data:
             user.username = form.username.data
         db.session.commit()
         flash(_l('Gespeichert'))
     form.username.data = current_user.username
     form.email.data = current_user.email
+    form.paypal.data = current_user.paypal
     form.lang.data = current_user.lang or app.config['BABEL_DEFAULT_LOCALE']
     refresh()
     return render_template('auth/edit_self.html', title=_('Profil bearbeiten'), form=form, avatar=current_user.avatar(175))

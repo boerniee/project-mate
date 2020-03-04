@@ -25,7 +25,8 @@ class Config(object):
     TEMPLATES_AUTO_RELOAD = True
     SERVER_NAME = os.environ.get('SERVER_NAME') or 'localhost:5000'
     INFORMATION = {
-        "version": "1.1.2",
-        "name": "Projekt Mate",
+        "version": "1.2.0-rc1",
+        "name": os.environ.get('PROJECT_NAME') or "Projekt Mate",
         "description": "Sell Mate to your colleagues. Fast! WOW!"
     }
+    BETA = 'rc' in INFORMATION['version']

@@ -13,10 +13,11 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     active = db.Column(db.Boolean)
+    paypal = db.Column(db.String(50))
     lang = db.Column(db.String(3))
     roles = db.relationship('Role', secondary='user_roles')
-    consumptions = db.relationship("Consumption", back_populates="user")
-    invoices = db.relationship("Invoice")
+    consumptions = db.relationship("Consumption", foreign_keys="Consumption.user_id", back_populates="user")
+    invoices = db.relationship("Invoice", foreign_keys="Invoice.user_id")
 
     @property
     def is_active(self):
@@ -32,6 +33,16 @@ class User(UserMixin, db.Model):
 
     def has_role(self, role):
         return role in [r.name for r in self.roles]
+
+    def remove_role(self, role):
+        if self.has_role(role):
+            r = Role.query.filter_by(name=role).first()
+            self.roles.remove(r)
+
+    def add_role(self, role):
+        if not self.has_role(role):
+            r = Role.query.filter_by(name=role).first()
+            self.roles.append(r)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -75,40 +86,58 @@ def load_user(id):
     return User.query.get(int(id))
 
 class Product(db.Model):
-    #__tablename__ = "product"
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(64), index=True, unique=True)
-    price = db.Column(db.Float, index=True)
     imageUrl = db.Column(db.String(2048))
-    stock = db.Column(db.Integer)
-    stock_active = db.Column(db.Boolean)
     active = db.Column(db.Boolean)
     highlight = db.Column(db.Boolean)
+    offers = db.relationship("Offer")
 
     def serialize(self):
         return {
             'id': self.id,
             'description': self.description,
-            'active': self.active,
-            'price': self.getprice()
+            'active': self.active
+        }
+
+    def __repr__(self):
+        return '<Product {}>'.format(self.description)
+
+class Offer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stock = db.Column(db.Integer)
+    active = db.Column(db.Boolean)
+    price = db.Column(db.Float)
+    created = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    product = db.relationship('Product')
+    user = db.relationship("User")
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'price': self.getprice(),
+            'stock': self.stock,
+            'supplier': self.user.username
         }
 
     def getprice(self):
         return format_curr(self.price)
-
-    def __repr__(self):
-        return '<Product {}>'.format(self.description)
 
 class Consumption(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)
-    billed = db.Column(db.Boolean)
-    user = db.relationship('User', back_populates="consumptions")
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
+    invoice = db.relationship('Invoice')
+    user = db.relationship('User', foreign_keys="Consumption.user_id")
     product = db.relationship('Product')
+    supplier = db.relationship('User', foreign_keys="Consumption.supplier_id")
 
     def serialize(self):
         return {
@@ -120,7 +149,7 @@ class Consumption(db.Model):
 
     @property
     def getprice(self):
-        return format_curr(self.product.price * self.amount)
+        return format_curr(self.price * self.amount)
 
     def __repr__(self):
         return '<Consumption {}>'.format(self.id)
@@ -131,12 +160,18 @@ class Invoice(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     date = db.Column(db.DateTime)
     paid = db.Column(db.Boolean)
-    paypalme = db.Column(db.String(64))
+    sent = db.Column(db.Boolean)
+    supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    consumptions = db.relationship('Consumption')
     positions = db.relationship("Position")
-    user = db.relationship("User")
+    user = db.relationship("User", foreign_keys="Invoice.user_id")
+    supplier = db.relationship("User", foreign_keys="Invoice.supplier_id")
 
     def get_paypal_link(self):
-        return f"https://www.paypal.me/{self.paypalme}/{self.getsum()}"
+        if self.supplier:
+            return f"https://www.paypal.me/{self.supplier.paypal}/{self.getsum()}"
+        else:
+            return ""
 
     def getsum(self):
         return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)
@@ -159,6 +194,9 @@ class Position(db.Model):
 
     def getsum(self):
         return format_curr(self.sum)
+
+    def getprice(self):
+        return format_curr(self.price)
 
     def __repr__(self):
         return '<Position {}>'.format(self.id)

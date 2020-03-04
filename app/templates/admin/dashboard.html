@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <div><h1><div style="float:left;">{{ _('Dashboard') }}</div><button id="billingstart" class="btn btn-primary" style="margin-left: 25px;display:inline;" type="button">{{ _('Starte Abrechnung') }}</button><div style="float:right;">{{ _('Offen:') + ' ' + open }}</div></h1></div>
+  <div class="row" style="padding-bottom: 10px;">
+    <div class="col-5"><h1 style="float:left;line-height:2.25rem;">{{ _('Dashboard') }}</h1>{% if current_user.has_role('admin') %}<button id="billingstart" class="btn btn-primary" style="margin-left: 25px;float:left;" type="button">{{ _('Starte Abrechnung') }}</button>{% endif %}</div>
+
+    <div class="col-3 btn-group btn-group-sm">
+      {% if current_user.has_role('admin') %}
+        <button title="Zeige nur Transaktionen bei denen du Lieferant bist" type="button" onclick="window.location.href='{{ url_for('main.admindashboard') }}'" class="btn btn-primary{% if request.args.get('all') == None %} active{% endif %}">{{ _('Meine') }}</button>
+        <button title="Zeige alle Transaktionen" type="button" onclick="window.location.href='{{ url_for('main.admindashboard', all=1) }}'" class="btn btn-primary{% if request.args.get('all') != None %} active{% endif %}">{{ _('Alle') }}</button>
+      {% endif %}
+    </div>
+    <div class="col-4 text-right"><h1 style="line-height: 2.25rem;">{{ _('Offen:') + ' ' + open }}</h1></div>
+  </div>
+
 
   <table class="table table-hover">
     <thead>
@@ -11,6 +22,7 @@
         <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Anzahl') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
+        <th scope="col">{{ _('Lieferant') }}</th>
         <th scope="col">{{ _('Datum') }}</th>
       </tr>
     </thead>
@@ -22,6 +34,7 @@
         <td>{{ con.product.description }}</td>
         <td>{{ con.amount }}</td>
         <td>{{ con.getprice }}</td>
+        <td>{{ con.supplier.username }}</td>
         <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
       </tr>
     {% endfor %}

@@ -1,40 +1,55 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1><a href="{{ url_for('main.manageproducts') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
-    <form method="post" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.description.label }}<br>
-            {{ form.description(size=32) }}<br>
-            {% for error in form.description.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.price.label }}<br>
-            {{ form.price(size=32) }}<br>
-            {% for error in form.price.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        {% if product.imageUrl %}<p><div class="imagecontainer"><i class="fas fa-times image-delete" onClick="deleteImage()"></i><img class="image" src="{{ url_for('static', filename='images/' + product.imageUrl or '') }}"></div></p>{% endif %}
-        <p>
-          {{ form.file }}<br>
-          {% for error in form.file.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
-        </p>
-        <p>{{ form.active() }} {{ form.active.label }}</p>
-        <p>{{ form.stock() }} {{ form.stock.label }} <i id="help_stock" data-trigger="hover" title="Hilfe" data-content="{{ _('Wenn der Bestand inaktiv ist werden nur Buchungen von Produkten berücksichtigt') }}" class="fa fa-question-circle"></i></p>
-        <p>{{ form.highlight() }} {{ form.highlight.label }}</p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <h1 style="padding-bottom: 10px;"><a href="{{ url_for('main.manageproducts') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
+    <div style="max-width: 700px;">
+      <form method="post" enctype="multipart/form-data" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-3 col-form-label">{{ form.description.label.text }}</label>
+            <div class="col-sm-9">
+              {{ form.description(size=32, class_="form-control", placeholder=form.description.label.text) }}
+              {% for error in form.description.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="image" class="col-sm-3 col-form-label">{{ form.file.label.text }}</label>
+            <div class="col-sm-9">
+              {% if product.imageUrl %}<p><div class="imagecontainer"><i class="fas fa-times image-delete" onClick="deleteImage()"></i><img class="image" src="{{ url_for('static', filename='images/' + product.imageUrl or '') }}"></div></p>{% endif %}
+              {{ form.file }}
+              {% for error in form.file.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+            </div>
+          </div>
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-3 pt-0">{{ _('Attribute') }}</legend>
+              <div class="col-sm-9">
+                <div class="form-check">
+                  {{ form.highlight(class_="form-check-input") }}
+                  {{ form.highlight.label(class_="form-check-label") }}
+                </div>
+                <div class="form-check">
+                  {{ form.active(class_="form-check-input") }}
+                  {{ form.active.label(class_="form-check-label") }}
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              {{ form.submit(class_="btn btn-primary") }}
+            </div>
+          </div>
+      </form>
+    </div>
 {% endblock %}
 
 {% block custom_script %}
   <script>
-    $('#help_stock').popover();
     function deleteImage() {
       $.ajax({
           url: '{{ url_for('main.delete_product_image', id=product.id or 0) }}',

@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-
-  <h3>{{ _('Kontostand') }}: {{ summed }}</h3>
-
+  <div class="row">
+    <div class="col-6"><h1 style="line-height:2.5rem;">{{ _('Übersicht') }}</h1></div>
+    <div class="col-6 text-right"><h3 style="line-height:2.5rem;">{{ _('Kontostand') }}: {{ summed }}</h3></div>
+  </div>
   <table class="table table-hover">
     <thead>
       <tr class="tableheader">
         <th scope="col">#</th>
-        <th scope="col">{{  _('Produkt') }}</th>
+        <th scope="col">{{ _('Produkt') }}</th>
         <th scope="col">{{ _('Preis') }}</th>
         <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Lieferant') }}</th>
         <th scope="col">{{ _('Zeit') }}</th>
       </tr>
     </thead>
@@ -22,11 +24,12 @@
           <td>{{ con.product.description }}</td>
           <td>{{ con.getprice }}</td>
           <td>{{ con.amount }}</td>
+          <td>{{ con.supplier.username }}</td>
           <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
         </tr>
       {% endfor %}
     {% else %}
-      <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
+      <tr><td colspan="6">{{ _('Keine Einträge vorhanden') }}</td></tr>
     {% endif %}
     </tbody>
   </table>
