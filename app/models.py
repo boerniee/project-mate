@@ -168,7 +168,10 @@ class Invoice(db.Model):
     supplier = db.relationship("User", foreign_keys="Invoice.supplier_id")
 
     def get_paypal_link(self):
-        return f"https://www.paypal.me/{self.supplier.paypal}/{self.getsum()}"
+        if self.supplier:
+            return f"https://www.paypal.me/{self.supplier.paypal}/{self.getsum()}"
+        else:
+            return ""
 
     def getsum(self):
         return Decimal(self.sum).quantize(Decimal(".01"), rounding=ROUND_HALF_UP)

@@ -7,6 +7,7 @@ Create Date: 2020-02-27 21:12:55.950327
 """
 from alembic import op
 import sqlalchemy as sa
+from sqlalchemy.sql import text
 
 
 # revision identifiers, used by Alembic.
@@ -35,6 +36,13 @@ def upgrade():
         batch_op.add_column(sa.Column('invoice_id', sa.Integer(), nullable=True))
         batch_op.create_foreign_key('fk_con_supplier_id', 'user', ['supplier_id'], ['id'])
         batch_op.create_foreign_key('fk_con_invoice_id', 'invoice', ['invoice_id'], ['id'])
+        
+    conn = op.get_bind()
+    conn.execute(
+        text("update consumption set invoice_id = 0 where billed = 1")
+    )
+
+    with op.batch_alter_table('consumption', schema=None) as batch_op:
         batch_op.drop_column('billed')
 
     with op.batch_alter_table('invoice', schema=None) as batch_op:
@@ -45,7 +53,6 @@ def upgrade():
 
     with op.batch_alter_table('user', schema=None) as batch_op:
         batch_op.add_column(sa.Column('paypal', sa.String(length=50), nullable=True))
-
     # ### end Alembic commands ###
 
 
@@ -61,7 +68,10 @@ def downgrade():
 
     with op.batch_alter_table('consumption', schema=None) as batch_op:
         batch_op.drop_constraint('fk_con_supplier_id', type_='foreignkey')
+        batch_op.drop_constraint('fk_con_invoice_id', type_='foreignkey')
+        batch_op.drop_column('invoice_id')
         batch_op.drop_column('supplier_id')
+        batch_op.add_column(sa.Column('billed', sa.Boolean(), nullable=False))
 
     op.drop_table('offer')
     # ### end Alembic commands ###
