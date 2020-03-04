@@ -32,7 +32,10 @@ def upgrade():
     )
     with op.batch_alter_table('consumption', schema=None) as batch_op:
         batch_op.add_column(sa.Column('supplier_id', sa.Integer(), nullable=True))
+        batch_op.add_column(sa.Column('invoice_id', sa.Integer(), nullable=True))
         batch_op.create_foreign_key('fk_con_supplier_id', 'user', ['supplier_id'], ['id'])
+        batch_op.create_foreign_key('fk_con_invoice_id', 'invoice', ['invoice_id'], ['id'])
+        batch_op.drop_column('billed')
 
     with op.batch_alter_table('invoice', schema=None) as batch_op:
         batch_op.add_column(sa.Column('supplier_id', sa.Integer(), nullable=True))
