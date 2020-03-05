@@ -27,17 +27,21 @@
       </tr>
     </thead>
     <tbody>
-    {% for con in consumptions.items %}
-      <tr>
-        <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
-        <td>{{ con.user.username }}</td>
-        <td>{{ con.product.description }}</td>
-        <td>{{ con.amount }}</td>
-        <td>{{ con.getprice }}</td>
-        <td>{{ con.supplier.username }}</td>
-        <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
-      </tr>
-    {% endfor %}
+    {% if consumptions is defined and consumptions.items|length > 0 %}
+      {% for con in consumptions.items %}
+        <tr>
+          <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
+          <td>{{ con.user.username }}</td>
+          <td>{{ con.product.description }}</td>
+          <td>{{ con.amount }}</td>
+          <td>{{ con.getprice }}</td>
+          <td>{{ con.supplier.username }}</td>
+          <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="7">{{ _('Keine Einträge vorhanden') }}</td></tr>
+    {% endif %}
     </tbody>
   </table>
 
@@ -46,7 +50,7 @@
       {%- for page in consumptions.iter_pages() %}
           {% if page %}
             {% if page != consumptions.page %}
-              <li class="page-item"><a class="page-link" href="{{ url_for('main.admindashboard', page=page) }}">{{ page }}</a></li>
+              <li class="page-item"><a class="page-link" href="{{ url_for('main.admindashboard', page=page,  all=1 if request.args.get('all') else None) }}">{{ page }}</a></li>
             {% else %}
             <li class="page-item active">
               <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
