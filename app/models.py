@@ -130,6 +130,7 @@ class Consumption(db.Model):
     amount = db.Column(db.Integer)
     price = db.Column(db.Float)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'))
+    billed = db.Column(db.Boolean)
     supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)

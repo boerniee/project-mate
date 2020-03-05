@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 
 @celery.task
 def run_billing():
-    res = db.engine.execute('select distinct user_id from consumption where invoice_id is NULL')
+    res = db.engine.execute('select distinct user_id from consumption where billed = 0')
     userToBeBilled = [i[0] for i in res]
     res.close()
     for user in userToBeBilled:
@@ -31,7 +31,7 @@ def send_emails():
         db.session.commit()
 
 def billUser(user):
-    cons = db.session.query(Consumption).filter(Consumption.user==user, Consumption.invoice_id==None).all()
+    cons = db.session.query(Consumption).filter(Consumption.user==user, Consumption.billed==False).all()
     cons_by_supplier = defaultdict(list)
     for con in cons:
         cons_by_supplier[con.supplier_id].append(con)
@@ -63,6 +63,7 @@ def createInvoice(inv_data, supplier_id, user):
 
     for c in inv_data:
         c.invoice = invoice
+        c.billed = True
 
     invsum = float("{0:.2f}".format(sum(p.sum for p in invoice.positions)))
     invoice.sum=invsum

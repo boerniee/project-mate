@@ -49,7 +49,7 @@ def consume(offerid):
         return jsonify({'success': False, 'title': 'Ungültiges Angebot', 'text': 'Dieses Angebot ist nicht mehr gültig bitte versuche es noch einmal.'})
 
     offer.stock -= 1
-    c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, invoice_id=None, supplier_id=offer.user.id, time=datetime.datetime.utcnow())
+    c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, billed=False, invoice_id=None, supplier_id=offer.user.id, time=datetime.datetime.utcnow())
     if offer.stock < 1:
         db.session.delete(offer)
     db.session.add(c)
@@ -125,7 +125,7 @@ def book():
     s = User.query.get(req['supplier'])
 
     amount = -int(req['amount']) if req['credit'] else int(req['amount'])
-    c = Consumption(amount=amount, user=u, supplier=s, price=req['price'], product_id=p.id, invoice_id=None, time=datetime.datetime.utcnow())
+    c = Consumption(amount=amount, user=u, supplier=s, price=req['price'], product_id=p.id, billed=False, invoice_id=None, time=datetime.datetime.utcnow())
 
     db.session.add(c)
     db.session.commit()

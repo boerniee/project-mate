@@ -18,11 +18,11 @@ def admindashboard():
 
     q = Consumption.query
     if request.args.get('all') and current_user.has_role('admin'):
-        q = q.filter(Consumption.invoice_id == None)
-        open = db.engine.execute('select sum(amount * price) from consumption where invoice_id is NULL').first()[0]
+        q = q.filter(Consumption.billed == False)
+        open = db.engine.execute('select sum(amount * price) from consumption where billed = 0').first()[0]
     else:
-        q = q.filter(and_(Consumption.invoice_id == None, Consumption.supplier_id == current_user.id))
-        open = db.engine.execute('select sum(amount * price) from consumption where invoice_id is NULL and supplier_id = ' + str(current_user.id)).first()[0]
+        q = q.filter(and_(Consumption.billed == False, Consumption.supplier_id == current_user.id))
+        open = db.engine.execute('select sum(amount * price) from consumption where billed = 0 and supplier_id = ' + str(current_user.id)).first()[0]
     cons = q.order_by(Consumption.time.desc()).paginate(page,per_page,error_out=False)
     return render_template('admin/dashboard.html', title=_('Dashboard'), consumptions=cons, open=format_curr(open))
 
