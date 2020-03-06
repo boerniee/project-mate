@@ -3,6 +3,23 @@
   color: #ccc !important;
 }
 
+[data-theme="dark"] .popover {
+  background: #333b40 !important;
+  color: #ccc !important;
+}
+[data-theme="dark"] h5.popover-heading {
+  color: #ccc;
+}
+
+[data-theme="dark"] .popover .arrow:after {
+  border-bottom-color: #333b40;
+}
+
+[data-theme="dark"] .list-group-item {
+  background-color: #333b40 !important;
+  color: #ccc !important;
+}
+
 [data-theme="dark"] .bg-light {
   background-color: #333 !important;
 }

@@ -1,6 +1,5 @@
 env
 deploy
-app.db
 __pycache__/
 mate/
 **/.DS_Store
@@ -8,4 +7,4 @@ mate/
 .DS_Store
 *.mo
 app/static/images/
-celerybeat-schedule.db
+*.db

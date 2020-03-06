@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-03 20:05+0100\n"
+"POT-Creation-Date: 2020-03-06 15:46+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -192,7 +192,8 @@ msgstr "Product"
 
 #: app/main/forms.py:9 app/templates/admin/dashboard.html:24
 #: app/templates/admin/manageusers.html:95 app/templates/invoice.html:26
-#: app/templates/offers.html:21 app/templates/overview.html:13
+#: app/templates/offers.html:21 app/templates/offers_popover.html:5
+#: app/templates/overview.html:13
 msgid "Preis"
 msgstr "Price"
 
@@ -209,7 +210,8 @@ msgstr "Active"
 #: app/main/forms.py:12 app/main/forms.py:28
 #: app/templates/admin/dashboard.html:25
 #: app/templates/admin/manageinvoices.html:21 app/templates/invoice.html:14
-#: app/templates/invoices.html:11 app/templates/overview.html:15
+#: app/templates/invoices.html:11 app/templates/offers_popover.html:6
+#: app/templates/overview.html:15
 msgid "Lieferant"
 msgstr "Supplier"
 
@@ -342,6 +344,7 @@ msgstr "Pieces"
 msgid "Summe"
 msgstr "Sum"
 
+#: app/templates/admin/dashboard.html:43
 #: app/templates/admin/manageproducts.html:36 app/templates/invoice.html:42
 #: app/templates/invoices.html:32 app/templates/offers.html:44
 #: app/templates/overview.html:32
@@ -401,6 +404,10 @@ msgstr "Delete"
 msgid "Ein unbekanntes Müsli ist aufgetreten"
 msgstr "A unknown cereal has happened"
 
+#: app/templates/offers_popover.html:1
+msgid "Alle Angebote"
+msgstr "All Offers"
+
 #: app/templates/overview.html:6
 msgid "Kontostand"
 msgstr "Balance"
@@ -421,15 +428,15 @@ msgstr "Open:"
 msgid "Anzahl"
 msgstr "Amount"
 
-#: app/templates/admin/dashboard.html:72
+#: app/templates/admin/dashboard.html:76
 msgid "Erfolgreich durchgeführt"
 msgstr "Success"
 
-#: app/templates/admin/dashboard.html:85
+#: app/templates/admin/dashboard.html:89
 msgid "das ähh läuft..."
 msgstr "it ruuuns"
 
-#: app/templates/admin/dashboard.html:97
+#: app/templates/admin/dashboard.html:101
 msgid "Fehler"
 msgstr "Error"
 

@@ -1,4 +1,4 @@
-from flask import jsonify, abort, Response, request
+from flask import jsonify, abort, Response, request, render_template
 from flask_login import current_user, login_required
 from app import app, db
 from app.utils import right_required, format_curr
@@ -9,7 +9,7 @@ from app.billing import run_billing
 from app.main import bp
 from app.schema import BookRequestSchema, offer_schema, supplier_schema
 from app.email import send_invoice_reminder
-from app.service.productservice import get_offer_by_id, get_offer_by_product
+from app.service.productservice import get_offer_by_id, get_offer_by_product, get_all_offers_by_product
 from marshmallow import ValidationError
 from flask_babel import _
 import os
@@ -57,11 +57,11 @@ def consume(offerid):
 
     return jsonify({'success': True, 'title': '🍻🎉', 'text': _('Viel spaß mit deinem Produkt!')})
 
-@bp.route('/ajax/product/<int:id>/offer/all')
+@bp.route('/ajax/product/<int:id>/offer/popover')
 @right_required(role='admin')
-def get_all_offers_product(id):
-    offers = Offer.query.filter(Offer.product_id == id).all()
-    return jsonify({'offers': [o.serialize() for o in offers]})
+def offers_popover(id):
+    offers = get_all_offers_by_product(id)
+    return render_template('offers_popover.html', offers=offers)
 
 @bp.route('/ajax/product/<int:id>/offer')
 @login_required
