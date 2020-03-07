@@ -1,0 +1,15 @@
+<p>Hallool {{ user.username }},</p>
+<p>deine Email Adresse wird geändert von:</p>
+<p style="font-weight: bold">{{ user.email }}</p>
+<p>zu folgender Email Adresse:</p>
+<p style="font-weight: bold">{{ email }}</p>
+<p>
+    <a href="{{ url_for('auth.change_email', _external=True, _scheme='https', token=token) }}">
+        Klicke hier
+    </a> um deine Email Adresse zu ändern.
+</p>
+<p>Alternativ kannst du auch diesen Link in deinen Browser kopieren:</p>
+<p>{{ url_for('auth.change_email', token=token, _external=True, _scheme='https') }}</p>
+<p>Ignoriere diese Nachricht wenn du Sie nicht angefordert hast.</p>
+<p>SOOS,</p>
+<p>Dein ClubMateDude Team</p>

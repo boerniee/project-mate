@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Email ändern') }}{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+{% block messages %}{% endblock %}
+
+{% block app_content %}
+    <div class="wrapper">
+        <form class="form-reset auth-form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        {% include 'messages.html' %}
+        <h2 class="form-signin-heading">{{ _('Ändere deine Email Adresse') }}</h2>
+        {% set x={}%}
+        {% if form.password.errors %}{% set x={"title": form.password.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+        <div>{{ form.password(class_="form-control", placeholder=form.password.label.text, **x or {}) }}</div>
+        <br>
+        <div class="input-group mb-2">
+          {% set x={}%}
+          {% if form.new_email.errors %}{% set x={"title": form.new_email.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+          {{ form.new_email(size=64, class_="form-control", placeholder=form.new_email.label.text, **x or {}) }}
+        </div>
+        <small style="padding-bottom: 10px;" id="passwordHelpBlock" class="form-text text-muted">
+          {{ _('Aktuelle Email Adresse') }}: {{ current_user.email }}
+        </small>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Email senden') }}</button>
+    </form>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $("#changeemail").addClass('active');
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip({'trigger': 'manual'})
+      $('[data-toggle="tooltip"]').tooltip('show')
+    })
+  </script>
+{% endblock %}

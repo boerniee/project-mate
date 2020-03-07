@@ -1,0 +1,16 @@
+Hallool {{ user.username }},
+
+deine Email Adresse wird geändert von:
+{{ user.email }}
+zu folgender Email Adresse:
+{{ email }}
+
+Klicke auf den folgenden Link um deine Email Adresse zu ändern:
+
+{{ url_for('auth.change_email', _external=True, _scheme='https', token=token) }}
+
+Ignoriere diese Nachricht wenn du Sie nicht angefordert hast.
+
+SOOS,
+
+Dein ClubMateDude Team

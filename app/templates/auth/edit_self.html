@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{ _('Profil bearbeiten') }}{% endblock %}
+
 {% block app_content %}
   <div class="row">
     <div class="col-sm-8">
@@ -18,8 +20,11 @@
           </div>
           <div class="form-group row">
             {{ form.email.label(class_="col-sm-3 col-form-label") }}
-            <div class="col-sm-9">
+            <div class="col-sm-9 input-group">
               {{ form.email(size=64, class_='form-control', readonly=true, placeholder=form.username.label.text) }}
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary showpwd-button" title="{{ _('Email ändern') }}" onclick="window.location.href = '{{ url_for('auth.change_email_request') }}'" style="border-bottom-right-radius: 0;" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-edit"></i></button>
+              </div>
               {% for error in form.email.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}

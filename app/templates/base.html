@@ -65,6 +65,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" id="about" href="{{ url_for('main.about') }}"><i class="fas fa-cat"></i>  {{ _('Über') }}</a>
                         <a class="dropdown-item" id="changepassword" href="{{ url_for('auth.change_password') }}"><i class="fas fa-lock"></i> {{ _('Passwort ändern') }}</a>
+                        <a class="dropdown-item" id="changeemail" href="{{ url_for('auth.change_email_request') }}"><i class="fas fa-envelope-open-text"></i> {{ _('Email ändern') }}</a>
                         <a class="dropdown-item" id="editself" href="{{ url_for('auth.editself') }}"><i class="fas fa-user-cog"></i> {{ _('Eigene Daten') }}</a>
                         <a class="dropdown-item" id="manageusers" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> {{ _('Abmelden') }}</a>
                     </div>

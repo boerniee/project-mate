@@ -46,6 +46,10 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField(_l('Angemeldet bleiben'))
     submit = SubmitField(_l('Anmelden'))
 
+class ChangeEmailForm(FlaskForm):
+    password = PasswordField(_l('Password'), validators=[DataRequired(), check_password])
+    new_email = StringField(_l('Neue Email'), validators=[DataRequired(), Email()])
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     submit = SubmitField(_l('Email senden'))
