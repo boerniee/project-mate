@@ -5,6 +5,7 @@ from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
 from flask_babel import lazy_gettext as _l
+import re
 
 def validate_lang(form, field):
     if field.data not in app.config['LANGUAGES'].keys():
@@ -22,8 +23,15 @@ def validate_email(self, email):
     if user is not None:
         raise ValidationError(_l('Bitte nutze eine andere Email Adresse.'))
 
-def validate_password(self, field):
-    pass
+def validate_password(self, password):
+    # https://stackoverflow.com/a/21456918
+    pwd = password.data
+    if not re.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$§!%*#?&])[A-Za-z\d@$!%*?&]{8,50}$", password.data):
+        raise ValidationError(_l('Passwortrichtlinien nicht erfüllt'))
+
+def check_password(self, password):
+    if not current_user.check_password(password.data):
+        raise ValidationError(_l('Password falsch'))
 
 class EditProfile(FlaskForm):
     username = StringField(_l('Benutzername'), validators=[DataRequired(), validate_username])
@@ -42,8 +50,15 @@ class ResetPasswordRequestForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     submit = SubmitField(_l('Email senden'))
 
+class ChangePasswordForm(FlaskForm):
+    old_password = PasswordField(_l('Altes Password'), validators=[DataRequired(), check_password])
+    password = PasswordField(_l('Neues Passwort'), validators=[DataRequired(), validate_password])
+    password2 = PasswordField(
+        _l('Neues Passwort wiederholen'), validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField(_l('Passwort zurücksetzen'))
+
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField(_l('Passwort'), validators=[DataRequired()])
+    password = PasswordField(_l('Passwort'), validators=[DataRequired(), validate_password])
     password2 = PasswordField(
         _l('Passwort wiederholen'), validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField(_l('Passwort zurücksetzen'))

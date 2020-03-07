@@ -18,7 +18,7 @@
     {% if form.email.errors %}{% set x={"title": form.email.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
     {{ form.email(size=64,class_="form-control padding-15", placeholder=form.email.label.text, **x or {}) }}
     {{ form.password.label }}
-    <div class="form-row">
+    <div class="form-row" style="margin-bottom:0px;">
       <div class="col-6">
         {% set x={}%}
         {% if form.password.errors %}{% set x={"title": form.password.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
@@ -35,9 +35,9 @@
         {{ form.password2(size=32,class_="form-control", placeholder=form.password2.label.text, **x or {}) }}
       </div>
     </div>
-
+    {% include 'auth/password_text.html' %}
     <div class="progress"><div class="progress-bar" id="progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div><br>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Registrieren') }}</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" disabled>{{ _('Registrieren') }}</button>
   </form>
 </div>
 {% endblock %}

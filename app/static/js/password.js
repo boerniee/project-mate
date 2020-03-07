@@ -14,7 +14,7 @@ function validatePassword(password) {
             ctr++;
         }
     }
-    if (password.length < 6) {
+    if (password.length < 8) {
       return 0;
     }
     return ctr;

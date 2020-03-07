@@ -1,6 +1,6 @@
 from app import db, app
 from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm, ResetPasswordRequestForm, EditProfile
+from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm, ChangePasswordForm, ResetPasswordRequestForm, EditProfile
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
@@ -93,13 +93,16 @@ def register():
 @bp.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
-    form = ResetPasswordForm()
+    form = ChangePasswordForm()
     if form.validate_on_submit():
-        current_user.set_password(form.password.data)
-        db.session.commit()
-        flash(_('Passwort geändert'))
-        return redirect(url_for('main.index'))
-    return render_template('auth/reset_password.html', form=form)
+        if True:#current_user.check_password(form.old_password.data):
+            current_user.set_password(form.password.data)
+            db.session.commit()
+            flash(_('Passwort geändert'))
+            return redirect(url_for('main.index'))
+        else:
+            flash(_('Passwort falsch'))
+    return render_template('auth/change_password.html', form=form)
 
 @bp.route('/logout')
 def logout():
