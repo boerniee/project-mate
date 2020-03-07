@@ -12,7 +12,7 @@
   </div>
   <div class="row">
     <div class="col-6">
-        <h5><i title="{{ _('Datum') }}" class="far fa-calendar-alt"></i> {{ invoice.date.strftime('%d.%m.%Y %H:%M') }} | <i title="{{ _('Lieferant') }}" class="fas fa-people-carry"></i> {{ invoice.supplier.username }}</h5>
+        <h5><i title="{{ _('Datum') }}" class="far fa-calendar-alt"></i> {{ moment(invoice.date).format('Do MMMM YYYY, HH:mm') }} | <i title="{{ _('Lieferant') }}" class="fas fa-people-carry"></i> {{ invoice.supplier.username }}</h5>
     </div>
     <div class="col-6 text-right">
         <h3>Summe: {{ invoice.formatsum() }}</h3>

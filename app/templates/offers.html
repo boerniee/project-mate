@@ -35,7 +35,7 @@
         <td>{{ offer.stock }}</td>
         <td>{{ offer.getprice() }}</td>
         <td>{{ _('Ja') if offer.active else _('Nein') }}</td>
-        <td>{{ offer.created.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td>{{ moment(offer.created).format('Do MMMM YYYY, HH:mm:ss') }}</td>
         <td>
           <a class="show" href="{{ url_for('main.offer', id=offer.id) }}" title="{{ _('Bearbeiten') }}"><i class="fas fa-lg fa-edit table-action"></i></a>
           <a class="show" onclick="deleteoffer({{ offer.id }})" title="{{ _('Löschen') }}"><i class="fas fa-lg fa-trash-alt table-action"></i></a>

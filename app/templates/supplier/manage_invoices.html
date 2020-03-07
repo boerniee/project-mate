@@ -34,7 +34,7 @@
           <td>{{ invoice.user.username }}</td>
           <td>{{ invoice.supplier.username }}</td>
           <td>{{ invoice.formatsum() }}</td>
-          <td>{{ invoice.date.strftime('%d.%m.%Y %H:%M') }}</td>
+          <td>{{ moment(invoice.date).format('Do MMMM YYYY, HH:mm') }}</td>
           <td>
             <a href="{{ url_for('main.show_invoice', id=invoice.id) }}" title="{{ _('Anzeigen') }}"><i class="fas fa-lg fa-file-invoice-dollar table-action"></i></a>
             <i class="fas fa-lg fa-check-square table-action" style="color:green;" title="{{ _('Als bezahlt markieren') }}" onclick="markinvoiceaspaid({{ invoice.id }});"></i>

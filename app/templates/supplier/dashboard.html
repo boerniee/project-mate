@@ -38,7 +38,7 @@
           <td>{{ con.amount }}</td>
           <td>{{ con.getprice }}</td>
           <td>{{ con.supplier.username }}</td>
-          <td>{{ con.time.strftime('%d.%m.%Y %H:%M') }}</td>
+          <td>{{ moment(con.time).fromNow() }}</td>
         </tr>
       {% endfor %}
     {% else %}

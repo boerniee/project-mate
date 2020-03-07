@@ -4,10 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
 from celery import Celery
+from flask_moment import Moment
 from flask_mail import Mail
-from flask_babel import Babel, lazy_gettext as _l
+from flask_babel import Babel, get_locale, lazy_gettext as _l
 from babel.core import negotiate_locale
 from flask_marshmallow import Marshmallow
+from flask import g
 
 def patch_requests_class(app):
     reqclass = app.request_class
@@ -32,6 +34,7 @@ patch_requests_class(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+moment = Moment(app)
 migrate = Migrate(app, db)
 babel = Babel(app)
 login = LoginManager(app)
@@ -55,6 +58,10 @@ app.register_blueprint(main_bp)
 app.jinja_env.auto_reload = True
 
 from app import models, billing
+
+@app.before_request
+def before_request():
+    g.locale = str(get_locale())
 
 @babel.localeselector
 def get_locale():
