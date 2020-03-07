@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from "macros.html" import pagination %}
+{% block title %}{{ _('Dashboard') }}{% endblock %}
 
 {% block app_content %}
   <div class="row" style="padding-bottom: 10px;">
@@ -45,23 +47,7 @@
     </tbody>
   </table>
 
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {%- for page in consumptions.iter_pages() %}
-          {% if page %}
-            {% if page != consumptions.page %}
-              <li class="page-item"><a class="page-link" href="{{ url_for('main.admindashboard', page=page,  all=1 if request.args.get('all') else None) }}">{{ page }}</a></li>
-            {% else %}
-            <li class="page-item active">
-              <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
-            </li>
-            {% endif %}
-          {% else %}
-            <li class="page-item"><a class="page-link" href="#">...</a></li>
-          {% endif %}
-        {%- endfor %}
-      </ul>
-    </nav>
+  {{ pagination('main.admindashboard', consumptions) }}
 {% endblock %}
 
 {% block custom_script %}
@@ -69,7 +55,7 @@
     $("#admindashboard").addClass('active');
 
     function updateButton(id, button) {
-      $.getJSON("{{ url_for('main.get_task_status', id='ID') }}".replace('ID', id), function(data) {
+      $.getJSON("{{ url_for('ajax.get_task_status', id='ID') }}".replace('ID', id), function(data) {
         console.log(data['state'])
         if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
           button.addClass('btn-success');
@@ -92,7 +78,7 @@
         $this.html(loadingText);
         $this.removeClass('btn-success');
       }
-      $.ajax("{{ url_for('main.billing') }}" )
+      $.ajax("{{ url_for('ajax.billing') }}" )
       .done(function(data) {
         taskid = data['id'];
         updateButton(taskid, $this);

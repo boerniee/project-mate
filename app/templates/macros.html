@@ -1,0 +1,31 @@
+{% macro pagination(endpoint, list) %}
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    {%- for page in list.iter_pages() %}
+        {% if page %}
+          {% if page != list.page %}
+            {% set x = request.args.copy() %}
+            {% if 'page' in x %}
+              {% set _dummy=x.pop('page') %}
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="{{ url_for(endpoint, page=page, **x) }}">{{ page }}</a></li>
+          {% else %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+          </li>
+          {% endif %}
+        {% else %}
+          <li class="page-item"><a class="page-link" href="#">...</a></li>
+        {% endif %}
+      {%- endfor %}
+    </ul>
+  </nav>
+{% endmacro %}
+
+{% macro get_prod_image(product) %}
+  {% if product.imageUrl %}
+    {{ url_for('static', filename='images/' + product.imageUrl) }}
+  {% else %}
+    {{ 'https://placekitten.com/160/160' }}
+  {% endif %}
+{% endmacro %}

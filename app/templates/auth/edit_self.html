@@ -2,42 +2,60 @@
 
 {% block app_content %}
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
       <h1>{{ _('Profil bearbeiten') }}</h1>
       <form action="" method="post" novalidate>
           {{ form.hidden_tag() }}
-          <p>
-              {{ form.username.label }}<br>
-              {{ form.username(size=32, class_='form-control') }}<br>
+
+          <div class="form-group row">
+            {{ form.username.label(class_="col-sm-3 col-form-label") }}
+            <div class="col-sm-9">
+              {{ form.username(size=32, class_='form-control', placeholder=form.username.label.text) }}
               {% for error in form.username.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
-          <p>
-              {{ form.email.label }}<br>
-              {{ form.email(class_='form-control', size=64, readonly=true) }}<br>
+            </div>
+          </div>
+          <div class="form-group row">
+            {{ form.email.label(class_="col-sm-3 col-form-label") }}
+            <div class="col-sm-9">
+              {{ form.email(size=64, class_='form-control', readonly=true, placeholder=form.username.label.text) }}
               {% for error in form.email.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
-          <p>
-              {{ form.paypal.label }}<br>
-              {{ form.paypal(class_='form-control', size=50) }}<br>
+            </div>
+          </div>
+          <div class="form-group row">
+            {{ form.paypal.label(class_="col-sm-3 col-form-label") }}
+            <div class="col-sm-9">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon3">https://paypal.me/</span>
+                </div>
+                  {{ form.paypal(class_='form-control', size=50, placeholder='johndoe') }}
+              </div>
               {% for error in form.paypal.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
-          <p>
-              {{ form.lang.label }}<br>
-              {{ form.lang(class_='form-control') }}<br>
+            </div>
+          </div>
+          <div class="form-group row">
+            {{ form.lang.label(class_="col-sm-3 col-form-label") }}
+            <div class="col-sm-9">
+              {{ form.lang(class_='form-control') }}
               {% for error in form.lang.errors %}
               <span style="color: red;">[{{ error }}]</span>
               {% endfor %}
-          </p>
-          <p>{{ form.submit(class_='btn btn-secondary') }}</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-10">
+              {{ form.submit(class_="btn btn-primary") }}
+            </div>
+          </div>
         </form>
       </div>
-      <div class="col-sm-4"></div>
+      <div class="col-sm-2"></div>
       <div class="col-sm-2"><img style="padding-top:25px;" src="{{ avatar }}"/></div>
     </div>
 {% endblock %}

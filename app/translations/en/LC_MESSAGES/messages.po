@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-06 15:46+0100\n"
+"POT-Creation-Date: 2020-03-07 14:09+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -34,6 +34,50 @@ msgstr "Helloo"
 msgid "Du wurdest aktiviert"
 msgstr "You have been activated"
 
+#: app/ajax/ajax.py:24 app/main/routes.py:69
+msgid "Angebot nicht gefunden"
+msgstr "Offer not found"
+
+#: app/ajax/ajax.py:26 app/ajax/ajax.py:38
+msgid "Zugriff verweigert"
+msgstr "Access Denied"
+
+#: app/ajax/ajax.py:29
+msgid "Angebot gelöscht"
+msgstr "Offer deleted"
+
+#: app/ajax/ajax.py:36 app/main/routes.py:52
+msgid "Rechnung nicht gefunden"
+msgstr "Invoice not found"
+
+#: app/ajax/ajax.py:41
+msgid "Rechnung bezahlt"
+msgstr "Invoice paid"
+
+#: app/ajax/ajax.py:49
+msgid "Zahlungserinnerung gesendet"
+msgstr "Sent invoice reminder"
+
+#: app/ajax/ajax.py:65
+msgid "Viel spaß mit deinem Produkt!"
+msgstr "Enjoy your product!"
+
+#: app/ajax/ajax.py:81
+msgid "Ausverkauft"
+msgstr "Out of Stock"
+
+#: app/ajax/ajax.py:85
+msgid "Jetzt probieren"
+msgstr "Try now"
+
+#: app/ajax/ajax.py:122
+msgid "Fehler bei der Validierung"
+msgstr "Error during validation"
+
+#: app/ajax/ajax.py:139 app/templates/admin/manage_users.html:153
+msgid "Erfolgreich gebucht"
+msgstr "Successfully booked"
+
 #: app/auth/email.py:7
 msgid "Setze dein tolles Passwort zurück"
 msgstr "Reset your beautifull password"
@@ -51,8 +95,8 @@ msgid "Bitte nutze eine andere Email Adresse."
 msgstr "Please use another Email address"
 
 #: app/auth/forms.py:29 app/auth/forms.py:36 app/auth/forms.py:52
-#: app/main/forms.py:25 app/templates/admin/dashboard.html:21
-#: app/templates/admin/manageusers.html:29
+#: app/main/forms.py:25 app/templates/admin/manage_users.html:31
+#: app/templates/supplier/dashboard.html:23
 msgid "Benutzername"
 msgstr "Username"
 
@@ -110,7 +154,7 @@ msgstr "Repeat password"
 msgid "Registrieren"
 msgstr "Register"
 
-#: app/auth/routes.py:23 app/main/admin.py:65 app/main/admin.py:104
+#: app/auth/routes.py:23 app/main/admin.py:49 app/main/admin.py:88
 #: app/main/routes.py:83
 msgid "Gespeichert"
 msgstr "Saved"
@@ -143,79 +187,41 @@ msgstr "Login"
 msgid "Erfolgreich registriert, warte bitte auf die Freischaltung!"
 msgstr "Successfully registered, please wait for your activation"
 
-#: app/auth/routes.py:101
-msgid "Passwort gespeichert"
-msgstr "Password saved"
+#: app/auth/routes.py:100
+msgid "Passwort geändert"
+msgstr "Changed password"
 
-#: app/main/admin.py:27 app/templates/admin/dashboard.html:5
-#: app/templates/base.html:41
-msgid "Dashboard"
-msgstr "Dashboard"
-
-#: app/main/admin.py:39 app/templates/admin/manageusers.html:16
-msgid "Benutzerverwaltung"
-msgstr "User management"
-
-#: app/main/admin.py:84 app/templates/admin/manageproducts.html:5
-msgid "Produktverwaltung"
-msgstr "Product management"
-
-#: app/main/admin.py:109
-msgid "Barbeiten "
-msgstr "Edit"
-
-#: app/main/admin.py:122 app/templates/admin/manageinvoices.html:4
-msgid "Rechnungen verwalten"
-msgstr "Manage Invoices"
-
-#: app/main/ajax.py:58
-msgid "Viel spaß mit deinem Produkt!"
-msgstr "Enjoy your product!"
-
-#: app/main/ajax.py:74
-msgid "Ausverkauft"
-msgstr "Out of Stock"
-
-#: app/main/ajax.py:78
-msgid "Jetzt probieren"
-msgstr "Try now"
-
-#: app/main/ajax.py:115
-msgid "Fehler bei der Validierung"
-msgstr "Error during validation"
-
-#: app/main/forms.py:8 app/templates/admin/dashboard.html:22
-#: app/templates/invoice.html:24 app/templates/offers.html:19
-#: app/templates/overview.html:12
+#: app/main/forms.py:8 app/templates/admin/edit_product.html:2
+#: app/templates/invoice.html:25 app/templates/offers.html:21
+#: app/templates/overview.html:14 app/templates/supplier/dashboard.html:24
 msgid "Produkt"
 msgstr "Product"
 
-#: app/main/forms.py:9 app/templates/admin/dashboard.html:24
-#: app/templates/admin/manageusers.html:95 app/templates/invoice.html:26
-#: app/templates/offers.html:21 app/templates/offers_popover.html:5
-#: app/templates/overview.html:13
+#: app/main/forms.py:9 app/templates/admin/manage_users.html:80
+#: app/templates/invoice.html:27 app/templates/offers.html:23
+#: app/templates/offers_popover.html:5 app/templates/overview.html:15
+#: app/templates/supplier/dashboard.html:26
 msgid "Preis"
 msgstr "Price"
 
-#: app/main/forms.py:10 app/templates/offers.html:20
+#: app/main/forms.py:10 app/templates/offers.html:22
 msgid "Bestand"
 msgstr "Stock"
 
 #: app/main/forms.py:11 app/main/forms.py:17 app/main/forms.py:27
-#: app/templates/admin/manageproducts.html:29
-#: app/templates/admin/manageusers.html:30 app/templates/offers.html:22
+#: app/templates/admin/manage_products.html:31
+#: app/templates/admin/manage_users.html:32 app/templates/offers.html:24
 msgid "Aktiv"
 msgstr "Active"
 
-#: app/main/forms.py:12 app/main/forms.py:28
-#: app/templates/admin/dashboard.html:25
-#: app/templates/admin/manageinvoices.html:21 app/templates/invoice.html:14
-#: app/templates/invoices.html:11 app/templates/offers_popover.html:6
-#: app/templates/overview.html:15
+#: app/main/forms.py:12 app/main/forms.py:28 app/templates/invoice.html:15
+#: app/templates/invoices.html:13 app/templates/offers_popover.html:6
+#: app/templates/overview.html:17 app/templates/supplier/dashboard.html:27
+#: app/templates/supplier/manage_invoices.html:23
 msgid "Lieferant"
 msgstr "Supplier"
 
-#: app/main/forms.py:16 app/templates/admin/manageproducts.html:18
+#: app/main/forms.py:16 app/templates/admin/manage_products.html:20
 msgid "Beschreibung"
 msgstr "Description"
 
@@ -235,55 +241,53 @@ msgstr "Only file ending jpf or png allowed"
 msgid "Admin"
 msgstr "Admin"
 
-#: app/main/routes.py:20 app/templates/about.html:4 app/templates/base.html:66
-msgid "Über"
-msgstr "About"
-
-#: app/main/routes.py:27 app/templates/base.html:25
-msgid "Start"
-msgstr "Start"
-
-#: app/main/routes.py:37 app/templates/base.html:28
-#: app/templates/overview.html:5
-msgid "Übersicht"
-msgstr "Overview"
-
-#: app/main/routes.py:45 app/templates/base.html:32 app/templates/base.html:40
-#: app/templates/invoices.html:4
-msgid "Rechnungen"
-msgstr "Invoices"
-
-#: app/main/routes.py:52
-msgid "Rechnung nicht gefunden"
-msgstr "Invoice not found"
-
 #: app/main/routes.py:54 app/main/routes.py:71
 msgid "Das darfst du leider nicht"
 msgstr "I'm afraid you can't do that"
-
-#: app/main/routes.py:69
-msgid "Angebot nicht gefunden"
-msgstr "Offer not found"
 
 #: app/main/routes.py:97
 msgid "Bitte hinterlege deine PayPal.me Kennung"
 msgstr "Please save your paypal.me username"
 
-#: app/main/routes.py:105 app/templates/base.html:42
-#: app/templates/offers.html:6
-msgid "Angebote"
-msgstr "Offers"
+#: app/templates/about.html:2 app/templates/about.html:5
+#: app/templates/base.html:66
+msgid "Über"
+msgstr "About"
 
-#: app/templates/about.html:6
+#: app/templates/about.html:7
 msgid "Version"
 msgstr "Version"
+
+#: app/templates/base.html:25
+msgid "Start"
+msgstr "Start"
+
+#: app/templates/base.html:28 app/templates/overview.html:2
+#: app/templates/overview.html:7
+msgid "Übersicht"
+msgstr "Overview"
+
+#: app/templates/base.html:32 app/templates/base.html:40
+#: app/templates/invoices.html:2 app/templates/invoices.html:6
+msgid "Rechnungen"
+msgstr "Invoices"
 
 #: app/templates/base.html:37
 msgid "Verwaltung"
 msgstr "Manage"
 
-#: app/templates/admin/manageinvoices.html:20
-#: app/templates/admin/manageusers.html:80 app/templates/base.html:45
+#: app/templates/base.html:41 app/templates/supplier/dashboard.html:3
+#: app/templates/supplier/dashboard.html:7
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: app/templates/base.html:42 app/templates/offers.html:3
+#: app/templates/offers.html:8
+msgid "Angebote"
+msgstr "Offers"
+
+#: app/templates/admin/manage_users.html:65 app/templates/base.html:45
+#: app/templates/supplier/manage_invoices.html:22
 msgid "Benutzer"
 msgstr "User"
 
@@ -303,104 +307,109 @@ msgstr "Own Data"
 msgid "Abmelden"
 msgstr "Logout"
 
-#: app/templates/index.html:4
+#: app/templates/index.html:5
 #, python-format
 msgid "Genieße unser leckeres Produkt"
 msgid_plural "Genieße eines unserer %(num)s leckeren Produkte"
 msgstr[0] "Enjoy our only great product"
 msgstr[1] "Enjoy one of our %(num)s great products"
 
-#: app/templates/index.html:18
+#: app/templates/index.html:19
 msgid "SooS"
 msgstr "SaaS"
 
-#: app/templates/index.html:24
+#: app/templates/index.html:25
 msgid "OK"
 msgstr "OK"
 
-#: app/templates/invoice.html:6
+#: app/templates/invoice.html:2 app/templates/invoice.html:7
 msgid "Rechnung"
 msgstr "Invoice"
 
-#: app/templates/invoice.html:6
+#: app/templates/invoice.html:7
 msgid "Offen"
 msgstr "Open"
 
-#: app/templates/invoice.html:6 app/templates/invoices.html:9
+#: app/templates/invoice.html:7 app/templates/invoices.html:11
 msgid "Bezahlt"
 msgstr "Paid"
 
-#: app/templates/admin/dashboard.html:26
-#: app/templates/admin/manageinvoices.html:23 app/templates/invoice.html:14
-#: app/templates/invoices.html:12 app/templates/offers.html:23
+#: app/templates/invoice.html:15 app/templates/invoices.html:14
+#: app/templates/offers.html:25 app/templates/supplier/dashboard.html:28
+#: app/templates/supplier/manage_invoices.html:25
 msgid "Datum"
 msgstr "Date"
 
-#: app/templates/invoice.html:25 app/templates/overview.html:14
+#: app/templates/invoice.html:26 app/templates/overview.html:16
 msgid "Stück"
 msgstr "Pieces"
 
-#: app/templates/invoice.html:27
+#: app/templates/invoice.html:28
 msgid "Summe"
 msgstr "Sum"
 
-#: app/templates/admin/dashboard.html:43
-#: app/templates/admin/manageproducts.html:36 app/templates/invoice.html:42
-#: app/templates/invoices.html:32 app/templates/offers.html:44
-#: app/templates/overview.html:32
+#: app/templates/admin/manage_products.html:38 app/templates/invoice.html:43
+#: app/templates/invoices.html:34 app/templates/offers.html:46
+#: app/templates/overview.html:34 app/templates/supplier/dashboard.html:45
 msgid "Keine Einträge vorhanden"
 msgstr "No entries"
 
-#: app/templates/admin/manageinvoices.html:22 app/templates/invoices.html:10
+#: app/templates/invoices.html:12
+#: app/templates/supplier/manage_invoices.html:24
 msgid "Betrag"
 msgstr "Amount"
 
-#: app/templates/admin/manageinvoices.html:24
-#: app/templates/admin/manageproducts.html:20
-#: app/templates/admin/manageusers.html:32 app/templates/invoices.html:13
-#: app/templates/offers.html:24
+#: app/templates/admin/manage_products.html:22
+#: app/templates/admin/manage_users.html:34 app/templates/invoices.html:15
+#: app/templates/offers.html:26 app/templates/supplier/manage_invoices.html:26
 msgid "Aktionen"
 msgstr "Actions"
 
-#: app/templates/admin/manageusers.html:40 app/templates/invoices.html:21
-#: app/templates/offers.html:35
+#: app/templates/admin/manage_users.html:42 app/templates/invoices.html:23
+#: app/templates/offers.html:37
 msgid "Ja"
 msgstr "Yes"
 
-#: app/templates/admin/manageusers.html:40 app/templates/invoices.html:21
-#: app/templates/offers.html:35
+#: app/templates/admin/manage_users.html:42 app/templates/invoices.html:23
+#: app/templates/offers.html:37
 msgid "Nein"
 msgstr "No"
 
-#: app/templates/admin/manageinvoices.html:37 app/templates/invoices.html:26
+#: app/templates/invoices.html:28
+#: app/templates/supplier/manage_invoices.html:39
 msgid "Anzeigen"
 msgstr "Show"
 
-#: app/templates/invoices.html:27
+#: app/templates/invoices.html:29
 msgid "Bezahlen"
 msgstr "Pay"
 
-#: app/templates/admin/editproduct.html:4 app/templates/admin/edituser.html:4
-#: app/templates/admin/manageproducts.html:31
-#: app/templates/admin/manageusers.html:43 app/templates/offer.html:4
-#: app/templates/offers.html:38
+#: app/templates/offer.html:2
+msgid "Angebot bearbeiten"
+msgstr "Edit offer"
+
+#: app/templates/admin/edit_product.html:5 app/templates/admin/edit_user.html:2
+#: app/templates/admin/edit_user.html:5
+#: app/templates/admin/manage_products.html:33
+#: app/templates/admin/manage_users.html:45 app/templates/offer.html:5
+#: app/templates/offers.html:40
 msgid "Bearbeiten"
 msgstr "Edit"
 
-#: app/templates/admin/dashboard.html:9 app/templates/offers.html:10
+#: app/templates/offers.html:12 app/templates/supplier/dashboard.html:11
 msgid "Meine"
 msgstr "Own"
 
-#: app/templates/admin/dashboard.html:10 app/templates/offers.html:11
+#: app/templates/offers.html:13 app/templates/supplier/dashboard.html:12
 msgid "Alle"
 msgstr "All"
 
-#: app/templates/offers.html:39
+#: app/templates/offers.html:41
 msgid "Löschen"
 msgstr "Delete"
 
-#: app/templates/admin/manageinvoices.html:84
-#: app/templates/admin/manageinvoices.html:98 app/templates/offers.html:62
+#: app/templates/offers.html:65 app/templates/supplier/manage_invoices.html:69
+#: app/templates/supplier/manage_invoices.html:83
 msgid "Ein unbekanntes Müsli ist aufgetreten"
 msgstr "A unknown cereal has happened"
 
@@ -408,111 +417,77 @@ msgstr "A unknown cereal has happened"
 msgid "Alle Angebote"
 msgstr "All Offers"
 
-#: app/templates/overview.html:6
+#: app/templates/overview.html:8
 msgid "Kontostand"
 msgstr "Balance"
 
-#: app/templates/overview.html:16
+#: app/templates/overview.html:18
 msgid "Zeit"
 msgstr "Time"
 
-#: app/templates/admin/dashboard.html:5
-msgid "Starte Abrechnung"
-msgstr "Start billing"
-
-#: app/templates/admin/dashboard.html:13
-msgid "Offen:"
-msgstr "Open:"
-
-#: app/templates/admin/dashboard.html:23
-msgid "Anzahl"
-msgstr "Amount"
-
-#: app/templates/admin/dashboard.html:76
-msgid "Erfolgreich durchgeführt"
-msgstr "Success"
-
-#: app/templates/admin/dashboard.html:89
-msgid "das ähh läuft..."
-msgstr "it ruuuns"
-
-#: app/templates/admin/dashboard.html:101
-msgid "Fehler"
-msgstr "Error"
-
-#: app/templates/admin/editproduct.html:29
+#: app/templates/admin/edit_product.html:30
 msgid "Attribute"
 msgstr "Attributes"
 
-#: app/templates/admin/edituser.html:26
+#: app/templates/admin/edit_user.html:27
 msgid "Rechte"
 msgstr "Rights"
 
-#: app/templates/admin/manageinvoices.html:7
-#: app/templates/admin/manageusers.html:6
-msgid "Mate4Life"
-msgstr "Mate4Life"
+#: app/templates/admin/manage_products.html:3
+#: app/templates/admin/manage_products.html:7
+msgid "Produktverwaltung"
+msgstr "Product management"
 
-#: app/templates/admin/manageinvoices.html:38
-msgid "Als bezahlt markieren"
-msgstr "Mark as paid"
-
-#: app/templates/admin/manageinvoices.html:39
-msgid "Erinnerung senden"
-msgstr "Send reminder"
-
-#: app/templates/admin/manageinvoices.html:44
-msgid "Keine unbezahlten Rechnungen"
-msgstr "No unpaid bills"
-
-#: app/templates/admin/manageinvoices.html:80
-msgid "Erinnerung erfolgreich verschickt"
-msgstr "Sent reminder successfully"
-
-#: app/templates/admin/manageproducts.html:9
-#: app/templates/admin/manageproducts.html:10
-#: app/templates/admin/manageusers.html:19
-#: app/templates/admin/manageusers.html:20
+#: app/templates/admin/manage_products.html:11
+#: app/templates/admin/manage_products.html:12
+#: app/templates/admin/manage_users.html:21
+#: app/templates/admin/manage_users.html:22
 msgid "Suchen"
 msgstr "Search"
 
-#: app/templates/admin/manageproducts.html:19
+#: app/templates/admin/manage_products.html:21
 msgid "Status"
 msgstr "State"
 
-#: app/templates/admin/manageproducts.html:29
+#: app/templates/admin/manage_products.html:31
 msgid "Inaktiv"
 msgstr "Inactive"
 
-#: app/templates/admin/manageusers.html:31
+#: app/templates/admin/manage_users.html:2
+#: app/templates/admin/manage_users.html:18
+msgid "Benutzerverwaltung"
+msgstr "User management"
+
+#: app/templates/admin/manage_users.html:8
+#: app/templates/supplier/manage_invoices.html:9
+msgid "Mate4Life"
+msgstr "Mate4Life"
+
+#: app/templates/admin/manage_users.html:33
 msgid "EMail"
 msgstr "EMail"
 
-#: app/templates/admin/manageusers.html:44
-#: app/templates/admin/manageusers.html:74
+#: app/templates/admin/manage_users.html:46
+#: app/templates/admin/manage_users.html:59
 msgid "Nachbuchen"
 msgstr "Book"
 
-#: app/templates/admin/manageusers.html:85
-#: app/templates/admin/manageusers.html:98
+#: app/templates/admin/manage_users.html:70
+#: app/templates/admin/manage_users.html:83
 msgid "Lädt..."
 msgstr "Loading..."
 
-#: app/templates/admin/manageusers.html:106
+#: app/templates/admin/manage_users.html:91
 msgid "Gutschrift"
 msgstr "Credit"
 
-#: app/templates/admin/manageusers.html:113
+#: app/templates/admin/manage_users.html:98
 msgid "Buchen"
 msgstr "Book"
 
-#: app/templates/admin/manageusers.html:114
+#: app/templates/admin/manage_users.html:99
 msgid "Abbrechen"
 msgstr "Cancel"
-
-#: app/templates/admin/manageusers.html:168
-msgid "Erfolgreich gebucht"
-msgstr "Successfully booked"
 
 #: app/templates/auth/password_strength.html:26
 msgid "Schwach"
@@ -555,6 +530,51 @@ msgstr ""
 #: app/templates/error/500.html:5
 msgid "Please try again later"
 msgstr ""
+
+#: app/templates/supplier/dashboard.html:7
+msgid "Starte Abrechnung"
+msgstr "Start billing"
+
+#: app/templates/supplier/dashboard.html:15
+msgid "Offen:"
+msgstr "Open:"
+
+#: app/templates/supplier/dashboard.html:25
+msgid "Anzahl"
+msgstr "Amount"
+
+#: app/templates/supplier/dashboard.html:62
+msgid "Erfolgreich durchgeführt"
+msgstr "Success"
+
+#: app/templates/supplier/dashboard.html:75
+msgid "das ähh läuft..."
+msgstr "it ruuuns"
+
+#: app/templates/supplier/dashboard.html:87
+msgid "Fehler"
+msgstr "Error"
+
+#: app/templates/supplier/manage_invoices.html:3
+#: app/templates/supplier/manage_invoices.html:6
+msgid "Rechnungen verwalten"
+msgstr "Manage Invoices"
+
+#: app/templates/supplier/manage_invoices.html:40
+msgid "Als bezahlt markieren"
+msgstr "Mark as paid"
+
+#: app/templates/supplier/manage_invoices.html:41
+msgid "Erinnerung senden"
+msgstr "Send reminder"
+
+#: app/templates/supplier/manage_invoices.html:46
+msgid "Keine unbezahlten Rechnungen"
+msgstr "No unpaid bills"
+
+#: app/templates/supplier/manage_invoices.html:65
+msgid "Erinnerung erfolgreich verschickt"
+msgstr "Sent reminder successfully"
 
 #~ msgid "Abrechnung"
 #~ msgstr "Billing"
@@ -628,3 +648,9 @@ msgstr ""
 
 #~ msgid "Bestand berücksichtigen"
 #~ msgstr "Book stock"
+
+#~ msgid "Passwort gespeichert"
+#~ msgstr "Password saved"
+
+#~ msgid "Barbeiten "
+#~ msgstr "Edit"

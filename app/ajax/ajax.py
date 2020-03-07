@@ -6,7 +6,7 @@ from app.models import Product, Consumption, Invoice, User, Offer,  UserRoles, R
 import datetime
 from sqlalchemy import or_, and_, func
 from app.billing import run_billing
-from app.main import bp
+from app.ajax import bp
 from app.schema import BookRequestSchema, offer_schema, supplier_schema
 from app.email import send_invoice_reminder
 from app.service.productservice import get_offer_by_id, get_offer_by_product, get_all_offers_by_product
@@ -16,34 +16,41 @@ import os
 import json
 from collections import defaultdict
 
-@bp.route('/ajax/offer/<int:id>', methods=['DELETE'])
-@login_required
+@bp.route('/offer/<int:id>', methods=['DELETE'])
+@right_required(role='supplier')
 def delete_offer(id):
     o = Offer.query.get(id)
-    if o:
-        db.session.delete(o)
-        db.session.commit()
-    return jsonify({'success': True})
+    if not o:
+        abort(Response(jsonify({'success': True, 'message': _('Angebot nicht gefunden')}), 404))
+    if not current_user.has_role('admin') and o.user.id != current_user.id:
+        abort(Response(jsonify({'success': False, 'message': _('Zugriff verweigert')}), 403))
+    db.session.delete(o)
+    db.session.commit()
+    return jsonify({'success': True, 'message': _('Angebot gelöscht')})
 
-@bp.route('/manage/invoice/<int:id>/paid')
-@right_required(role='admin')
-def markinvoiceaspaid(id):
+@bp.route('/invoice/<int:id>/paid')
+@right_required(role='supplier')
+def mark_invoice_paid(id):
     invoice = Invoice.query.filter_by(id=id).first()
+    if not invoice:
+        abort(Response(jsonify({'success': False, 'message': _('Rechnung nicht gefunden')}), 404))
+    if not current_user.has_role('admin') and invoice.supplier.id != current_user.id:
+        abort(Response(jsonify({'success': False, 'message': _('Zugriff verweigert')}), 403))
     invoice.paid = True
     db.session.commit()
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'message': _('Rechnung bezahlt')})
 
-@bp.route('/ajax/invoice/<int:id>/remind', methods=['POST'])
-@login_required
-def send_reminder(id):
+@bp.route('/invoice/<int:id>/remind', methods=['POST'])
+@right_required(role='admin')
+def send_inv_reminder(id):
     inv = Invoice.query.get(id)
     if inv:
         send_invoice_reminder(inv)
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'message': _('Zahlungserinnerung gesendet')})
 
-@bp.route('/ajax/consume/offer/<int:offerid>', methods=['POST'])
+@bp.route('/offer/<int:offerid>/consume', methods=['POST'])
 @login_required
-def consume(offerid):
+def consume_offer(offerid):
     offer = Offer.query.with_for_update().get(offerid)
     if not offer or not offer.active or offer.stock <= 0:
         return jsonify({'success': False, 'title': 'Ungültiges Angebot', 'text': 'Dieses Angebot ist nicht mehr gültig bitte versuche es noch einmal.'})
@@ -57,18 +64,18 @@ def consume(offerid):
 
     return jsonify({'success': True, 'title': '🍻🎉', 'text': _('Viel spaß mit deinem Produkt!')})
 
-@bp.route('/ajax/product/<int:id>/offer/popover')
-@right_required(role='admin')
+@bp.route('/product/<int:id>/offer/popover')
+@login_required
 def offers_popover(id):
     offers = get_all_offers_by_product(id)
     return render_template('offers_popover.html', offers=offers)
 
-@bp.route('/ajax/product/<int:id>/offer')
+@bp.route('/product/<int:productid>/offer')
 @login_required
-def get_offer_for_product(id):
+def get_offer_for_product(productid):
     response = {'found': False, 'text': "", 'offer': None}
 
-    offer = get_offer_by_product(id)
+    offer = get_offer_by_product(productid)
     text = None
     if offer == None:
         response['text'] = _('Ausverkauft')
@@ -78,7 +85,7 @@ def get_offer_for_product(id):
         response['text'] = _('Jetzt probieren') if offer.product.highlight else ""
     return jsonify(response)
 
-@bp.route('/ajax/product/<int:id>/image', methods=['DELETE'])
+@bp.route('/product/<int:id>/image', methods=['DELETE'])
 @right_required(role='admin')
 def delete_product_image(id):
     product = Product.query.get(id)
@@ -93,7 +100,7 @@ def delete_product_image(id):
     db.session.commit()
     return jsonify({'success': True})
 
-@bp.route('/ajax/products')
+@bp.route('/product')
 @right_required(role='admin')
 def products():
     products = Product.query.all()
@@ -105,7 +112,7 @@ def supplier():
     u = User.query.join(UserRoles).join(Role).filter(and_(or_(Role.name == 'supplier', Role.name == 'admin'), User.paypal != None)).all()
     return supplier_schema.dumps(u)
 
-@bp.route('/manage/book', methods=['POST'])
+@bp.route('/product/book', methods=['POST'])
 @right_required(role='admin')
 def book():
     schema = BookRequestSchema()
@@ -129,15 +136,15 @@ def book():
 
     db.session.add(c)
     db.session.commit()
-    return jsonify({'success': True})
+    return jsonify({'success': True, 'message': _('Erfolgreich gebucht')})
 
-@bp.route('/manage/billing/start')
+@bp.route('/billing/start')
 @right_required(role='admin')
 def billing():
     res = run_billing.delay()
     return jsonify({'id': res.id})
 
-@bp.route('/manage/billing/status/<string:id>')
+@bp.route('/billing/<string:id>/status')
 @right_required(role='admin')
 def get_task_status(id):
     task = run_billing.AsyncResult(id)

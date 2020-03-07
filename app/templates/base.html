@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dark-mode.css')}}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     {% block links %}{% endblock %}
-    <title>{% block title %}{% if title %}{{ title }} - {{ config['INFORMATION']['name'] }}{% else %}Welcome to Projekt Mate{% endif %}{% if config['BETA'] %} - BETA{% endif %}{% endblock %}</title>
+    <title>{% block title %}🍾{% endblock %} - {{ config['INFORMATION']['name'] }}{% if config['BETA'] %} - BETA{% endif %}</title>
   </head>
   <body>
     <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
@@ -93,8 +93,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='jquery.cookie.js')}}"></script>
-    <script src="{{url_for('static', filename='dark-mode-switch.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.cookie.js')}}?v={{config['INFORMATION']['version']}}"></script>
+    <script src="{{url_for('static', filename='js/dark-mode-switch.min.js')}}?v={{config['INFORMATION']['version']}}"></script>
     {% block custom_script %}{% endblock %}
   </body>
 </html>

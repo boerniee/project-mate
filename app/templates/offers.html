@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% from "macros.html" import pagination %}
+{% block title %}{{ _('Angebote') }}{% endblock %}
 
 {% block app_content %}
 <div class="row" style="padding-bottom: 10px;">
@@ -45,6 +47,7 @@
   {% endif %}
   </tbody>
 </table>
+{{ pagination('main.offers', offers) }}
 {% endblock %}
 
 {% block custom_script %}
@@ -53,7 +56,7 @@
 
     function deleteoffer(id) {
       $.ajax({
-        url: "{{ url_for('main.delete_offer', id=0) }}".replace('0', id),
+        url: "{{ url_for('ajax.delete_offer', id=0) }}".replace('0', id),
         type: 'DELETE',
         success: function() {
           window.location.reload();

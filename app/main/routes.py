@@ -17,14 +17,14 @@ from flask_babel import _
 @bp.route('/about')
 @login_required
 def about():
-    return render_template('about.html', title=_('Über'), now=datetime.utcnow(), information=app.config['INFORMATION'])
+    return render_template('about.html', now=datetime.utcnow())
 
 @bp.route('/')
 @bp.route('/index')
 @login_required
 def index():
     products = get_active_products()
-    return render_template('index.html', title=_('Start'), products=products)
+    return render_template('index.html', products=products)
 
 @bp.route('/overview',methods=['GET'])
 @login_required
@@ -34,7 +34,7 @@ def overview():
     cons = Consumption.query.filter(and_(Consumption.user_id == current_user.id, Consumption.billed == False)).order_by(desc(Consumption.time)).paginate(page,per_page,error_out=False)
 
     sum = db.engine.execute(text('select sum(amount * price) from consumption where user_id = :uid and billed = 0'), uid=current_user.id).fetchone()
-    return render_template('overview.html', title=_('Übersicht'), summed=format_curr(sum[0] or 0), consumptions=cons)
+    return render_template('overview.html', summed=format_curr(sum[0] or 0), consumptions=cons)
 
 @bp.route('/invoice')
 @login_required
@@ -42,7 +42,7 @@ def invoice():
     page = getIntQueryParam(request, 1)
     per_page = app.config['PER_PAGE']
     invoices = db.session.query(Invoice).join(User, User.id == Invoice.user_id).filter(User.id==current_user.id).order_by(Invoice.paid, Invoice.date.desc()).paginate(page,per_page,error_out=False)
-    return render_template('invoices.html', title=_('Rechnungen'), invoices=invoices)
+    return render_template('invoices.html', invoices=invoices)
 
 @bp.route('/invoice/<id>', methods=['GET'])
 @login_required
@@ -52,7 +52,7 @@ def show_invoice(id):
         abort(404, _('Rechnung nicht gefunden'))
     if invoice.user_id != current_user.id and invoice.supplier_id != current_user.id and not current_user.has_role('admin'):
         abort(403, _('Das darfst du leider nicht'))
-    return render_template('invoice.html', title='#' + str(id), invoice=invoice)
+    return render_template('invoice.html', invoice=invoice)
 
 @bp.route('/offer/<int:id>', methods=['GET', 'POST'])
 @right_required(role='supplier')
@@ -88,7 +88,7 @@ def offer(id):
     form.price.data = offer.price
     form.stock.data = offer.stock
     form.supplier.data = offer.user.username
-    return render_template('offer.html', title='Neu' if id == 0 else ('#' + str(id)), form=form)
+    return render_template('offer.html', form=form)
 
 @bp.route('/offer')
 @right_required(role='supplier')
@@ -102,4 +102,4 @@ def offers():
     if not current_user.has_role('admin') or not request.args.get('all'):
         q = q.filter(Offer.user == current_user)
     offers = q.order_by(Offer.created.desc()).paginate(page,per_page,error_out=False)
-    return render_template('offers.html', title=_('Angebote'), offers=offers)
+    return render_template('offers.html', offers=offers)

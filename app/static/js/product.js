@@ -20,7 +20,7 @@ class ProductCard extends HTMLElement {
     if (this.disabled || this.offerid == null) return
     this.fetchOffer();
     $.post({
-      url: "/ajax/consume/offer/id".replace('id', this.offerid),
+      url: "/ajax/offer/id/consume".replace('id', this.offerid),
       context: this,
       success: function(data) {
         this.show_modal(data['title'], data['text']);

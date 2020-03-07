@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}{{ _('Produkt') }} #{{ product.id }}{% endblock %}
 
 {% block app_content %}
     <h1 style="padding-bottom: 10px;"><a href="{{ url_for('main.manageproducts') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
@@ -52,7 +53,7 @@
   <script>
     function deleteImage() {
       $.ajax({
-          url: '{{ url_for('main.delete_product_image', id=product.id or 0) }}',
+          url: '{{ url_for('ajax.delete_product_image', id=product.id or 0) }}',
           type: 'DELETE',
           success: function(result) {
             location.reload();

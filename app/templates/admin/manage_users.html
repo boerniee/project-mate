@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% block title %}{{ _('Benutzerverwaltung') }}{% endblock %}
+{% from "macros.html" import pagination %}
 
 {% block app_content %}
   <div class="toast mate-toast" data-delay="3500">
@@ -47,24 +49,7 @@
     {% endfor %}
     </tbody>
   </table>
-
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {%- for page in users.iter_pages() %}
-          {% if page %}
-            {% if page != users.page %}
-              <li class="page-item"><a class="page-link" href="{{ url_for('main.manageusers', page=page, search=request.args.get('search')) }}">{{ page }}</a></li>
-            {% else %}
-            <li class="page-item active">
-              <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
-            </li>
-            {% endif %}
-          {% else %}
-            <li class="page-item"><a class="page-link" href="#">...</a></li>
-          {% endif %}
-        {%- endfor %}
-      </ul>
-    </nav>
+  {{ pagination('main.manageusers', users) }}
 
     <div class="modal fade" id="myModal">
       <input type="hidden" id="userid"></input>
@@ -131,7 +116,7 @@
       modal.find('#userid').val(userid);
 
       $.ajax({
-        url: "{{ url_for('main.products') }}",
+        url: "{{ url_for('ajax.products') }}",
         dataType: "json"
       }).done(
         function(data) {
@@ -144,7 +129,7 @@
       );
 
       $.ajax({
-        url: "{{ url_for('main.supplier') }}",
+        url: "{{ url_for('ajax.supplier') }}",
         dataType: "json"
       }).done(
         function(data) {
@@ -160,7 +145,7 @@
     $("#book").on("click", function(e){
       $('#myModal').modal('toggle');
       $.post({
-        url: "{{ url_for('main.book') }}",
+        url: "{{ url_for('ajax.book') }}",
         data: JSON.stringify({ "amount": $('#amount').val() , "user": $('#userid').val(), "price": $('#price').val(), "supplier": $('#supplier').val(), "credit": $('#credit').prop('checked') , "product": $('#products').val() }),
         contentType:"application/json; charset=utf-8",
         dataType:"json",
