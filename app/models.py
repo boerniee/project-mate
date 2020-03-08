@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     lang = db.Column(db.String(3))
     roles = db.relationship('Role', secondary='user_roles')
     consumptions = db.relationship("Consumption", foreign_keys="Consumption.user_id", back_populates="user")
-    invoices = db.relationship("Invoice", foreign_keys="Invoice.user_id")
+    invoices = db.relationship("Invoice", lazy="dynamic", foreign_keys="Invoice.user_id")
 
     @property
     def is_active(self):
@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
 
     @property
     def unpaid_bills(self):
-        unpaidBills = sum(i.paid == False for i in self.invoices)
+        unpaidBills = self.invoices.filter(Invoice.paid==False).count()
         return unpaidBills if unpaidBills > 0 else ""
 
     def __eq__(self, other):
