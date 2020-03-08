@@ -16,6 +16,12 @@ import os
 import json
 from collections import defaultdict
 
+@bp.route('/token', methods=['GET'])
+@login_required
+def issue_token():
+    token = current_user.get_api_token()
+    return jsonify({'token': token})
+
 @bp.route('/offer/<int:id>', methods=['DELETE'])
 @right_required(role='supplier')
 def delete_offer(id):

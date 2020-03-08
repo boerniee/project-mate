@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-07 19:07+0100\n"
+"POT-Creation-Date: 2020-03-08 22:28+0100\n"
 "PO-Revision-Date: 2019-11-17 14:49+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: app/__init__.py:39
+#: app/__init__.py:42
 msgid "Bitte logge dich ein."
 msgstr "Please log in."
 
@@ -34,47 +34,47 @@ msgstr "Helloo"
 msgid "Du wurdest aktiviert"
 msgstr "You have been activated"
 
-#: app/ajax/ajax.py:24 app/main/routes.py:69
+#: app/ajax/ajax.py:30 app/main/routes.py:69
 msgid "Angebot nicht gefunden"
 msgstr "Offer not found"
 
-#: app/ajax/ajax.py:26 app/ajax/ajax.py:38
+#: app/ajax/ajax.py:32 app/ajax/ajax.py:44
 msgid "Zugriff verweigert"
 msgstr "Access Denied"
 
-#: app/ajax/ajax.py:29
+#: app/ajax/ajax.py:35
 msgid "Angebot gelöscht"
 msgstr "Offer deleted"
 
-#: app/ajax/ajax.py:36 app/main/routes.py:52
+#: app/ajax/ajax.py:42 app/main/routes.py:52
 msgid "Rechnung nicht gefunden"
 msgstr "Invoice not found"
 
-#: app/ajax/ajax.py:41
+#: app/ajax/ajax.py:47
 msgid "Rechnung bezahlt"
 msgstr "Invoice paid"
 
-#: app/ajax/ajax.py:49
+#: app/ajax/ajax.py:55
 msgid "Zahlungserinnerung gesendet"
 msgstr "Sent invoice reminder"
 
-#: app/ajax/ajax.py:65
+#: app/ajax/ajax.py:71
 msgid "Viel spaß mit deinem Produkt!"
 msgstr "Enjoy your product!"
 
-#: app/ajax/ajax.py:81
+#: app/ajax/ajax.py:87
 msgid "Ausverkauft"
 msgstr "Out of Stock"
 
-#: app/ajax/ajax.py:85
+#: app/ajax/ajax.py:91
 msgid "Jetzt probieren"
 msgstr "Try now"
 
-#: app/ajax/ajax.py:122
+#: app/ajax/ajax.py:128
 msgid "Fehler bei der Validierung"
 msgstr "Error during validation"
 
-#: app/ajax/ajax.py:139 app/templates/admin/manage_users.html:153
+#: app/ajax/ajax.py:145 app/templates/admin/manage_users.html:153
 msgid "Erfolgreich gebucht"
 msgstr "Successfully booked"
 
@@ -545,6 +545,22 @@ msgstr "Change your password"
 msgid "Profil bearbeiten"
 msgstr "Edit profile"
 
+#: app/templates/auth/edit_self.html:68
+msgid "API Token"
+msgstr "API Token"
+
+#: app/templates/auth/edit_self.html:76
+msgid "Generieren"
+msgstr "Generate"
+
+#: app/templates/auth/edit_self.html:77
+msgid "Kopieren"
+msgstr "Copy"
+
+#: app/templates/auth/edit_self.html:97
+msgid "Kopiert"
+msgstr "Copied"
+
 #: app/templates/auth/login.html:3
 msgid "Einloggen"
 msgstr "Login"
@@ -727,4 +743,3 @@ msgstr "Sent reminder successfully"
 
 #~ msgid "Stark"
 #~ msgstr "Strong"
-

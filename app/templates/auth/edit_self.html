@@ -63,10 +63,41 @@
       <div class="col-sm-2"></div>
       <div class="col-sm-2"><img style="padding-top:25px;" src="{{ avatar }}"/></div>
     </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>{{ _('API Token') }}</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-7">
+        <textarea id="jwtfield" style="width: 100%; height:100%;"></textarea>
+      </div>
+      <div class="col-2">
+        <input type="submit" style="width: 100%;margin-bottom: -1px;border-bottom-left-radius: 0;border-bottom-right-radius: 0;" class="btn btn-primary" onclick="generateJWT()" value="{{ _('Generieren') }}"></input>
+        <input type="submit" id="copybutton" class="btn btn-primary" style="width: 100%;margin-top: -1px;border-top-left-radius: 0;border-top-right-radius: 0;" onclick="copyToken()" value="{{ _('Kopieren') }}"></input>
+      </div>
+    </div>
 {% endblock %}
 
 {% block custom_script %}
   <script>
     $("#editself").addClass('active');
+    function generateJWT() {
+      $.ajax('{{ url_for('ajax.issue_token') }}').done(
+              function(data) {
+                  $('#jwtfield').html(data['token']);
+              }
+          );
+    }
+    function copyToken() {
+      document.getElementById('jwtfield').select();
+      document.execCommand("copy");
+      $('#copybutton').tooltip({
+        trigger: 'manual',
+        title: '{{ _('Kopiert') }}',
+        placement: 'bottom'
+      }).tooltip('show')
+      setTimeout(function(){ $('#copybutton').tooltip('hide'); }, 2000);
+    }
   </script>
 {% endblock %}
