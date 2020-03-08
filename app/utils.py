@@ -6,6 +6,16 @@ from flask_babel import format_currency
 import os
 import uuid
 
+def get_request_bool_param(request, param):
+    p = request.args.get(param)
+    if p != None:
+        if p in ("true", "1"):
+            return True
+        elif p in ("false", "0"):
+            return False
+    else:
+        return None
+
 def getIntQueryParam(request, default):
     page = request.args.get('page')
     if not page:

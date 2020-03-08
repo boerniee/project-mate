@@ -19,7 +19,7 @@ def validate_username(self, username):
         raise ValidationError(_l('Bitte nutze einen anderen Benutzernamen.'))
 
 def validate_email(self, email):
-    user = User.query.filter_by(email=email.data).first()
+    user = User.query.filter_by(email=email.data.lower()).first()
     if user is not None:
         raise ValidationError(_l('Bitte nutze eine andere Email Adresse.'))
 
@@ -48,7 +48,7 @@ class LoginForm(FlaskForm):
 
 class ChangeEmailForm(FlaskForm):
     password = PasswordField(_l('Password'), validators=[DataRequired(), check_password])
-    new_email = StringField(_l('Neue Email'), validators=[DataRequired(), Email()])
+    new_email = StringField(_l('Neue Email'), validators=[DataRequired(), Email(), validate_email])
 
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])

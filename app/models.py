@@ -52,7 +52,7 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
 
-    def get_new_email_token(self, email, expires_in=600):
+    def get_new_email_token(self, email, expires_in=86400):
         return jwt.encode(
             {'change_email': self.id, 'email': email, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
@@ -61,6 +61,20 @@ class User(UserMixin, db.Model):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    def get_api_token(self, expires_in=86400):
+        return jwt.encode(
+            {'user': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    @staticmethod
+    def verify_api_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+                            algorithms=['HS256'])['user']
+        except:
+            return
+        return User.query.get(id)
 
     @staticmethod
     def verify_reset_password_token(token):

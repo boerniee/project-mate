@@ -21,7 +21,6 @@ class Config(object):
         'en': 'English'
     }
     BABEL_DEFAULT_LOCALE = 'de'
-    PAYPAL = os.environ.get('PAYPAL') or 'sooos'
     TEMPLATES_AUTO_RELOAD = True
     SERVER_NAME = os.environ.get('SERVER_NAME') or 'localhost:5000'
     INFORMATION = {
