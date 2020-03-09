@@ -1,7 +1,6 @@
 class ProductCard extends HTMLElement {
   constructor() {
     super();
-    this.addEventListener("click", e => this.consume(e));
   }
 
   show_modal(title, body) {
@@ -13,6 +12,8 @@ class ProductCard extends HTMLElement {
 
   connectedCallback() {
     this.renderDom();
+    this.shadowRoot.getElementById('buy-action').addEventListener("click", e => this.consume(e));
+    this.shadowRoot.getElementById('stock-line').addEventListener("click", e => this.fetchOfferList());
     this.fetchOffer();
   }
 
@@ -57,8 +58,12 @@ class ProductCard extends HTMLElement {
   set disabled(val) {
     if (val) {
       this.setAttribute('disabled', '');
+      this.shadowRoot.getElementById('buy-action').setAttribute('hidden', '');
+      this.shadowRoot.getElementById('stock-line').classList.remove('underlined');
     } else {
       this.removeAttribute('disabled');
+      this.shadowRoot.getElementById('buy-action').removeAttribute('hidden');
+      this.shadowRoot.getElementById('stock-line').classList.add('underlined');
     }
   }
 
@@ -88,6 +93,29 @@ class ProductCard extends HTMLElement {
     }
   }
 
+  display_popover(elem, data) {
+    elem.popover({
+            trigger: 'manual',
+            html: true,
+            animation: false,
+            placement: 'bottom',
+            content: data,
+            title: null
+      });
+      elem.popover('show');
+  }
+
+  fetchOfferList() {
+    if (this.disabled || this.offerid == null) return
+    $.get({
+      url: '/ajax/product/' + this.productId + '/offer/popover',
+      context: this,
+      success: function(data) {
+          display_popover($(this.shadowRoot.getElementById('stock-line')), data);
+      }
+    });
+  }
+
   fetchOffer() {
     $.get({
       url: "/ajax/product/id/offer".replace('id', this.getAttribute('productid')),
@@ -107,6 +135,7 @@ class ProductCard extends HTMLElement {
           this.price = "-"
           this.supplier = "-"
           this.badge = data['text'];
+          this.disabled = true;
         }
       },
       fail: function() {
@@ -162,6 +191,9 @@ class ProductCard extends HTMLElement {
     price.setAttribute('id', 'price');
     price.innerHTML = " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
 
+    var stockDiv = document.createElement('div');
+    stockDiv.setAttribute('id', 'stock-line')
+
     var stockIcon = document.createElement('i');
     stockIcon.setAttribute('class', 'fas fa-boxes');
 
@@ -172,8 +204,9 @@ class ProductCard extends HTMLElement {
     cardLeft.appendChild(priceIcon);
     cardLeft.appendChild(price);
     cardLeft.appendChild(document.createElement('br'));
-    cardLeft.appendChild(stockIcon);
-    cardLeft.appendChild(stock);
+    stockDiv.appendChild(stockIcon);
+    stockDiv.appendChild(stock);
+    cardLeft.appendChild(stockDiv);
 
     var cardRight = document.createElement('div');
     cardRight.setAttribute('class', 'col-md-7');
@@ -188,12 +221,23 @@ class ProductCard extends HTMLElement {
     supplier.appendChild(supplierIcon);
     supplier.innerHTML = supplier.innerHTML + " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
     //cardRight.appendChild(supplierIcon);
+    var buyDiv = document.createElement('div');
+    var buyLink = document.createElement('a');
+    buyLink.setAttribute('href', '#');
+    var buyAction = document.createElement('i');
+    buyAction.setAttribute('id', 'buy-action')
+    buyAction.setAttribute('class', 'fas fa-credit-card card-action');
+    buyAction.setAttribute('hidden', '');
+    buyLink.appendChild(buyAction);
+    buyDiv.appendChild(buyLink);
+
     cardRight.appendChild(supplier);
+    cardRight.appendChild(buyDiv);
 
     cardText.appendChild(cardLeft);
     cardText.appendChild(cardRight);
 
-    shadow.innerHTML = '<style>.card .card-badge {position:absolute;top:-10px;left:-30px;padding:5px;background:blue;color:white;transform:rotate(-20deg);}</style><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">'
+    shadow.innerHTML = '<style>.underlined {text-decoration: underline;text-decoration-style: dashed;} .card-action {cursor: pointer;} [data-theme="dark"] .card-action {color: #008002;} .card .card-badge {position:absolute;top:-10px;left:-30px;padding:5px;background:blue;color:white;transform:rotate(-20deg);}</style><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">'
     cardBody.appendChild(cardText);
     shadow.appendChild(rowDiv);
     return

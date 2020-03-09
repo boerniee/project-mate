@@ -18,7 +18,7 @@
 
 .card {
   max-width: 350px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .table-action {

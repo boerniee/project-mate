@@ -44,38 +44,12 @@
     }
     $("#start").addClass('active');
     $(function() {
-      var timer = null;
-        var xhr = null;
       $( ".card" ).hover(
         function(event) {
-        $(this).addClass('shadow');
-          elem = $(event.currentTarget).get(0);
-          console.log(elem)
-          if (elem.getAttribute('disabled') != null) {
-            return;
-          }
-          timer = setTimeout(function() {
-                    timer = null;
-                    xhr = $.ajax('{{ url_for('ajax.offers_popover', id=0) }}'.replace('0', elem.getAttribute('productid'))).done(
-                            function(data) {
-                                xhr = null
-                                display_popover($(event.currentTarget), data);
-                            }
-                        );
-                }, 1000);
-        }, function() {
+          $(this).addClass('shadow');
+        },
+        function() {
           $(this).removeClass('shadow');
-          if (timer) {
-              clearTimeout(timer);
-              timer = null;
-          }
-          else if (xhr) {
-              xhr.abort();
-              xhr = null;
-          }
-          else {
-              $(event.currentTarget).popover('dispose');
-          }
         }
       );
     });
