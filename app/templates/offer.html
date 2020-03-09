@@ -1,14 +1,15 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_field %}
 {% block title %}{{ _('Angebot bearbeiten') }}{% endblock %}
 
 {% block app_content %}
 <h1 style="padding-bottom: 10px;"><a href="{{ url_for('main.offers') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Bearbeiten') }}</h1>
 <div style="max-width: 700px;">
-<form method="post" enctype="multipart/form-data" novalidate>
+<form method="post" novalidate>
     {{ form.hidden_tag() }}
     <div class="form-group row">
       <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.product.label.text }}</label>
-      <div class="col-sm-9">
+      <div class="col-sm-9 input-group">
         {{ form.product(class_="form-control") }}
         {% for error in form.product.errors %}
         <span style="color: red;">[{{ error }}]</span>
@@ -18,19 +19,13 @@
     <div class="form-group row">
       <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.price.label.text }}</label>
       <div class="col-sm-9">
-        {{ form.price(class_="form-control") }}
-        {% for error in form.price.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+        {{ render_field(form.price) }}
       </div>
     </div>
     <div class="form-group row">
       <label for="inputProduct" class="col-sm-3 col-form-label">{{ form.stock.label.text }}</label>
       <div class="col-sm-9">
-        {{ form.stock(class_="form-control") }}
-        {% for error in form.stock.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+        {{ render_field(form.stock) }}
       </div>
     </div>
     {% if current_user.has_role('admin') %}

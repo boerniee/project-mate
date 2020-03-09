@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_field %}
 {% block title %}{{ _('Bearbeiten') }} {{ form.username.data }}{% endblock %}
 
 {% block app_content %}
@@ -16,10 +17,7 @@
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-3 col-form-label">{{ form.email.label.text }}</label>
         <div class="col-sm-9">
-          {{ form.email(size=64, class_="form-control", placeholder=form.email.label.text) }}
-          {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-          {% endfor %}
+          {{ render_field(form.email, {'size': 64}) }}
         </div>
       </div>
       <fieldset class="form-group">

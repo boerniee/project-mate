@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% from "macros.html" import render_field %}
 {% block title %}{{ _('Registrieren') }}{% endblock %}
 
 {% block links %}
@@ -14,27 +14,21 @@
     <h2 class="form-signin-heading"><a href="{{ url_for('auth.login') }}" style="color: inherit;"><i class="fas fa-arrow-left"></i></a> {{ _('Registrieren') }}</h2>
     {% if form.username.errors %}{% set x={"title": form.username.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
     {{ form.username.label }}
-    {{ form.username(size=32,class_="form-control padding-15",placeholder=form.username.label.text, **x or {}) }}
+    {{ render_field(form.username, class="form-control padding-15") }}
     {{ form.email.label }}
-    {% set x={}%}
-    {% if form.email.errors %}{% set x={"title": form.email.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
-    {{ form.email(size=64,class_="form-control padding-15", placeholder=form.email.label.text, **x or {}) }}
+    {{ render_field(form.email, args={'size':64},class="form-control padding-15") }}
     {{ form.password.label }}
     <div class="form-row" style="margin-bottom:0px;">
       <div class="col-6">
-        {% set x={}%}
-        {% if form.password.errors %}{% set x={"title": form.password.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
         <div class="input-group mb-2">
-          {{ form.password(class_="form-control", placeholder=form.password.label.text, **x or {}) }}
+          {{ render_field(form.password) }}
           <div class="input-group-append">
             <button class="btn btn-outline-secondary showpwd-button" id="showpassword" type="button"><i id="eye" style="width: 1.2rem;" class="fas fa-eye-slash"></i></button>
           </div>
         </div>
       </div>
       <div class="col-6">
-        {% set x={}%}
-        {% if form.password2.errors %}{% set x={"title": form.password2.errors[0], "data-toggle":"tooltip", "data-placement":"right"}%}{% endif %}
-        {{ form.password2(size=32,class_="form-control", placeholder=form.password2.label.text, **x or {}) }}
+        {{ render_field(form.password2) }}
       </div>
     </div>
     {% include 'auth/password_text.html' %}
@@ -46,10 +40,6 @@
 
 {% block custom_script %}
 <script>
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip({'trigger': 'manual'})
-    $('[data-toggle="tooltip"]').tooltip('show')
-  })
 </script>
   {% include 'auth/password_strength.html' %}
 {% endblock %}

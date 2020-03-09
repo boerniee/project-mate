@@ -22,6 +22,16 @@
   </nav>
 {% endmacro %}
 
+{% macro render_field(field, class="form-control", args={}, invalid=" is-invalid", placeholder=None) %}
+  {% if field.errors|length > 0 %}
+    {{ field(class_=class + invalid, placeholder=placeholder if placeholder else field.label.text) }}
+    <div class="invalid-feedback">{{ field.errors|join(" | ") }}</div>
+  {% else %}
+    {{ field(class_=class, placeholder=placeholder if placeholder else field.label.text, **args) }}
+  {% endif %}
+{% endmacro %}
+
+
 {% macro get_prod_image(product) %}
   {% if product.imageUrl %}
     {{ url_for('static', filename='images/' + product.imageUrl) }}
