@@ -12,23 +12,41 @@ class ProductCard extends HTMLElement {
 
   connectedCallback() {
     this.renderDom();
-    this.shadowRoot.getElementById('buy-action').addEventListener("click", e => this.consume(e));
+    this.shadowRoot.getElementById('buy-action').addEventListener("click", e => this.consume(1));
     this.shadowRoot.getElementById('stock-line').addEventListener("click", e => this.fetchOfferList());
     this.fetchOffer();
   }
 
-  consume(event) {
+  consume(amount) {
     if (this.disabled || this.offerid == null) return
-    this.fetchOffer();
     $.post({
       url: "/ajax/offer/id/consume".replace('id', this.offerid),
       context: this,
+      contentType: 'application/json',
+      data: JSON.stringify({'amount': amount}),
       success: function(data) {
         this.show_modal(data['title'], data['text']);
         this.fetchOffer();
       },
       fail: function() {
-        alert("fehler");
+        this.show_modal(data['title'], data['text']);
+      }
+    });
+  }
+
+  showBuyModal() {
+    var modal = $('#buymodal');
+    modal.modal('show');
+    $.ajax({
+      url: '/ajax/product/' + this.productId + '/offer/all',
+      success: function(data) {
+        var select = modal.find('#offers');
+        select.find('option').remove().end();
+        console.log(data['offers']);
+        for (let o of data['offers']) {
+          var offerText = o['stock'] + "x" + o['price'] + " (" + o['supplier'] + ")";
+          select.append($("<option />").val(o['id']).text(offerText));
+        }
       }
     });
   }
@@ -58,11 +76,11 @@ class ProductCard extends HTMLElement {
   set disabled(val) {
     if (val) {
       this.setAttribute('disabled', '');
-      this.shadowRoot.getElementById('buy-action').setAttribute('hidden', '');
+      this.shadowRoot.getElementById('buy-line').setAttribute('hidden', '');
       this.shadowRoot.getElementById('stock-line').classList.remove('underlined');
     } else {
       this.removeAttribute('disabled');
-      this.shadowRoot.getElementById('buy-action').removeAttribute('hidden');
+      this.shadowRoot.getElementById('buy-line').removeAttribute('hidden');
       this.shadowRoot.getElementById('stock-line').classList.add('underlined');
     }
   }
@@ -222,14 +240,24 @@ class ProductCard extends HTMLElement {
     supplier.innerHTML = supplier.innerHTML + " <span class='fas fa-sync fa-spin' role='status' aria-hidden='true'></span>";
     //cardRight.appendChild(supplierIcon);
     var buyDiv = document.createElement('div');
+    buyDiv.setAttribute('id', 'buy-line');
+    buyDiv.setAttribute('hidden','');
+
+    var buyManyLink = document.createElement('a');
+    buyManyLink.setAttribute('href','#');
+    var buyManyAction = document.createElement('i');
+    buyManyAction.setAttribute('id', 'buy-many');
+    buyManyAction.setAttribute('class', 'fas fa-shopping-cart card-action');
+    buyManyLink.appendChild(buyManyAction);
+
     var buyLink = document.createElement('a');
     buyLink.setAttribute('href', '#');
     var buyAction = document.createElement('i');
     buyAction.setAttribute('id', 'buy-action')
     buyAction.setAttribute('class', 'fas fa-credit-card card-action');
-    buyAction.setAttribute('hidden', '');
     buyLink.appendChild(buyAction);
     buyDiv.appendChild(buyLink);
+    buyDiv.appendChild(buyManyLink);
 
     cardRight.appendChild(supplier);
     cardRight.appendChild(buyDiv);
@@ -237,7 +265,7 @@ class ProductCard extends HTMLElement {
     cardText.appendChild(cardLeft);
     cardText.appendChild(cardRight);
 
-    shadow.innerHTML = '<style>.underlined {text-decoration: underline;text-decoration-style: dashed;} .card-action {cursor: pointer;} [data-theme="dark"] .card-action {color: #008002;} .card .card-badge {position:absolute;top:-10px;left:-30px;padding:5px;background:blue;color:white;transform:rotate(-20deg);}</style><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">'
+    shadow.innerHTML = '<style>.underlined {text-decoration: underline;text-decoration-style: dashed;} .card-action {cursor: pointer;padding-right:10px;} [data-theme="dark"] .card-action {color: #008002;} .card .card-badge {position:absolute;top:-10px;left:-30px;padding:5px;background:blue;color:white;transform:rotate(-20deg);}</style><link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">'
     cardBody.appendChild(cardText);
     shadow.appendChild(rowDiv);
     return

@@ -57,12 +57,13 @@ def send_inv_reminder(id):
 @bp.route('/offer/<int:offerid>/consume', methods=['POST'])
 @login_required
 def consume_offer(offerid):
+    amount = request.json.get('amount')
     offer = Offer.query.with_for_update().get(offerid)
-    if not offer or not offer.active or offer.stock <= 0:
+    if not offer or not offer.active or offer.stock < amount:
         return jsonify({'success': False, 'title': 'Ungültiges Angebot', 'text': 'Dieses Angebot ist nicht mehr gültig bitte versuche es noch einmal.'})
 
-    offer.stock -= 1
-    c = Consumption(amount=1, user_id=current_user.id, price=offer.price, product_id=offer.product.id, billed=False, invoice_id=None, supplier_id=offer.user.id, time=datetime.datetime.utcnow())
+    offer.stock -= amount
+    c = Consumption(amount=amount, user_id=current_user.id, price=offer.price, product_id=offer.product.id, billed=False, invoice_id=None, supplier_id=offer.user.id, time=datetime.datetime.utcnow())
     if offer.stock < 1:
         db.session.delete(offer)
     db.session.add(c)
@@ -89,6 +90,13 @@ def get_offer_for_product(productid):
         response['offer'] = offer.serialize()
         response['found'] = True
         response['text'] = _('Jetzt probieren') if offer.product.highlight else ""
+    return jsonify(response)
+
+@bp.route('/product/<int:productid>/offer/all')
+@login_required
+def get_all_offers_for_product(productid):
+    offers = Offer.query.filter(and_(Offer.product_id==productid, Offer.active==True)).all()
+    response = {'count': len(offers), 'offers': [o.serialize() for o in  offers]}
     return jsonify(response)
 
 @bp.route('/product/<int:id>/image', methods=['DELETE'])
