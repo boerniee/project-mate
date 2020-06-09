@@ -257,7 +257,7 @@ class ProductCard extends HTMLElement {
     buyAction.setAttribute('class', 'fas fa-credit-card card-action');
     buyLink.appendChild(buyAction);
     buyDiv.appendChild(buyLink);
-    buyDiv.appendChild(buyManyLink);
+    //buyDiv.appendChild(buyManyLink);
 
     cardRight.appendChild(supplier);
     cardRight.appendChild(buyDiv);
