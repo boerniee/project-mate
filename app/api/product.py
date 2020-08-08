@@ -45,6 +45,7 @@ def update_product(id):
     return error_response(501)
 
 @bp.route("/product/<int:id>", methods=['DELETE'])
+@api_right_required('admin')
 @token_auth.login_required
 def delete_product(id):
     return error_response(501)

@@ -11,8 +11,6 @@ from flask import jsonify, request, g
 @api_right_required('supplier')
 def offers():
     q = Offer.query
-    if not g.current_user.has_role('admin'):
-        q = q.filter(Offer.user_id==g.current_user.id)
     if request.args.get('product'):
         q=q.filter(Offer.product_id==request.args.get('product'))
     offers = q.all()

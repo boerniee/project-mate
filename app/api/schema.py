@@ -22,8 +22,9 @@ class ProductSchema(WrappedModelSchema):
 
 class OfferSchema(WrappedModelSchema):
     many_name = "offers"
+    product = fields.Nested(ProductSchema(only=("id", "description", "_links")))
     class Meta:
-        fields = ("id", "stock", "created", "price", "_links")
+        fields = ("id", "stock", "created", "price", "product", "_links")
 
     _links = ma.Hyperlinks({
         'self': ma.URLFor('api.offer', id='<id>'),
@@ -33,6 +34,16 @@ class OfferSchema(WrappedModelSchema):
 class UserSchema(WrappedModelSchema):
     class Meta:
         fields = ("id","username")
+
+class InvoiceSchema(WrappedModelSchema):
+    many_name = "invoices"
+    supplier = fields.Nested(UserSchema(only=("id", "username")))
+    class Meta:
+        fields = ("id", "paid", "sum", "supplier", "_links")
+
+    _links = ma.Hyperlinks({
+        'self': ma.URLFor('api.invoice', id='<id>')
+    })
 
 class ConsumptionSchema(WrappedModelSchema):
     many_name = "consumptions"
@@ -52,3 +63,5 @@ offers_schema = OfferSchema(many=True)
 offer_schema = OfferSchema()
 consumptions_schema = ConsumptionSchema(many=True)
 consumption_schema = ConsumptionSchema()
+invoice_schema = InvoiceSchema()
+invoices_schema = InvoiceSchema(many=True)
