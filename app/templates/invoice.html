@@ -1,23 +1,9 @@
-{% extends "base.html" %}
+{% extends "invoice_base.html" %}
 {% block title %}{{ _('Rechnung') }} #{{ invoice.id }}{% endblock %}
 
-{% block app_content %}
-  <div class="row">
-    <div class="col-6" style="padding-bottom: 15px;">
-        <h1 style="float:left;line-height:2.5rem;"><a style="color: inherit;" href="{{ url_for('main.invoice') }}"><i class="fas fa-file-invoice-dollar"></i></a> {{ _('Rechnung') }} #{{ invoice.id }}</h1><h5 style="float:left;line-height: 2.5rem;"><span style="margin-left: 10px;" class="badge {% if not invoice.paid %}badge-danger">{{ _('Offen') }}{% else %}badge-success">{{ _('Bezahlt') }}{% endif %}</span></h5>
-    </div>
-    <div class="col-6 text-right">
-        {% if not invoice.paid and invoice.supplier.paypal %}<a href="{{ invoice.get_paypal_link() }}" target="_blank"><img style="width:125px; height:45px;" src="{{ url_for('static', filename='paypal.png') }}"></a>{% endif %}
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-6">
-        <h5><i title="{{ _('Datum') }}" class="far fa-calendar-alt"></i> {{ moment(invoice.date).format('Do MMMM YYYY, HH:mm') }} | <i title="{{ _('Lieferant') }}" class="fas fa-people-carry"></i> {{ invoice.supplier.username }}</h5>
-    </div>
-    <div class="col-6 text-right">
-        <h3>Summe: {{ invoice.formatsum() }}</h3>
-    </div>
-  </div>
+{% block link %}<a style="color: inherit;" href="{{ url_for('main.invoice_detail', id=invoice.id) }}" <i title="{{ _('Detailauswertung') }}" class="fas fa-list"></i></a>{% endblock %}
+
+{% block invoice_table %}
   <table class="table table-hover">
     <thead>
       <tr>

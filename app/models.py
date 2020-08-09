@@ -183,6 +183,10 @@ class Consumption(db.Model):
 
     @property
     def getprice(self):
+        return format_curr(self.price)
+
+    @property
+    def getsum(self):
         return format_curr(self.price * self.amount)
 
     def __repr__(self):

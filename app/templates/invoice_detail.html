@@ -1,0 +1,35 @@
+{% extends "invoice_base.html" %}
+{% block title %}{{ _('Rechnung') }} #{{ invoice.id }} - Detail{% endblock %}
+
+{% block link %}<a style="color: inherit;" href="{{ url_for('main.show_invoice', id=invoice.id) }}" <i title="{{ _('Übersicht') }}" class="fas fa-beer"></i></a>{% endblock %}
+
+{% block invoice_table %}
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ _('Produkt') }}</th>
+        <th scope="col">{{ _('Datum') }}</th>
+        <th scope="col">{{ _('Stück') }}</th>
+        <th scope="col">{{ _('Preis') }}</th>
+        <th scope="col">{{ _('Summe') }}</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if invoice.consumptions is defined and invoice.consumptions|length > 0 %}
+      {% for consumption in invoice.consumptions %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>{{ consumption.product.description }}</td>
+          <td>{{ moment(consumption.time).format('Do MMMM YYYY, HH:mm') }}</td>
+          <td>{{ consumption.amount }}</td>
+          <td>{{ consumption.getprice }}</td>
+          <td>{{ consumption.getsum }}</td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr><td colspan="4">{{ _('Keine Einträge vorhanden') }}</td></tr>
+    {% endif %}
+    </tbody>
+  </table>
+{% endblock %}

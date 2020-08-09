@@ -54,6 +54,16 @@ def show_invoice(id):
         abort(403, _('Das darfst du leider nicht'))
     return render_template('invoice.html', invoice=invoice)
 
+@bp.route('/invoice/<id>/detail')
+@login_required
+def invoice_detail(id):
+    invoice = Invoice.query.get(id)
+    if not invoice:
+        abort(404, _('Rechnung nicht gefunden'))
+    if invoice.user_id != current_user.id and invoice.supplier_id != current_user.id and not current_user.has_role('admin'):
+        abort(403, _('Das darfst du leider nicht'))
+    return render_template('invoice_detail.html', invoice=invoice)
+
 @bp.route('/offer/<int:id>', methods=['GET', 'POST'])
 @right_required(role='supplier')
 def offer(id):

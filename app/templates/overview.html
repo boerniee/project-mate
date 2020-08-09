@@ -24,7 +24,7 @@
         <tr>
           <th scope="row">{{ loop.index + ((consumptions.page-1)*consumptions.per_page) }}</th>
           <td>{{ con.product.description }}</td>
-          <td>{{ con.getprice }}</td>
+          <td>{{ con.getsum }}</td>
           <td>{{ con.amount }}</td>
           <td>{{ con.supplier.username }}</td>
           <td>{{ moment(con.time).fromNow() }}</td>
