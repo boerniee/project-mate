@@ -31,7 +31,9 @@
 {% endblock %}
 
 {% block custom_script %}
-  <script src="{{url_for('static', filename='js/product.js', v=config['INFORMATION']['version'])}}"></script>
+  {% assets "js_product" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+  {% endassets %}
   <script>
     function display_popover(elem, data) {
       elem.popover({

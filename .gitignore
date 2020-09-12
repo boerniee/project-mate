@@ -8,3 +8,6 @@ mate/
 *.mo
 app/static/images/
 *.db
+app/static/gen/
+app/static/.webassets-cache/
+initial.sql

@@ -7,6 +7,7 @@ from celery import Celery
 from flask_moment import Moment
 from flask_mail import Mail
 from flask_babel import Babel, get_locale, lazy_gettext as _l
+from flask_assets import Environment, Bundle
 from babel.core import negotiate_locale
 from flask_marshmallow import Marshmallow
 from flask import g
@@ -34,6 +35,7 @@ patch_requests_class(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
+assets = Environment(app)
 moment = Moment(app)
 migrate = Migrate(app, db)
 babel = Babel(app)
@@ -42,6 +44,14 @@ login.login_view = 'auth.login'
 login.login_message = _l("Bitte logge dich ein.")
 celery = make_celery(app)
 mail = Mail(app)
+
+js_mate = Bundle('js/dark-mode-switch.min.js', 'js/jquery.cookie.js',
+            filters='jsmin', output='gen/clubmate.min.js')
+js_product = Bundle('js/product.js',filters='jsmin', output='gen/product.min.js')
+js_pwd = Bundle('js/password.js', filters='jsmin', output='gen/password.min.js')
+assets.register('js_product', js_product)
+assets.register('js_pwd', js_pwd)
+assets.register('js_mate', js_mate)
 
 from app.errors import bp as errors_bp
 app.register_blueprint(errors_bp)
