@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a id="start" class="nav-link" href="{{ url_for('main.index') }}"><i class="fab fa-angellist"></i> {{ _('Start') }}</a>
+              <a id="start" class="nav-link" href="{{ url_for('main.index') }}"><i class="{{ config['ICON'] }}"></i> {{ _('Start') }}</a>
             </li>
             <li class="nav-item">
               <a id="overview" class="nav-link" href="{{ url_for('main.overview') }}">{{ _('Übersicht') }}</a>

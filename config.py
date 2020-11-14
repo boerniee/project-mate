@@ -29,3 +29,4 @@ class Config(object):
         "description": "Sell Mate to your colleagues. Fast! WOW!"
     }
     BETA = 'rc' in INFORMATION['version']
+    ICON = os.environ.get('ICON') or 'fas fa-beer'
