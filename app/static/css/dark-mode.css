@@ -7,7 +7,12 @@
   background: #333b40 !important;
   color: #ccc !important;
 }
+
 [data-theme="dark"] h5.popover-heading {
+  color: #ccc;
+}
+
+[data-theme="dark"] .popover-body {
   color: #ccc;
 }
 

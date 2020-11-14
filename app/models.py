@@ -204,12 +204,14 @@ class Consumption(db.Model):
     billed = db.Column(db.Boolean)
     supplier_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    iniciator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     time = db.Column(db.DateTime)
     invoice_id = db.Column(db.Integer, db.ForeignKey('invoice.id'))
     invoice = db.relationship('Invoice')
     user = db.relationship('User', foreign_keys="Consumption.user_id")
     product = db.relationship('Product')
     supplier = db.relationship('User', foreign_keys="Consumption.supplier_id")
+    iniciator = db.relationship('User', foreign_keys="Consumption.iniciator_id")
 
     def serialize(self):
         return {

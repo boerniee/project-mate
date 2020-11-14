@@ -146,7 +146,7 @@ def book():
     s = User.query.get(req['supplier'])
 
     amount = -int(req['amount']) if req['credit'] else int(req['amount'])
-    c = Consumption(amount=amount, user=u, supplier=s, price=req['price'], product_id=p.id, billed=False, invoice_id=None, time=datetime.datetime.utcnow())
+    c = Consumption(amount=amount, user=u, supplier=s, iniciator=current_user, price=req['price'], product_id=p.id, billed=False, invoice_id=None, time=datetime.datetime.utcnow())
 
     db.session.add(c)
     db.session.commit()

@@ -16,6 +16,7 @@
         <th scope="col">{{ _('Stück') }}</th>
         <th scope="col">{{ _('Lieferant') }}</th>
         <th scope="col">{{ _('Zeit') }}</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
           <td>{{ con.amount }}</td>
           <td>{{ con.supplier.username }}</td>
           <td>{{ moment(con.time).fromNow() }}</td>
+          <td style="width: 3%">{% if con.iniciator is not none %}<div class="info-popover" data-trigger="hover" data-toggle="tooltip" data-placement="bottom" data-content="Consumption booked by: {{ con.iniciator.username }}"><i class="fas fa-info-circle"></i></div>{% endif %}</td>
         </tr>
       {% endfor %}
     {% else %}
@@ -41,5 +43,6 @@
 {% block custom_script %}
   <script>
     $("#overview").addClass('active');
+    $(".info-popover").popover();
   </script>
 {% endblock %}
