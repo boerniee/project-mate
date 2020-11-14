@@ -1,11 +1,12 @@
 from app import db, app
 from app.auth import bp
-from app.auth.forms import LoginForm, RegistrationForm, ResetPasswordForm, ChangePasswordForm, ResetPasswordRequestForm, EditProfile, ChangeEmailForm
-from flask import render_template, redirect, url_for, flash, request
+from app.auth.forms import LoginForm, RegistrationForm, \
+        ResetPasswordForm, ChangePasswordForm, ResetPasswordRequestForm, EditProfile, ChangeEmailForm
+from flask import render_template, redirect, url_for, flash, request, session, abort
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app.models import User
-from app.email import send_welcome_mail, send_activated_mail
+from app.email import send_welcome_mail, send_activated_mail, send_2fa_code
 from app.auth.email import send_password_reset_email, send_change_email_mail
 from flask_babel import _, get_locale, refresh, lazy_gettext as _l
 
@@ -68,11 +69,14 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash(_('Falscher benutzername oder passwort'))
         else:
-            login_user(user, remember=form.remember_me.data)
-            next_page = request.args.get('next')
-            if not next_page or url_parse(next_page).netloc != '':
-                next_page = url_for('main.index')
-            return redirect(next_page)
+            if user.otp_type() is not None:
+                if user.otp_type() == 'hotp':
+                    send_2fa_code(user)
+                session['username'] = user.username
+                session['remember_me'] = form.remember_me.data
+                session['next'] = request.args.get('next')
+                return redirect(url_for('auth.otp_input'))
+            return login(user, request.args.get('next'))
     return render_template('auth/login.html', form=form)
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -128,4 +132,11 @@ def change_password():
 @bp.route('/logout')
 def logout():
     logout_user()
+    session.clear()
     return redirect(url_for('auth.login'))
+
+def login(user, next_page, remember_me=False):
+    login_user(user, remember=remember_me)
+    if not next_page or url_parse(next_page).netloc != '':
+        next_page = url_for('main.index')
+    return redirect(next_page)

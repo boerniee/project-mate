@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Einloggen') }}{% endblock %}
+
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+{% block messages %}{% endblock %}
+
+{% block app_content %}
+  <div class="wrapper">
+    <form class="form-signin auth-form" action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
+      {% include 'messages.html' %}
+    <h2 class="form-signin-heading">{{ _('2FA') }}</h2>
+      {% set x={}%}
+      {% if form.otp.errors %}{% set x={"title": form.otp.errors[0], "data-toggle":"tooltip", "data-placement":"left"}%}{% endif %}
+      {{ form.otp(class_="form-control",placeholder=form.otp.label.text, **x or {}) }}
+      <div style="padding-top: 15px;">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">{{ _('Absenden') }}</button>
+      </div>
+      {% if user.otp_type() == 'hotp' %}<div style="padding-top: 15px;"><a href="{{ url_for('auth.otp_input', resend=True) }}">Neuen Code senden</a></div>{% endif %}
+    </form>
+  </div>
+{% endblock %}
+
+{% block custom_script %}
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip({'trigger': 'manual'})
+      $('[data-toggle="tooltip"]').tooltip('show')
+    })
+    $("#login").addClass('active');
+  </script>
+{% endblock %}

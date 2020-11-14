@@ -55,7 +55,7 @@
         </form>
       </div>
       <div class="col-sm-2"></div>
-      <div class="col-sm-2"><img style="padding-top:25px;" src="{{ avatar }}"/></div>
+      <div class="col-sm-2"><img style="padding-top:25px;" src="{{ avatar }}"/><div style="padding-top:25px">{% if current_user.otp_type() is not none %}<i style="color:green;" class="fas fa-check"></i> <a href="{{ url_for('auth.activate_otp') }}" style="color:inherit;">2FA aktiv ({{ current_user.otp_type() }})</a><br><a href="{{ url_for('auth.deactivate_otp') }}" style="color:inherit;">deaktivieren</a>{% else %}<i style="color:red;" class="fas fa-times"></i> 2FA inaktiv<br><a href="{{ url_for('auth.activate_otp') }}" style="color:inherit;">aktivieren</a>{% endif %}</div></div>
     </div>
     <div class="row">
       <div class="col-sm-12">

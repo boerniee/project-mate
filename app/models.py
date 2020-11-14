@@ -1,6 +1,7 @@
 from app import db, login, app
 from time import time
 import jwt
+import pyotp
 from hashlib import md5
 from app.utils import format_curr
 from flask_login import UserMixin
@@ -15,6 +16,8 @@ class User(UserMixin, db.Model):
     active = db.Column(db.Boolean)
     paypal = db.Column(db.String(50))
     lang = db.Column(db.String(3))
+    otp_secret = db.Column(db.String(16))
+    otp_count = db.Column(db.Integer)
     roles = db.relationship('Role', secondary='user_roles')
     consumptions = db.relationship("Consumption", foreign_keys="Consumption.user_id", back_populates="user")
     invoices = db.relationship("Invoice", lazy="dynamic", foreign_keys="Invoice.user_id")
@@ -66,6 +69,41 @@ class User(UserMixin, db.Model):
         return jwt.encode(
             {'user': self.id, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+    def activate_otp(self, hotp=False):
+        self.otp_secret = pyotp.random_base32()
+        if hotp:
+            self.otp_count = 0
+
+    def deactivate_otp(self):
+        self.otp_secret = None
+        self.otp_count = None
+
+    def otp_type(self):
+        if self.otp_secret is not None and self.otp_count is None:
+            return 'totp'
+        elif self.otp_secret is not None and self.otp_count is not None:
+            return 'hotp'
+        return None
+
+    def get_hotp(self):
+        self.otp_count += 1
+        db.session.commit()
+        return pyotp.HOTP(self.otp_secret).at(self.otp_count)
+
+    def verify_otp(self, otp):
+        if self.otp_type() == 'hotp':
+            return pyotp.HOTP(self.otp_secret).verify(otp, self.otp_count)
+        if self.otp_type() == 'totp':
+            return pyotp.TOTP(self.otp_secret).verify(otp)
+        return True
+
+    def get_totp_uri(self):
+        app_name = app.config['INFORMATION']['name'].replace(" ", "%20")
+        if self.otp_type() == 'hotp':
+            return f'otpauth://hotp/{self.username}?secret={self.otp_secret}&issuer={app_name}'
+        else:
+            return f'otpauth://totp/{self.username}?secret={self.otp_secret}&issuer={app_name}&counter={self.otp_count}'
 
     @staticmethod
     def verify_api_token(token):

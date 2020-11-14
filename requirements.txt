@@ -31,6 +31,8 @@ more-itertools==7.2.0
 mysql-connector-python==8.0.18
 protobuf==3.10.0
 PyJWT==1.7.1
+pyotp==2.4.0
+PyQRCode==1.2.1
 python-dateutil==2.8.0
 python-editor==1.0.4
 pytz==2019.3

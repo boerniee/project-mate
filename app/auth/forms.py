@@ -33,6 +33,10 @@ def check_password(self, password):
     if not current_user.check_password(password.data):
         raise ValidationError(_l('Password falsch'))
 
+class OtpForm(FlaskForm):
+    otp = StringField('Code', validators=[DataRequired()])
+    submit = SubmitField('Absenden')
+
 class EditProfile(FlaskForm):
     username = StringField(_l('Benutzername'), validators=[DataRequired(), validate_username])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])

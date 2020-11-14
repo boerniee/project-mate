@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('2FA Setup') }}{% endblock %}
+
+{% block app_content %}
+  <div class="wrapper">
+    <h1>{{ _('Wähle deinen 2FA Typ') }}</h1>
+    <p>{{ _('Wie möchtest du die Zwei Faktor Authentifizierung nutzen?') }}</p>
+    <div class="card-deck">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">E-Mail</h5>
+          <p class="card-text">Bei jeder Anmeldung bekommst du einen Code zugeschickt mit dem du dich anmelden kannst. Dieser Code ist nur einmal gültig.</p>
+          <a href="{{ url_for('auth.activate_otp', type='hotp') }}" class="btn btn-primary">Das möchte ich</a>
+        </div>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Authenticator App</h5>
+          <p class="card-text">Bei jeder Anmeldung musst du einen Code eingeben welcher alle 30 Sekunden von deiner Authenticator App generiert wird. Du kannst diese Methode z.B. mit dem Google Authenticator verwenden.</p>
+          <a href="{{ url_for('auth.activate_otp', type='totp') }}" class="btn btn-primary">Das möchte ich</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

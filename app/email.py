@@ -31,6 +31,14 @@ def send_invoice_reminder(inv):
                                           invoice=inv),
                 fif=False)
 
+def send_2fa_code(user):
+    otp = user.get_hotp()
+    send_email(_('Dein 2FA Code'),
+               sender=app.config['ADMINS'][0],
+               recipients=[user.email],
+               text_body=render_template('mail/2fa.txt', username=user.username, otp=otp),
+               html_body=render_template('mail/2fa.html', username=user.username, otp=otp))
+
 def send_welcome_mail(user):
     send_email(_('Halloo'),
                sender=app.config['ADMINS'][0],

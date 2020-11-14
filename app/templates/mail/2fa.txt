@@ -1,0 +1,7 @@
+Hallool {{ username }},
+
+dein Code lautet: {{ otp }}
+
+SOOS,
+
+Dein ClubMateDude Team

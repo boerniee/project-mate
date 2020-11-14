@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('2FA Setup') }}{% endblock %}
+
+{% block app_content %}
+  <div class="wrapper">
+    <h1>{{ _('Zwei Faktor Authentifizierung einrichten') }}</h1>
+    {% if current_user.otp_type() == 'hotp' %}
+      <p>{{ _('Du bekommst nun bei jeder Anmeldung einen Code per E-Mail zugeschickt. Optional kannst du diese Methode auch mit einer Authenticator App verwenden. Scanne hierfür den QRCode mit deiner App.') }}</p>
+    {% else %}
+      <p>{{ _('Fast geschafft! Bitte starte deine Authenticator App (z.B. Google Authenticator) und scanne den QRCode.') }}</p>
+    {% endif %}
+    <p><img style="background-color:white;" src="{{ url_for('auth.qrcode') }}"></p>
+    <p><a style="color:inherit;" href="{{ url_for('auth.editself') }}">Zurück</a></p>
+  </div>
+{% endblock %}
