@@ -194,7 +194,25 @@ class Offer(db.Model):
         }
 
     def getprice(self):
+        if not self.price:
+            return None
         return format_curr(self.price)
+
+    def is_valid_offer(self, amount):
+        if self.active == False:
+            return False
+        if not self.stock:
+            return True
+        if self.stock >= amount:
+            return True
+        return False
+
+    def is_empty(self):
+        if self.stock == None:
+            return False
+        if self.stock == 0:
+            return True
+        return False
 
 class Consumption(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -37,7 +37,7 @@ Then you can start the development server via `flask run` and open `localhost:50
 
 ### Celery worker
 
-For some jobs, like the billing, you need a celery worker with a redis.
+For some jobs, like the billing, you need a celery worker with a [Redis](https://redis.io/download).
 Export the same variables as exported above for the main application.
 
 Start the celery worker after you activated the virtual environment.

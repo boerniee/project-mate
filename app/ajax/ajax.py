@@ -59,12 +59,13 @@ def send_inv_reminder(id):
 def consume_offer(offerid):
     amount = request.json.get('amount')
     offer = Offer.query.with_for_update().get(offerid)
-    if not offer or not offer.active or offer.stock < amount:
+    if not offer or not offer.is_valid_offer(amount):
         return jsonify({'success': False, 'title': 'Ungültiges Angebot', 'text': 'Dieses Angebot ist nicht mehr gültig bitte versuche es noch einmal.'})
 
-    offer.stock -= amount
+    if offer.stock is not None:
+        offer.stock -= amount
     c = Consumption(amount=amount, user_id=current_user.id, price=offer.price, product_id=offer.product.id, billed=False, invoice_id=None, supplier_id=offer.user.id, time=datetime.datetime.utcnow())
-    if offer.stock < 1:
+    if offer.is_empty():
         db.session.delete(offer)
     db.session.add(c)
     db.session.commit()

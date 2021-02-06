@@ -140,7 +140,11 @@ class ProductCard extends HTMLElement {
       context: this,
       success: function(data) {
         if (data['found']) {
-          this.stock = data['offer']['stock'];
+          if (data['offer']['stock'] == null) {
+            this.stock = "-";
+          } else {
+            this.stock = data['offer']['stock'];
+          }
           this.price = data['offer']['price'];
           this.supplier = data['offer']['supplier'];
           this.offerid = data['offer']['id'];

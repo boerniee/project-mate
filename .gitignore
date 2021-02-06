@@ -1,4 +1,5 @@
 env
+dump.rdb
 deploy
 __pycache__/
 mate/
@@ -11,3 +12,4 @@ app/static/images/
 app/static/gen/
 app/static/.webassets-cache/
 initial.sql
+redis/

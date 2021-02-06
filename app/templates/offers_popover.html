@@ -4,7 +4,7 @@
   <li class="list-group-item d-flex justify-content-between align-items-center">
     {{ _('Preis') }}: {{ offer.getprice() }}<br/>
     {{ _('Lieferant') }}: {{ offer.user.username }}
-    <h6><span class="badge badge-primary badge-pill">x{{ offer.stock }}</span></h6>
+    {% if offer.stock %}<h6><span class="badge badge-primary badge-pill">x{{ offer.stock }}</span></h6>{% endif %}
   </li>
 {% endfor %}
 </ul>

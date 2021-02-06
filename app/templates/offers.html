@@ -32,7 +32,7 @@
       <tr>
         <th scope="row">{{ loop.index + ((offers.page-1)*offers.per_page) }}</th>
         <td>{{ offer.product.description }}</td>
-        <td>{{ offer.stock }}</td>
+        <td>{{ offer.stock if offer.stock else '-' }}</td>
         <td>{{ offer.getprice() }}</td>
         <td>{{ _('Ja') if offer.active else _('Nein') }}</td>
         <td>{{ moment(offer.created).format('Do MMMM YYYY, HH:mm:ss') }}</td>

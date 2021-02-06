@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SubmitField, FloatField, IntegerField, SelectField, TextField
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, Optional
 from flask_babel import lazy_gettext as _l
 
 class OfferForm(FlaskForm):
     product = SelectField(_l('Produkt'), coerce=int,validators=[DataRequired()])
     price = FloatField(_l('Preis'), validators=[DataRequired()])
-    stock = IntegerField(_l('Bestand'), validators=[DataRequired()])
+    stock = IntegerField(_l('Bestand'), validators=[Optional()])
     active = BooleanField(_l('Aktiv'))
     supplier = TextField(_l('Lieferant'), render_kw={'readonly': True})
     submit = SubmitField(_l('Speichern'))

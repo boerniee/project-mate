@@ -20,4 +20,4 @@ def get_offer_by_id(id):
     return Offer.query.get(id)
 
 def offers_query(productid):
-    return Offer.query.filter(and_(Offer.product_id == productid, Offer.active == True, Offer.stock > 0)).join(Offer.user, aliased=True).filter_by(active=True).order_by(Offer.price.asc(), Offer.created.asc())
+    return Offer.query.filter(and_(Offer.product_id == productid, Offer.active == True)).join(Offer.user, aliased=True).filter_by(active=True).order_by(Offer.price.asc(), Offer.created.asc())
