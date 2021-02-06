@@ -8,6 +8,7 @@ from flask_login import current_user, login_required
 from flask import render_template, session, redirect, url_for, request, abort, flash
 from app.auth.routes import login
 from flask_babel import _
+from app.email import send_2fa_code
 
 @bp.route('/qrcode')
 @login_required
